@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.arklabo.sbidemo",
+    "sha256_cert_fingerprints": ["63:B3:23:1C:CD:FE:2B:A5:D4:79:EA:75:C2:15:18:1F:85:ED:0E:A6:85:56:83:1B:29:85:65:90:FC:8F:51:DC"]
+  }
+}]
