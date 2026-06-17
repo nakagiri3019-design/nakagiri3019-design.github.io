@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プロジェクト一覧 | nakagiri3019-design</title>
+<style>
+  :root{--ink:#1f2329;--muted:#6b7280;--line:#e3e6ea;--bg:#f6f7f9;--card:#fff;--pages:#2f9e54;--pages-soft:#e8f5ed;--render:#5b6cff;--render-soft:#eaecff;--accent:#11181f;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;line-height:1.6;}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 20px 80px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:700;}
+  h1{font-size:30px;margin:6px 0 8px;}
+  .lead{color:var(--muted);font-size:15px;max-width:640px;}
+  .updated{margin-top:14px;font-size:12px;color:var(--muted);}
+  .legend{display:flex;gap:18px;margin:26px 0 8px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);}
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.pages{background:var(--pages);}.dot.render{background:var(--render);}
+  section.group{margin-top:34px;}
+  .group-h{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--line);}
+  .group-h h2{font-size:17px;margin:0;}.group-h .count{font-size:13px;color:var(--muted);}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  @media(max-width:680px){.grid{grid-template-columns:1fr;}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;position:relative;overflow:hidden;transition:.15s;}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .card.pages::before{background:var(--pages);}.card.render::before{background:var(--render);}
+  .card:hover{border-color:#c7ccd3;box-shadow:0 6px 20px rgba(20,24,31,.07);transform:translateY(-1px);}
+  .card .name{font-size:16px;font-weight:700;margin:0 0 2px;}
+  .card .repo{font-size:12px;color:var(--muted);font-family:ui-monospace,Menlo,Consolas,monospace;}
+  .card .desc{font-size:13px;color:#3c424b;margin:10px 0 14px;}
+  .card .entries{display:flex;flex-direction:column;gap:7px;}
+  .card a.entry{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;color:var(--accent);font-size:13px;font-weight:600;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fafbfc;transition:.12s;}
+  .card a.entry:hover{background:var(--pages-soft);border-color:var(--pages);}
+  .card.render a.entry:hover{background:var(--render-soft);border-color:var(--render);}
+  .card a.entry .who{color:var(--muted);font-weight:500;font-size:12px;}
+  .card .note{margin-top:12px;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-bottom:10px;}
+  .pill.pages{background:var(--pages-soft);color:var(--pages);}
+  .pill.render{background:var(--render-soft);color:var(--render);}
+  .pill.warn{background:#fdeede;color:#c47d1a;}
+  footer{margin-top:48px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;}
+  footer code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef0f3;padding:1px 5px;border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Project Index</div>
+    <h1>プロジェクト一覧</h1>
+    <p class="lead">作成したデモアプリ・システムの入口をまとめたページです。緑が GitHub Pages（静的サイト）、青が Render（サーバー型）。</p>
+    <div class="updated">最終更新: 2026/06/18</div>
+    <div class="legend">
+      <span><i class="dot pages"></i>GitHub Pages</span>
+      <span><i class="dot render"></i>Render</span>
+    </div>
+  </header>
+
+  <section class="group">
+    <div class="group-h"><h2>GitHub Pages 系</h2><span class="count">nakagiri3019-design</span></div>
+    <div class="grid">
+      <div class="card pages">
+        <span class="pill pages">Lime（LINE風）</span>
+        <div class="name">Lime チャット</div><div class="repo">lime-app</div>
+        <div class="desc">LINE風トーク画面デモ。中桐＝ルート、野口＝サブフォルダ。人はフォルダ追加で増やせる。</div>
+        <div class="entries">
+          <a class="entry" href="https://nakagiri3019-design.github.io/lime-app/" target="_blank">中桐 由美子 <span class="who">/lime-app/</span></a>
+          <a class="entry" href="https://nakagiri3019-design.github.io/lime-app/noguchi/" target="_blank">野口 <span class="who">/lime-app/noguchi/</span></a>
+        </div>
+        <div class="note">テンプレート＝ルートの index.html（中桐版）。人を増やす時はフォルダを作って index.html を置く。</div>
+      </div>
+      <div class="card pages">
+        <span class="pill pages">Gmail風</span>
+        <div class="name">Mail（Gmail風）</div><div class="repo">mail-app</div>
+        <div class="desc">Gmail風メール画面デモ。Lime と同じ構成（中桐＝ルート、野口＝サブフォルダ）。</div>
+        <div class="entries">
+          <a class="entry" href="https://nakagiri3019-design.github.io/mail-app/" target="_blank">中桐 由美子 <span class="who">/mail-app/</span></a>
+          <a class="entry" href="https://nakagiri3019-design.github.io/mail-app/noguchi/" target="_blank">野口 <span class="who">/mail-app/noguchi/</span></a>
+        </div>
+        <div class="note">同じ mail-app 内に住信SBIデモが同居（下記）。Gmail と SBI は別物。</div>
+      </div>
+      <div class="card pages">
+        <span class="pill pages">セフン銀行（架空）</span>
+        <div class="name">セフン銀行 WEB</div><div class="repo">web-passbook</div>
+        <div class="desc">架空ネット銀行サイト。ホームと入出金明細（WEB通帳）の2ページ構成。</div>
+        <div class="entries">
+          <a class="entry" href="https://nakagiri3019-design.github.io/web-passbook/" target="_blank">ホーム <span class="who">/web-passbook/</span></a>
+          <a class="entry" href="https://nakagiri3019-design.github.io/web-passbook/passbook.html" target="_blank">WEB通帳 <span class="who">/passbook.html</span></a>
+        </div>
+        <div class="note">ホームの「WEB通帳」タブから明細へ遷移。</div>
+      </div>
+      <div class="card pages">
+        <span class="pill warn">住信SBI（TWA本番）</span>
+        <div class="name">住信SBI Business デモ</div><div class="repo">mail-app / sbi-twa-app</div>
+        <div class="desc">住信SBI Business のデモ画面。Androidアプリ(TWA)が参照する本番ファイルあり。</div>
+        <div class="entries">
+          <a class="entry" href="https://nakagiri3019-design.github.io/mail-app/sbi_business_home_v2.html" target="_blank">本番(TWA参照) <span class="who">…v2</span></a>
+          <a class="entry" href="https://nakagiri3019-design.github.io/sbi-twa-app/" target="_blank">SWなし版 <span class="who">/sbi-twa-app/</span></a>
+        </div>
+        <div class="note">⚠ mail-app/sbi_business_home_v2.html は TWA(com.arklabo.sbidemo)が参照中。名前・場所を変えると Android アプリが動かなくなるため触らない。</div>
+      </div>
+      <div class="card pages">
+        <span class="pill warn">基盤</span>
+        <div class="name">ユーザーサイト（TWA検証用）</div><div class="repo">nakagiri3019-design.github.io</div>
+        <div class="desc">アカウントのルート。このランチャーページもここに置く。</div>
+        <div class="entries">
+          <a class="entry" href="https://nakagiri3019-design.github.io/" target="_blank">トップ（このページ） <span class="who">/</span></a>
+        </div>
+        <div class="note">⚠ <code>.well-known/assetlinks.json</code> は TWA 検証に必須。消さない。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-h"><h2>Render 系</h2><span class="count">サーバー型・URL要確認</span></div>
+    <div class="grid">
+      <div class="card render">
+        <span class="pill render">業務システム</span>
+        <div class="name">請求書・発注書 作成システム</div><div class="repo">invoice-order-system</div>
+        <div class="desc">AI連携の請求書・発注書生成。PDF出力。</div>
+        <div class="entries"><a class="entry" href="#" onclick="return false;">URL未登録 <span class="who">次回追記</span></a></div>
+        <div class="note">Render ダッシュボードで公開URLを確認して追記。</div>
+      </div>
+      <div class="card render">
+        <span class="pill render">業務システム</span>
+        <div class="name">M.T DICE ジュエリーメール</div><div class="repo">mt-dice-jewelry-mail</div>
+        <div class="desc">ジュエリー加工オーダー管理。ログイン: admin / demo1234。</div>
+        <div class="entries"><a class="entry" href="https://mt-dice-jewelry-mail.onrender.com" target="_blank">アプリを開く <span class="who">onrender.com</span></a></div>
+        <div class="note">別URL: mtdice.onrender.com もあり。稼働は要確認。</div>
+      </div>
+      <div class="card render">
+        <span class="pill render">業務システム</span>
+        <div class="name">決算シミュレーター</div><div class="repo">kessan-simulator-mvp</div>
+        <div class="desc">決算書シミュレーション。AI診断・PDF照合の自動化を開発中。</div>
+        <div class="entries"><a class="entry" href="https://kessan-simulator-mvp.onrender.com" target="_blank">アプリを開く <span class="who">onrender.com</span></a></div>
+        <div class="note">ローカル版は http://127.0.0.1:8300。GitHub集約は今後検討。</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>編集用の入口メモです。リンクが古くなったら更新を。GitHub Pages は公開直後だと反映に1〜2分かかることがあります（URL末尾に <code>?v=2</code> を付けて再読み込み）。</footer>
+</div>
+</body>
+</html>
