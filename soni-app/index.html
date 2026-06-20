@@ -39,6 +39,7 @@
     background:
       radial-gradient(circle at 0% 0%, #2a7d4f 0%, transparent 45%),
       radial-gradient(circle at 100% 8%, #2e8fd6 0%, transparent 50%),
+      radial-gradient(circle at 88% 92%, #3a2a6e 0%, transparent 50%),
       radial-gradient(circle at 50% 100%, #2a2a5e 0%, transparent 55%),
       linear-gradient(165deg, #1a5e3a 0%, #1a4f6e 35%, #102a4c 70%, #14143a 100%);
     flex-direction: column; overflow: hidden;
@@ -50,7 +51,7 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: calc(52px + env(safe-area-inset-top)) 20px 8px;
   }
-  .header-center { font-size: 17px; font-weight: 600; letter-spacing: 1px; }
+  .header-center { font-size: 19px; font-weight: 600; letter-spacing: 1px; }
   .header-icon { cursor: pointer; width: 36px; display: flex; align-items: center; justify-content: center; }
   .header-icon svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; }
 
@@ -62,36 +63,36 @@
   /* Balance */
   .balance-section { text-align: center; padding: 0 32px; }
   .balance-label-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 4px; }
-  .balance-label { font-size: 13px; color: rgba(255,255,255,0.85); }
+  .balance-label { font-size: 15px; color: rgba(255,255,255,0.85); }
   .hide-btn {
     background: rgba(255,255,255,0.15); border: none; color: #fff;
     font-size: 11px; padding: 3px 10px; border-radius: 14px; cursor: pointer;
   }
-  .balance-amount { font-size: 38px; font-weight: 200; letter-spacing: -1px; }
-  .balance-amount span { font-size: 17px; font-weight: 300; margin-left: 4px; }
-  .balance-time { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+  .balance-amount { font-size: 44px; font-weight: 200; letter-spacing: -1px; }
+  .balance-amount span { font-size: 20px; font-weight: 300; margin-left: 4px; }
+  .balance-time { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
   .club-badge {
     display: inline-flex; align-items: center; gap: 10px;
     background: #4a4a4a; border: none; border-radius: 6px;
-    padding: 5px 18px; margin-top: 14px; font-size: 12px;
+    padding: 7px 20px; margin-top: 14px; font-size: 14px;
   }
   .club-badge .sep { color: rgba(255,255,255,0.3); }
 
   /* Stats row */
   .stats-row { display: flex; justify-content: space-around; padding: 18px 24px 0; text-align: center; }
-  .stat-val { font-size: 17px; font-weight: 300; }
-  .stat-label { font-size: 9.5px; color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.4; }
+  .stat-val { font-size: 20px; font-weight: 300; }
+  .stat-label { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.4; }
 
   /* Icon row */
   .icon-row { display: flex; justify-content: space-around; padding: 8px 24px 0; }
   .icon-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
   .icon-circle {
-    width: 48px; height: 48px; border-radius: 50%;
+    width: 56px; height: 56px; border-radius: 50%;
     background: rgba(255,255,255,0.16);
     display: flex; align-items: center; justify-content: center;
   }
-  .icon-circle svg { width: 24px; height: 24px; }
-  .icon-label { font-size: 10px; color: rgba(255,255,255,0.85); }
+  .icon-circle svg { width: 28px; height: 28px; }
+  .icon-label { font-size: 12px; color: rgba(255,255,255,0.85); }
 
   /* Scroll content */
   .scroll-content { flex: 1; overflow-y: auto; margin-top: 12px; -webkit-overflow-scrolling: touch; }
@@ -99,7 +100,7 @@
 
   .notice-link {
     text-align: center; padding: 20px 10px 40px;
-    font-size: 13px; color: #5bb8f5; cursor: pointer;
+    font-size: 15px; color: #5bb8f5; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
 
@@ -110,8 +111,8 @@
     border-top: 1px solid rgba(255,255,255,0.08);
   }
   .list-item-left { display: flex; align-items: center; gap: 10px; }
-  .list-item-label { font-size: 13px; }
-  .list-item-value { font-size: 14px; font-weight: 300; }
+  .list-item-label { font-size: 15px; }
+  .list-item-value { font-size: 17px; font-weight: 300; }
   .list-item-arrow { color: rgba(255,255,255,0.4); font-size: 16px; margin-left: 8px; }
 
   .footer-note {
@@ -130,7 +131,7 @@
   .tab-item {
     flex: 1; display: flex; flex-direction: column;
     align-items: center; padding: 12px 2px 10px;
-    cursor: pointer; font-size: 10px; color: rgba(255,255,255,0.5); gap: 5px;
+    cursor: pointer; font-size: 11px; color: rgba(255,255,255,0.5); gap: 5px;
   }
   .tab-item.active { color: #fff; }
   .tab-item svg { width: 28px; height: 28px; }
