@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'rinii-soni-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v8';
+const CACHE_NAME = CACHE_PREFIX + 'v9';
 const PRECACHE_URLS = [
   './',
   './index.html',
