@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>リニー銀行</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    background: #000; color: #fff;
+    height: 100vh; overflow: hidden;
+  }
+
+  /* ===== PIN SCREEN ===== */
+  #pin-screen {
+    position: fixed; inset: 0; z-index: 100;
+    background: linear-gradient(160deg, #1a6b3a 0%, #1a4f6e 40%, #0d2a4a 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  #pin-screen h1 { font-size: 22px; font-weight: 600; letter-spacing: 2px; margin-bottom: 40px; }
+  .pin-dots { display: flex; gap: 16px; margin-bottom: 48px; }
+  .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6); transition: background 0.15s; }
+  .pin-dot.filled { background: #fff; border-color: #fff; }
+  .pin-grid { display: grid; grid-template-columns: repeat(3, 72px); grid-template-rows: repeat(4, 64px); gap: 10px; }
+  .pin-btn {
+    background: rgba(255,255,255,0.12); border: none; border-radius: 50%; color: #fff;
+    font-size: 22px; font-weight: 300; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: background 0.1s; user-select: none;
+  }
+  .pin-btn:active { background: rgba(255,255,255,0.3); }
+  .pin-btn .sub { font-size: 9px; letter-spacing: 1px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .pin-btn.empty { background: transparent; border: none; cursor: default; }
+
+  /* ===== HOME SCREEN ===== */
+  #home-screen {
+    display: none; position: fixed; inset: 0;
+    background: linear-gradient(170deg, #1a6b3a 0%, #1a4f6e 30%, #0d2a4a 65%, #0a1e38 100%);
+    flex-direction: column; overflow: hidden;
+    height: 100%; max-height: 100dvh;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px 4px;
+  }
+  .header-center { font-size: 17px; font-weight: 600; letter-spacing: 1px; }
+  .header-icon { cursor: pointer; width: 36px; display: flex; align-items: center; justify-content: center; }
+  .header-icon svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; }
+
+  /* Page dots */
+  .page-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 4px; }
+  .page-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+  .page-dot.active { background: #fff; }
+
+  /* Balance */
+  .balance-section { text-align: center; padding: 0 20px; }
+  .balance-label-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 4px; }
+  .balance-label { font-size: 13px; color: rgba(255,255,255,0.85); }
+  .hide-btn {
+    background: rgba(255,255,255,0.15); border: none; color: #fff;
+    font-size: 11px; padding: 3px 10px; border-radius: 14px; cursor: pointer;
+  }
+  .balance-amount { font-size: 40px; font-weight: 300; letter-spacing: -1px; }
+  .balance-amount span { font-size: 20px; font-weight: 400; margin-left: 4px; }
+  .balance-time { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+  .club-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 20px;
+    padding: 4px 12px; margin-top: 6px; font-size: 12px;
+  }
+  .club-badge .sep { color: rgba(255,255,255,0.3); }
+
+  /* Stats row */
+  .stats-row { display: flex; justify-content: space-around; padding: 8px 16px 0; text-align: center; }
+  .stat-val { font-size: 17px; font-weight: 300; }
+  .stat-label { font-size: 9.5px; color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.4; }
+
+  /* Icon row */
+  .icon-row { display: flex; justify-content: space-around; padding: 8px 16px 0; }
+  .icon-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+  .icon-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-circle svg { width: 26px; height: 26px; }
+  .icon-label { font-size: 10px; color: rgba(255,255,255,0.85); }
+
+  /* Scroll content */
+  .scroll-content { flex: 1; overflow-y: auto; margin-top: 6px; -webkit-overflow-scrolling: touch; }
+  .scroll-content::-webkit-scrollbar { display: none; }
+
+  .notice-link {
+    text-align: center; padding: 10px;
+    font-size: 13px; color: #5bb8f5; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  .list-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-top: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+  }
+  .list-item-left { display: flex; align-items: center; gap: 10px; }
+  .list-item-label { font-size: 13px; }
+  .list-item-value { font-size: 14px; font-weight: 300; }
+  .list-item-arrow { color: rgba(255,255,255,0.4); font-size: 16px; margin-left: 8px; }
+
+  .footer-note {
+    text-align: center; padding: 10px; font-size: 12px; color: #5bb8f5; cursor: pointer;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .last-login { text-align: center; padding: 6px 16px 10px; font-size: 10px; color: rgba(255,255,255,0.4); }
+
+  /* Tab bar */
+  .tab-bar {
+    display: flex; background: rgba(0,0,0,0.55);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tab-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; padding: 10px 2px 8px;
+    cursor: pointer; font-size: 10px; color: rgba(255,255,255,0.5); gap: 3px;
+  }
+  .tab-item.active { color: #fff; }
+  .tab-item svg { width: 26px; height: 26px; }
+
+  /* Side menu */
+  #side-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); }
+  #side-menu {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 82%;
+    background: #000; display: flex; flex-direction: column; overflow-y: auto;
+  }
+  .side-header { padding: 56px 20px 20px; border-bottom: 1px solid #222; }
+  .side-name { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .side-acct { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.9; }
+  .side-menu-item {
+    padding: 18px 20px; border-bottom: 1px solid #222;
+    font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  }
+  .side-menu-item .badge {
+    background: #e8472a; color: #fff; border-radius: 50%;
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .side-footer { padding: 20px; font-size: 12px; color: rgba(255,255,255,0.4); line-height: 2; }
+  .side-link { color: #5bb8f5; cursor: pointer; }
+</style>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1a4f6e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="リニー銀行">
+</head>
+<body>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <h1>リニー銀行</h1>
+  <div class="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-grid" id="pin-grid"></div>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="home-screen">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon" onclick="openMenu()">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </div>
+    <div class="header-center">リニー銀行</div>
+    <div class="header-icon">
+      <!-- refresh icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Page dots -->
+  <div class="page-dots">
+    <div class="page-dot active"></div>
+    <div class="page-dot"></div>
+  </div>
+
+  <!-- Balance -->
+  <div class="balance-section">
+    <div class="balance-label-row">
+      <span class="balance-label">総残高</span>
+      <button class="hide-btn">非表示</button>
+    </div>
+    <div class="balance-amount">3,248,500<span>円</span></div>
+    <div class="balance-time" id="balance-time"></div>
+    <div class="club-badge">Club S <span class="sep">|</span> なし ▤</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div>
+      <div class="stat-val">0</div>
+      <div class="stat-label">ATM無料残</div>
+    </div>
+    <div>
+      <div class="stat-val">0</div>
+      <div class="stat-label">振込無料残</div>
+    </div>
+    <div>
+      <div class="stat-val">0.5 %</div>
+      <div class="stat-label">リニー Bank WALLET<br>キャッシュバック</div>
+    </div>
+  </div>
+
+  <!-- Icon row -->
+  <div class="icon-row">
+
+    <!-- スマホATM -->
+    <div class="icon-item">
+      <div class="icon-circle">
+        <svg viewBox="0 0 32 32" fill="none">
+          <!-- phone body -->
+          <rect x="6" y="4" width="12" height="20" rx="2" stroke="#fff" stroke-width="1.6"/>
+          <line x1="10" y1="21" x2="14" y2="21" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <!-- ATM text small -->
+          <text x="7.5" y="13" font-size="4" fill="#fff" font-family="Arial" font-weight="bold">ATM</text>
+          <!-- card sticking out right -->
+          <rect x="14" y="10" width="10" height="7" rx="1" stroke="#fff" stroke-width="1.4"/>
+          <line x1="15" y1="13" x2="23" y2="13" stroke="#fff" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="icon-label">スマホATM</div>
+    </div>
+
+    <!-- 取引履歴: open laptop -->
+    <div class="icon-item">
+      <div class="icon-circle">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <!-- screen -->
+          <rect x="6" y="7" width="20" height="13" rx="1.5"/>
+          <!-- base -->
+          <path d="M3 22 h26"/>
+          <path d="M10 20 v2 h12 v-2"/>
+          <!-- lines on screen -->
+          <line x1="10" y1="12" x2="22" y2="12"/>
+          <line x1="10" y1="15" x2="17" y2="15"/>
+        </svg>
+      </div>
+      <div class="icon-label">取引履歴</div>
+    </div>
+
+    <!-- 残高推移: bar chart -->
+    <div class="icon-item">
+      <div class="icon-circle">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="26" x2="27" y2="26"/>
+          <rect x="7" y="17" width="5" height="9" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="#fff"/>
+          <rect x="14" y="11" width="5" height="15" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="#fff"/>
+          <rect x="21" y="7" width="5" height="19" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="#fff"/>
+        </svg>
+      </div>
+      <div class="icon-label">残高推移</div>
+    </div>
+
+    <!-- 取引通知: bell with right arrow -->
+    <div class="icon-item">
+      <div class="icon-circle">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 14a8 8 0 0 1 16 0v5l2 2H6l2-2v-5z"/>
+          <line x1="16" y1="6" x2="16" y2="8"/>
+          <path d="M13 23a3 3 0 0 0 6 0"/>
+          <!-- small right arrow -->
+          <polyline points="20 14 23 14 21 12" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="icon-label">取引通知</div>
+    </div>
+
+  </div>
+
+  <!-- Scroll content -->
+  <div class="scroll-content">
+    <div class="notice-link">
+      リニー銀行からのお知らせ ▤
+    </div>
+
+    <div class="list-item">
+      <div class="list-item-left">
+        <span class="list-item-label">為替レート</span>
+        <span style="font-size:20px">🇺🇸🇯🇵</span>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <span class="list-item-value">161.14-161.44 円</span>
+        <span class="list-item-arrow">›</span>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <span class="list-item-label">円預金</span>
+      <div style="display:flex;align-items:center;">
+        <span class="list-item-value">3,248,500 円</span>
+        <span class="list-item-arrow">›</span>
+      </div>
+    </div>
+
+    <div class="footer-note">表示内容について ▤</div>
+    <div class="last-login" id="last-login"></div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+
+    <!-- 残高: wallet -->
+    <div class="tab-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="7" width="22" height="14" rx="2"/>
+        <path d="M16 14a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" fill="currentColor"/>
+        <path d="M1 10h22"/>
+        <path d="M5 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/>
+      </svg>
+      残高
+    </div>
+
+    <!-- 外貨取引: globe -->
+    <div class="tab-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>
+      </svg>
+      外貨取引
+    </div>
+
+    <!-- 振込: envelope with down arrow -->
+    <div class="tab-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2"/>
+        <polyline points="2 5 12 13 22 5"/>
+        <line x1="12" y1="17" x2="12" y2="22"/>
+        <polyline points="9 20 12 23 15 20"/>
+      </svg>
+      振込
+    </div>
+
+    <!-- ピックアップ: speech bubble -->
+    <div class="tab-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <line x1="8" y1="10" x2="16" y2="10"/>
+        <line x1="8" y1="14" x2="12" y2="14"/>
+      </svg>
+      ピックアップ
+    </div>
+
+    <!-- ショートカット: share/arrow -->
+    <div class="tab-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      ショートカット
+    </div>
+
+  </div>
+</div>
+
+<!-- SIDE MENU -->
+<div id="side-overlay" onclick="closeMenu()">
+  <div id="side-menu" onclick="event.stopPropagation()">
+    <div class="side-header">
+      <div class="side-name">中桐由美子さま</div>
+      <div class="side-acct">店番号：001<br>口座番号：3440531</div>
+    </div>
+    <div class="side-menu-item">ワンタイムパスワード発行</div>
+    <div class="side-menu-item">リニー銀行サイトへ <span>▤</span></div>
+    <div class="side-menu-item">通知設定</div>
+    <div class="side-menu-item">通知履歴 <span class="badge">16</span></div>
+    <div class="side-menu-item">ログイン方法の変更</div>
+    <div class="side-menu-item">お問い合わせ</div>
+    <div class="side-menu-item">ヘルプ <span>▤</span></div>
+    <div class="side-menu-item">ログアウト</div>
+    <div class="side-footer">
+      前回のログイン：2026年6月20日 19:56<br>
+      Ver.8.02.00<br><br>
+      <span class="side-link">オープンソースライセンス</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// PIN
+let pinEntry = '';
+const grid = document.getElementById('pin-grid');
+const digits = [1,2,3,4,5,6,7,8,9];
+for (let i = digits.length-1; i>0; i--) {
+  const j = Math.floor(Math.random()*(i+1));
+  [digits[i],digits[j]]=[digits[j],digits[i]];
+}
+const subs = ['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ'];
+const shuffled = digits.map((d,i)=>[String(d),subs[i]]);
+shuffled.push(null,['0',''],'del');
+
+shuffled.forEach(k=>{
+  const btn=document.createElement('button');
+  btn.className='pin-btn';
+  if(k===null){ btn.classList.add('empty'); }
+  else if(k==='del'){
+    btn.innerHTML='⌫'; btn.style.fontSize='20px';
+    btn.addEventListener('click',()=>{ if(pinEntry.length>0){pinEntry=pinEntry.slice(0,-1);updateDots();} });
+  } else {
+    btn.innerHTML=k[0]+(k[1]?`<span class="sub">${k[1]}</span>`:'');
+    btn.addEventListener('click',()=>{
+      if(pinEntry.length<4){ pinEntry+=k[0]; updateDots(); if(pinEntry.length===4) setTimeout(showHome,400); }
+    });
+  }
+  grid.appendChild(btn);
+});
+
+function updateDots(){
+  for(let i=0;i<4;i++) document.getElementById('d'+i).classList.toggle('filled',i<pinEntry.length);
+}
+function showHome(){
+  document.getElementById('pin-screen').style.display='none';
+  document.getElementById('home-screen').style.display='flex';
+  setDateTime();
+}
+
+function setDateTime(){
+  const now=new Date();
+  const f=d=>`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+  document.getElementById('balance-time').textContent=f(now)+'現在';
+  const prev=new Date(now-18*60000);
+  document.getElementById('last-login').textContent=`前回のログイン：${f(prev)}`;
+}
+
+function openMenu(){ document.getElementById('side-overlay').style.display='block'; }
+function closeMenu(){ document.getElementById('side-overlay').style.display='none'; }
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js', { scope: './' })
+    .then(function(reg){ console.log('SW registered, scope:', reg.scope); })
+    .catch(function(err){ console.error('SW registration failed:', err); });
+}
+</script>
+</body>
+</html>
