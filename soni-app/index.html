@@ -156,6 +156,67 @@
   }
   .side-footer { padding: 14px 20px; font-size: 12px; color: rgba(255,255,255,0.4); line-height: 2; }
   .side-link { color: #5bb8f5; cursor: pointer; }
+
+  /* ===== HISTORY SCREEN ===== */
+  #history-screen {
+    display: none; position: fixed; inset: 0;
+    background:
+      radial-gradient(circle at 0% 0%, #1f5e3c 0%, transparent 45%),
+      radial-gradient(circle at 100% 8%, #21689e 0%, transparent 50%),
+      radial-gradient(circle at 88% 92%, #2a1f52 0%, transparent 55%),
+      radial-gradient(circle at 50% 100%, #1c1c42 0%, transparent 60%),
+      linear-gradient(165deg, #134228 0%, #143a52 32%, #0c1f3a 65%, #0d0d28 100%);
+    flex-direction: column; overflow: hidden;
+    height: 100%; max-height: 100dvh;
+  }
+  .hist-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: calc(52px + env(safe-area-inset-top)) 20px 8px;
+    flex-shrink: 0;
+  }
+  .hist-back { font-size: 28px; font-weight: 300; cursor: pointer; width: 36px; color: #fff; line-height: 1; }
+  .hist-title { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
+  .hist-refresh { width: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .hist-refresh svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; }
+
+  .hist-period-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px 8px; flex-shrink: 0;
+  }
+  .hist-period { font-size: 12px; color: rgba(255,255,255,0.7); }
+  .hist-filter { font-size: 13px; color: #5bb8f5; cursor: pointer; }
+
+  .hist-visa-bar {
+    margin: 0 16px 4px;
+    background: rgba(91,184,245,0.18); border-radius: 8px;
+    padding: 10px 14px; font-size: 13px; color: #5bb8f5;
+    cursor: pointer; flex-shrink: 0;
+  }
+
+  .hist-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .hist-scroll::-webkit-scrollbar { display: none; }
+
+  .hist-month-header {
+    padding: 8px 16px 6px;
+    background: rgba(255,255,255,0.07);
+    font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85);
+  }
+  .hist-row {
+    display: flex; align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .hist-date-col { width: 40px; text-align: center; flex-shrink: 0; }
+  .hist-date-num { font-size: 22px; font-weight: 300; line-height: 1.1; }
+  .hist-date-day { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 1px; }
+  .hist-mid { flex: 1; padding: 0 12px; }
+  .hist-name { font-size: 14px; }
+  .hist-type { display: flex; align-items: center; gap: 4px; margin-top: 3px; font-size: 11px; }
+  .hist-type.in  { color: #5bb8f5; }
+  .hist-type.out { color: #f5a35b; }
+  .hist-amount-col { text-align: right; flex-shrink: 0; }
+  .hist-amount { font-size: 16px; font-weight: 300; }
+  .hist-yen { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
 </style>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#1a4f6e">
@@ -249,7 +310,7 @@
     </div>
 
     <!-- 取引履歴: open laptop -->
-    <div class="icon-item">
+    <div class="icon-item" onclick="showHistory()">
       <div class="icon-circle">
         <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <!-- screen -->
@@ -383,6 +444,23 @@
   </div>
 </div>
 
+<!-- HISTORY SCREEN -->
+<div id="history-screen">
+  <div class="hist-header">
+    <div class="hist-back" onclick="hideHistory()">‹</div>
+    <div class="hist-title">円普通預金取引履歴</div>
+    <div class="hist-refresh">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    </div>
+  </div>
+  <div class="hist-period-bar">
+    <span class="hist-period">2026年3月1日 〜 2026年6月21日</span>
+    <span class="hist-filter">絞り込み</span>
+  </div>
+  <div class="hist-visa-bar">Visaデビットの利用状況をアプリで確認 ›</div>
+  <div class="hist-scroll" id="hist-list"></div>
+</div>
+
 <!-- SIDE MENU -->
 <div id="side-overlay" onclick="closeMenu()">
   <div id="side-menu" onclick="event.stopPropagation()">
@@ -454,6 +532,66 @@ function setDateTime(){
 
 function openMenu(){ document.getElementById('side-overlay').style.display='block'; }
 function closeMenu(){ document.getElementById('side-overlay').style.display='none'; }
+
+// ===== HISTORY SCREEN =====
+const transactions = [
+  { month: '2026年6月', date: '17', day: '水', name: '振込 カ）アークラボ',          type: '入金', amount: 100 },
+  { month: '2026年6月', date: '11', day: '木', name: '振込手数料（税込）',            type: '出金', amount: 110 },
+  { month: '2026年6月', date: '11', day: '木', name: '振込 ナカギリ　トシエ',         type: '出金', amount: 280000 },
+  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
+  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
+  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
+  { month: '2026年6月', date: '10', day: '水', name: '振込手数料（税込）',            type: '出金', amount: 110 },
+  { month: '2026年6月', date: '10', day: '水', name: '振込 ナカギリ　ユミコ',         type: '出金', amount: 2000000 },
+  { month: '2026年6月', date: '10', day: '水', name: '振込 カ）アークラボ',           type: '入金', amount: 4280000 },
+  { month: '2026年6月', date: '03', day: '水', name: '振込 アキヤマ　テルト',         type: '出金', amount: 100000 },
+  { month: '2026年6月', date: '03', day: '水', name: '振込 スヤマ　アキラ',           type: '入金', amount: 10000 },
+  { month: '2026年6月', date: '03', day: '水', name: '振込 カ）　アイオーグループ',   type: '出金', amount: 500000 },
+  { month: '2026年6月', date: '03', day: '水', name: '振込 カ）アバンテイア',         type: '入金', amount: 589870 },
+  { month: '2026年3月', date: '23', day: '月', name: 'デビツトリヨウキヤツシユバツク', type: '入金', amount: 5 },
+  { month: '2026年3月', date: '05', day: '木', name: '振込 ナカギリ　ユミコ',         type: '出金', amount: 200 },
+];
+
+function buildHistory() {
+  const container = document.getElementById('hist-list');
+  if (container.hasChildNodes()) return;
+  const fmt = n => n.toLocaleString('ja-JP');
+  const months = [];
+  const groups = {};
+  transactions.forEach(t => {
+    if (!groups[t.month]) { groups[t.month] = []; months.push(t.month); }
+    groups[t.month].push(t);
+  });
+  months.forEach(m => {
+    const hdr = document.createElement('div');
+    hdr.className = 'hist-month-header';
+    hdr.textContent = m;
+    container.appendChild(hdr);
+    groups[m].forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'hist-row';
+      const isIn = t.type === '入金';
+      const arrow = isIn
+        ? '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#5bb8f5" stroke-width="1.8" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><polyline points="2,7 6,11 10,7"/></svg>'
+        : '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#f5a35b" stroke-width="1.8" stroke-linecap="round"><line x1="6" y1="11" x2="6" y2="1"/><polyline points="2,5 6,1 10,5"/></svg>';
+      row.innerHTML =
+        `<div class="hist-date-col"><div class="hist-date-num">${t.date}</div><div class="hist-date-day">${t.day}</div></div>` +
+        `<div class="hist-mid"><div class="hist-name">${t.name}</div><div class="hist-type ${isIn?'in':'out'}">${arrow}${t.type}</div></div>` +
+        `<div class="hist-amount-col"><div class="hist-amount">${fmt(t.amount)}</div><div class="hist-yen">円</div></div>`;
+      container.appendChild(row);
+    });
+  });
+}
+
+function showHistory() {
+  buildHistory();
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('history-screen').style.display = 'flex';
+}
+function hideHistory() {
+  document.getElementById('history-screen').style.display = 'none';
+  document.getElementById('home-screen').style.display = 'flex';
+}
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js', { scope: './' })
