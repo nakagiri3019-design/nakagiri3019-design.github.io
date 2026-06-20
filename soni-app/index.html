@@ -36,7 +36,11 @@
   /* ===== HOME SCREEN ===== */
   #home-screen {
     display: none; position: fixed; inset: 0;
-    background: linear-gradient(170deg, #1a6b3a 0%, #1a4f6e 30%, #0d2a4a 65%, #0a1e38 100%);
+    background:
+      radial-gradient(circle at 0% 0%, #2a7d4f 0%, transparent 45%),
+      radial-gradient(circle at 100% 8%, #2e8fd6 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, #2a2a5e 0%, transparent 55%),
+      linear-gradient(165deg, #1a5e3a 0%, #1a4f6e 35%, #102a4c 70%, #14143a 100%);
     flex-direction: column; overflow: hidden;
     height: 100%; max-height: 100dvh;
   }
@@ -44,7 +48,7 @@
   /* Header */
   .header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px 4px;
+    padding: calc(26px + env(safe-area-inset-top)) 20px 6px;
   }
   .header-center { font-size: 17px; font-weight: 600; letter-spacing: 1px; }
   .header-icon { cursor: pointer; width: 36px; display: flex; align-items: center; justify-content: center; }
@@ -63,13 +67,13 @@
     background: rgba(255,255,255,0.15); border: none; color: #fff;
     font-size: 11px; padding: 3px 10px; border-radius: 14px; cursor: pointer;
   }
-  .balance-amount { font-size: 40px; font-weight: 300; letter-spacing: -1px; }
-  .balance-amount span { font-size: 20px; font-weight: 400; margin-left: 4px; }
+  .balance-amount { font-size: 38px; font-weight: 200; letter-spacing: -1px; }
+  .balance-amount span { font-size: 17px; font-weight: 300; margin-left: 4px; }
   .balance-time { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 3px; }
   .club-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    border: 1px solid rgba(255,255,255,0.4); border-radius: 20px;
-    padding: 4px 12px; margin-top: 6px; font-size: 12px;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #4a4a4a; border: none; border-radius: 6px;
+    padding: 5px 18px; margin-top: 6px; font-size: 12px;
   }
   .club-badge .sep { color: rgba(255,255,255,0.3); }
 
@@ -82,11 +86,11 @@
   .icon-row { display: flex; justify-content: space-around; padding: 8px 16px 0; }
   .icon-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
   .icon-circle {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.16);
     display: flex; align-items: center; justify-content: center;
   }
-  .icon-circle svg { width: 26px; height: 26px; }
+  .icon-circle svg { width: 24px; height: 24px; }
   .icon-label { font-size: 10px; color: rgba(255,255,255,0.85); }
 
   /* Scroll content */
@@ -101,7 +105,9 @@
 
   .list-item {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 20px; border-top: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+    padding: 14px 20px; cursor: pointer;
+    background: rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.08);
   }
   .list-item-left { display: flex; align-items: center; gap: 10px; }
   .list-item-label { font-size: 13px; }
@@ -123,11 +129,11 @@
   }
   .tab-item {
     flex: 1; display: flex; flex-direction: column;
-    align-items: center; padding: 10px 2px 8px;
-    cursor: pointer; font-size: 10px; color: rgba(255,255,255,0.5); gap: 3px;
+    align-items: center; padding: 12px 2px 10px;
+    cursor: pointer; font-size: 10px; color: rgba(255,255,255,0.5); gap: 5px;
   }
   .tab-item.active { color: #fff; }
-  .tab-item svg { width: 26px; height: 26px; }
+  .tab-item svg { width: 28px; height: 28px; }
 
   /* Side menu */
   #side-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); }
