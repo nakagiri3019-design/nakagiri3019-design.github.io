@@ -133,15 +133,14 @@
   /* ===== Pagination ===== */
   .pagination {
     display: flex; align-items: center; justify-content: center;
-    gap: 8px; margin-top: 30px;
+    gap: 16px; margin-top: 30px;
   }
   .page-btn {
     border: 1px solid #ccc; background: #fff; color: #1a6fb5;
-    padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 13px;
+    padding: 9px 28px; border-radius: 3px; cursor: pointer; font-size: 13px;
   }
-  .page-btn:hover { background: #f0f7ff; }
-  .page-btn:disabled { color: #ccc; cursor: default; }
-  .page-btn.active { background: #1a8a8a; color: #fff; border-color: #1a8a8a; }
+  .page-btn:hover:not(:disabled) { background: #f0f7ff; }
+  .page-btn:disabled { color: #bbb; border-color: #e0e0e0; cursor: default; background: #fafafa; }
 
   .sub-links { margin-top: 36px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
   .sub-links a {
@@ -359,14 +358,6 @@
     prev.disabled = curPage === 1;
     prev.onclick = () => { if (curPage > 1) { curPage--; render(); } };
     pag.appendChild(prev);
-
-    for (let i = 1; i <= totalPages; i++) {
-      const b = document.createElement('button');
-      b.className = 'page-btn' + (i === curPage ? ' active' : '');
-      b.textContent = i;
-      b.onclick = () => { curPage = i; render(); };
-      pag.appendChild(b);
-    }
 
     const next = document.createElement('button');
     next.className = 'page-btn';
