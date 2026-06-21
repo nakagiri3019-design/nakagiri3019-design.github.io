@@ -104,7 +104,21 @@
   .table-card {
     padding: 24px; background: #fafafa;
     border: 1px solid #eee; border-radius: 4px; margin-bottom: 24px;
+    position: relative; scroll-margin-top: 20px;
   }
+  .table-loading {
+    display: none; position: absolute; inset: 0; z-index: 10;
+    background: rgba(255,255,255,0.75); border-radius: 4px;
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .table-loading.active { display: flex; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 3px solid #ddd; border-top-color: #1a6fb5;
+    animation: spin 0.8s linear infinite;
+  }
+  .loading-text { margin-top: 10px; font-size: 12px; color: #888; }
   table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; table-layout: fixed; }
   thead th {
     background: #f5f5f5; text-align: left;
@@ -249,7 +263,11 @@
     <span class="plus"><span class="sign">＋</span>開く</span>
   </div>
 
-  <div class="table-card">
+  <div class="table-card" id="table-card">
+    <div id="table-loading" class="table-loading">
+      <div class="spinner"></div>
+      <div class="loading-text">読み込み中…</div>
+    </div>
     <div class="count-row">
       <span class="count">該当件数　（<span id="total-count">0</span>件）</span>
       <span class="page-indicator">表示ページ　<span id="cur-page">1</span>/<span id="total-pages">1</span></span>
@@ -320,6 +338,7 @@
 <script>
   const PER_PAGE = 30;
   let curPage = 1;
+  let isLoading = false;
   const totalPages = Math.ceil(txPC.length / PER_PAGE);
 
   function fmt(n) { return n.toLocaleString('ja-JP'); }
@@ -345,7 +364,21 @@
     document.getElementById('cur-page').textContent = curPage;
     document.getElementById('total-pages').textContent = totalPages;
     renderPagination();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function changePage(newPage) {
+    if (isLoading) return;
+    isLoading = true;
+    const overlay = document.getElementById('table-loading');
+    overlay.classList.add('active');
+    document.querySelectorAll('.page-btn').forEach(b => b.disabled = true);
+    setTimeout(() => {
+      curPage = newPage;
+      render();
+      overlay.classList.remove('active');
+      isLoading = false;
+      document.getElementById('table-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 1000);
   }
 
   function renderPagination() {
@@ -356,14 +389,14 @@
     prev.className = 'page-btn';
     prev.textContent = '‹ 前へ';
     prev.disabled = curPage === 1;
-    prev.onclick = () => { if (curPage > 1) { curPage--; render(); } };
+    prev.onclick = () => { if (curPage > 1) changePage(curPage - 1); };
     pag.appendChild(prev);
 
     const next = document.createElement('button');
     next.className = 'page-btn';
     next.textContent = '次へ ›';
     next.disabled = curPage === totalPages;
-    next.onclick = () => { if (curPage < totalPages) { curPage++; render(); } };
+    next.onclick = () => { if (curPage < totalPages) changePage(curPage + 1); };
     pag.appendChild(next);
   }
 
