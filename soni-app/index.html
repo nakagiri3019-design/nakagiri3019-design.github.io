@@ -189,8 +189,13 @@
   .hist-visa-bar {
     margin: 0 16px 4px;
     background: rgba(91,184,245,0.18); border-radius: 8px;
-    padding: 14px 14px; font-size: 13px; font-weight: 500; color: #5bb8f5;
+    padding: 14px 14px; font-size: 14px; font-weight: 500; color: #fff;
     cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hist-visa-icon {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid #4db8e8; background: #000; flex-shrink: 0;
   }
 
   .hist-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
@@ -198,13 +203,15 @@
 
   .hist-month-header {
     padding: 8px 16px 6px;
-    background: rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
     font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85);
+    position: sticky; top: 0; z-index: 5;
   }
   .hist-row {
     display: flex; align-items: center;
     padding: 23px 12px 23px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.28);
+    border-bottom: 1.5px solid rgba(255,255,255,0.32);
   }
   .hist-date-col { width: 40px; text-align: center; flex-shrink: 0; }
   .hist-date-num { font-size: 30px; font-weight: 300; line-height: 1.1; }
@@ -457,7 +464,7 @@
     <span class="hist-period">2026年3月1日 〜 2026年6月21日</span>
     <span class="hist-filter">絞り込み</span>
   </div>
-  <div class="hist-visa-bar">Visaデビットの利用状況をアプリで確認 ›</div>
+  <div class="hist-visa-bar"><span class="hist-visa-icon"></span>Visaデビットの利用状況をアプリで確認 ›</div>
   <div class="hist-scroll" id="hist-list"></div>
 </div>
 
