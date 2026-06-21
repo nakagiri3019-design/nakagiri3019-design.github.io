@@ -104,11 +104,11 @@
   .table-card {
     padding: 24px; background: #fafafa;
     border: 1px solid #eee; border-radius: 4px; margin-bottom: 24px;
-    position: relative; scroll-margin-top: 20px;
+    scroll-margin-top: 20px;
   }
   .table-loading {
-    display: none; position: absolute; inset: 0; z-index: 10;
-    background: rgba(0,0,0,0.35); border-radius: 4px;
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.35);
     flex-direction: column; align-items: center; justify-content: center;
   }
   .table-loading.active { display: flex; }
@@ -116,12 +116,24 @@
   .loader div {
     position: absolute; left: 50%; top: 4px;
     width: 5px; height: 16px; margin-left: -2.5px;
-    background: #ffffff; border-radius: 3px;
+    background: #fff; border-radius: 3px;
     transform-origin: 2.5px 24px;
     animation: blade-fade 1.2s linear infinite;
   }
+  .loader div:nth-child(1) {transform:rotate(0deg);  animation-delay:-1.2s}
+  .loader div:nth-child(2) {transform:rotate(30deg); animation-delay:-1.1s}
+  .loader div:nth-child(3) {transform:rotate(60deg); animation-delay:-1.0s}
+  .loader div:nth-child(4) {transform:rotate(90deg); animation-delay:-0.9s}
+  .loader div:nth-child(5) {transform:rotate(120deg);animation-delay:-0.8s}
+  .loader div:nth-child(6) {transform:rotate(150deg);animation-delay:-0.7s}
+  .loader div:nth-child(7) {transform:rotate(180deg);animation-delay:-0.6s}
+  .loader div:nth-child(8) {transform:rotate(210deg);animation-delay:-0.5s}
+  .loader div:nth-child(9) {transform:rotate(240deg);animation-delay:-0.4s}
+  .loader div:nth-child(10){transform:rotate(270deg);animation-delay:-0.3s}
+  .loader div:nth-child(11){transform:rotate(300deg);animation-delay:-0.2s}
+  .loader div:nth-child(12){transform:rotate(330deg);animation-delay:-0.1s}
   @keyframes blade-fade { 0% { opacity: 1; } 100% { opacity: 0.15; } }
-  .loading-text { margin-top: 14px; font-size: 20px; color: #fff; text-align: center; }
+  .loading-text { color: #fff; font-size: 20px; margin-top: 14px; text-align: center; }
   table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; table-layout: fixed; }
   thead th {
     background: #f5f5f5; text-align: left;
@@ -267,23 +279,6 @@
   </div>
 
   <div class="table-card" id="table-card">
-    <div id="table-loading" class="table-loading">
-      <div class="loader">
-        <div style="transform:rotate(0deg);  animation-delay:-1.2s"></div>
-        <div style="transform:rotate(30deg); animation-delay:-1.1s"></div>
-        <div style="transform:rotate(60deg); animation-delay:-1.0s"></div>
-        <div style="transform:rotate(90deg); animation-delay:-0.9s"></div>
-        <div style="transform:rotate(120deg);animation-delay:-0.8s"></div>
-        <div style="transform:rotate(150deg);animation-delay:-0.7s"></div>
-        <div style="transform:rotate(180deg);animation-delay:-0.6s"></div>
-        <div style="transform:rotate(210deg);animation-delay:-0.5s"></div>
-        <div style="transform:rotate(240deg);animation-delay:-0.4s"></div>
-        <div style="transform:rotate(270deg);animation-delay:-0.3s"></div>
-        <div style="transform:rotate(300deg);animation-delay:-0.2s"></div>
-        <div style="transform:rotate(330deg);animation-delay:-0.1s"></div>
-      </div>
-      <div class="loading-text">Loading...</div>
-    </div>
     <div class="count-row">
       <span class="count">該当件数　（<span id="total-count">0</span>件）</span>
       <span class="page-indicator">表示ページ　<span id="cur-page">1</span>/<span id="total-pages">1</span></span>
@@ -424,5 +419,13 @@
 
   render();
 </script>
+<div id="table-loading" class="table-loading">
+  <div class="loader">
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+  </div>
+  <div class="loading-text">Loading...</div>
+</div>
 </body>
 </html>
