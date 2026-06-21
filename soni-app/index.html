@@ -157,7 +157,7 @@
 
   /* Home loader */
   #home-loader {
-    display: none; position: fixed; inset: 0; z-index: 9999;
+    display: none; position: fixed; inset: 0; z-index: 99999;
     background: rgba(0,0,0,0.25);
     align-items: center; justify-content: center;
   }
@@ -568,7 +568,17 @@ function setDateTime(){
   document.getElementById('last-login').textContent=`前回のログイン：${f(prev)}`;
 }
 
-function openMenu(){ document.getElementById('side-overlay').style.display='block'; }
+function openMenu(){
+  if (homeLoading) return;
+  homeLoading = true;
+  const loader = document.getElementById('home-loader');
+  loader.classList.add('active');
+  setTimeout(() => {
+    loader.classList.remove('active');
+    homeLoading = false;
+    document.getElementById('side-overlay').style.display = 'block';
+  }, 600);
+}
 function closeMenu(){ document.getElementById('side-overlay').style.display='none'; }
 
 // ===== HISTORY SCREEN =====
