@@ -548,12 +548,12 @@ let homeLoading = false;
 function showHomeWithLoader(){
   if (homeLoading) return;
   homeLoading = true;
-  showHome();
   const loader = document.getElementById('home-loader');
   loader.classList.add('active');
   setTimeout(() => {
     loader.classList.remove('active');
     homeLoading = false;
+    showHome();
   }, 600);
 }
 // 残高を transactions_pc.js の最新行から設定
