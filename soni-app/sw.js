@@ -1,9 +1,11 @@
 const CACHE_PREFIX = 'rinii-soni-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v22';
+const CACHE_NAME = CACHE_PREFIX + 'v23';
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
