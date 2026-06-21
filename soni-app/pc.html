@@ -53,6 +53,7 @@
   .nav {
     background: #1a8a8a; display: flex; align-items: stretch;
   }
+  .nav-items { flex: 1; display: flex; align-items: stretch; justify-content: center; }
   .nav-home {
     padding: 18px 22px; color: #fff; border-right: 2px solid rgba(255,255,255,0.3);
     display: flex; align-items: center; background: #0f7575;
@@ -90,7 +91,11 @@
   .count-row .page-indicator { font-size: 14px; color: #333; }
 
   /* ===== Table ===== */
-  table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; }
+  .table-card {
+    padding: 24px; background: #fafafa;
+    border: 1px solid #eee; border-radius: 4px; margin-bottom: 24px;
+  }
+  table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; }
   thead th {
     background: #f5f5f5; text-align: left;
     padding: 13px 28px; font-weight: 700; font-size: 14px;
@@ -99,7 +104,7 @@
   thead th:first-child { width: 160px; border-left: 1px solid #e8e8e8; }
   thead th.num { text-align: right; padding-right: 34px; }
   tbody td {
-    padding: 18px 28px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8;
+    padding: 14px 28px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8;
     vertical-align: middle; font-size: 16px;
   }
   tbody td:first-child { border-left: 1px solid #e8e8e8; }
@@ -176,12 +181,14 @@
 
 <div class="nav">
   <div class="nav-home">🏠</div>
-  <div class="nav-item">商品・サービス ▾</div>
-  <div class="nav-item">振込・入出金・ATM ▾</div>
-  <div class="nav-item">優遇・キャンペーン ▾</div>
-  <div class="nav-item">レート・金利・手数料 ▾</div>
-  <div class="nav-item">アプリ・ツール ▾</div>
-  <div class="nav-item">お問い合わせ ▾</div>
+  <div class="nav-items">
+    <div class="nav-item">商品・サービス ▾</div>
+    <div class="nav-item">振込・入出金・ATM ▾</div>
+    <div class="nav-item">優遇・キャンペーン ▾</div>
+    <div class="nav-item">レート・金利・手数料 ▾</div>
+    <div class="nav-item">アプリ・ツール ▾</div>
+    <div class="nav-item">お問い合わせ ▾</div>
+  </div>
 </div>
 
 <div class="main">
@@ -197,25 +204,27 @@
     <span class="plus"><span class="sign">＋</span>開く</span>
   </div>
 
-  <div class="count-row">
-    <span class="count">該当件数　（<span id="total-count">0</span>件）</span>
-    <span class="page-indicator">表示ページ　<span id="cur-page">1</span>/<span id="total-pages">1</span></span>
+  <div class="table-card">
+    <div class="count-row">
+      <span class="count">該当件数　（<span id="total-count">0</span>件）</span>
+      <span class="page-indicator">表示ページ　<span id="cur-page">1</span>/<span id="total-pages">1</span></span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>摘要</th>
+          <th class="num">入金</th>
+          <th class="num">出金</th>
+          <th class="num">残高</th>
+        </tr>
+      </thead>
+      <tbody id="tx-body"></tbody>
+    </table>
+
+    <div class="pagination" id="pagination"></div>
   </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>日付</th>
-        <th>摘要</th>
-        <th class="num">入金</th>
-        <th class="num">出金</th>
-        <th class="num">残高</th>
-      </tr>
-    </thead>
-    <tbody id="tx-body"></tbody>
-  </table>
-
-  <div class="pagination" id="pagination"></div>
 
   <div class="sub-links">
     <a href="#">普通預金取引履歴</a>
