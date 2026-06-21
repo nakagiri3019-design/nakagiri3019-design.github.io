@@ -29,14 +29,24 @@
   }
   .header-logo { display: flex; align-items: center; gap: 10px; }
   .header-logo .mark {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: conic-gradient(from 180deg, #2a7d4f, #1a4f6e, #2a7d4f);
+    width: 32px; height: 32px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 32%, #6dcf9a 0%, #2a7d4f 38%, #1a4f6e 68%, #0d2a3a 100%);
+    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.35), inset 1px 1px 4px rgba(255,255,255,0.28);
   }
-  .header-logo .name { font-size: 20px; font-weight: 700; }
+  .header-logo .name { font-size: 22px; font-weight: 700; }
   .header-right { display: flex; align-items: center; gap: 24px; color: #1a6fb5; font-size: 13px; }
   .header-search {
-    border: 1px solid #ccc; border-radius: 4px; padding: 8px 14px;
-    width: 280px; color: #999;
+    border: 1px solid #ccc; border-radius: 4px;
+    width: 360px; height: 44px; display: flex; overflow: hidden;
+  }
+  .search-input {
+    flex: 1; border: none; outline: none; padding: 0 14px;
+    font-size: 14px; color: #333;
+  }
+  .search-input::placeholder { color: #999; text-align: left; }
+  .search-btn {
+    background: #0a2540; color: #fff; border: none;
+    padding: 0 16px; cursor: pointer; font-size: 13px; white-space: nowrap;
   }
 
   /* ===== Nav ===== */
@@ -44,11 +54,11 @@
     background: #1a8a8a; display: flex; align-items: stretch;
   }
   .nav-home {
-    padding: 14px 22px; color: #fff; border-right: 1px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center;
+    padding: 18px 22px; color: #fff; border-right: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; background: #0f7575;
   }
   .nav-item {
-    padding: 14px 22px; color: #fff; font-size: 14px; cursor: pointer;
+    padding: 18px 22px; color: #fff; font-size: 14px; cursor: pointer;
     border-right: 1px solid rgba(255,255,255,0.2);
     display: flex; align-items: center; gap: 4px;
   }
@@ -88,14 +98,15 @@
   }
   thead th.num { text-align: right; }
   tbody td {
-    padding: 16px; border-bottom: 1px solid #e8e8e8;
+    padding: 22px 16px; border-bottom: 1px solid #e8e8e8;
     vertical-align: top; font-size: 14px;
   }
   tbody td.num { text-align: right; white-space: nowrap; }
-  .date-cell { white-space: nowrap; color: #333; line-height: 1.5; }
+  thead th:first-child { width: 140px; }
+  .date-cell { white-space: nowrap; color: #333; line-height: 1.5; width: 140px; }
   .memo-link {
     display: inline-flex; align-items: center; gap: 4px;
-    color: #1a6fb5; font-size: 12px; margin-top: 6px; cursor: pointer;
+    color: #888; font-size: 11px; margin-top: 6px; cursor: pointer;
   }
   .dash { color: #999; }
 
@@ -152,7 +163,10 @@
     <div class="name">リニー銀行</div>
   </div>
   <div class="header-right">
-    <div class="header-search">検索</div>
+    <div class="header-search">
+      <input type="text" class="search-input" placeholder="検索">
+      <button class="search-btn">🔍 検索</button>
+    </div>
     <span>English</span>
     <span>🔔 通知</span>
     <span>↪ ログアウト</span>
