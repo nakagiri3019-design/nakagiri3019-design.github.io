@@ -23,9 +23,10 @@
   }
 
   /* ===== Header ===== */
-  .header {
+  .header { border-bottom: 1px solid #e0e0e0; }
+  .header-inner {
+    max-width: 1050px; margin: 0 auto; padding: 18px 20px;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 24px; border-bottom: 1px solid #e0e0e0;
   }
   .header-logo { display: flex; align-items: center; gap: 7px; }
   .header-logo .mark {
@@ -35,6 +36,12 @@
   }
   .header-logo .name { font-size: 22px; font-weight: 700; }
   .header-right { display: flex; align-items: center; gap: 24px; color: #1a6fb5; font-size: 13px; }
+  .header-icon-btn {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 2px; cursor: pointer; color: #1a6fb5;
+  }
+  .header-icon-btn .icon { font-size: 17px; }
+  .header-icon-btn .label { font-size: 11px; }
   .header-search {
     border: 1px solid #ccc; border-radius: 4px;
     width: 360px; height: 44px; display: flex; overflow: hidden;
@@ -70,7 +77,7 @@
 
   /* ===== Main ===== */
   .main { max-width: 1050px; margin: 0 auto; padding: 30px 20px 60px; }
-  .page-title { font-size: 36px; font-weight: 400; margin-bottom: 30px; }
+  .page-title { font-size: 36px; font-weight: 400; padding-bottom: 18px; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
   .timestamp-row {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 20px; color: #444;
@@ -98,24 +105,28 @@
     padding: 24px; background: #fafafa;
     border: 1px solid #eee; border-radius: 4px; margin-bottom: 24px;
   }
-  table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; }
+  table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; table-layout: fixed; }
   thead th {
     background: #f5f5f5; text-align: left;
     padding: 13px 28px; font-weight: 700; font-size: 14px;
     border-bottom: 2px solid #e8e8e8; border-right: 1px solid #e8e8e8; color: #333;
   }
-  thead th:first-child { width: 160px; border-left: 1px solid #e8e8e8; }
-  thead th.num { text-align: right; padding-right: 34px; }
+  thead th:nth-child(1) { width: 14%; border-left: 1px solid #e8e8e8; }
+  thead th:nth-child(2) { width: 36%; }
+  thead th:nth-child(3) { width: 16%; }
+  thead th:nth-child(4) { width: 17%; }
+  thead th:nth-child(5) { width: 17%; }
+  thead th.num { text-align: left; padding-right: 28px; }
   tbody td {
     padding: 14px 28px; border-bottom: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8;
-    vertical-align: middle; font-size: 16px;
+    vertical-align: middle; font-size: 16px; overflow: hidden;
   }
   tbody td:first-child { border-left: 1px solid #e8e8e8; }
-  tbody td.num { text-align: right; white-space: nowrap; width: 130px; padding-right: 34px; }
-  .date-cell { white-space: nowrap; color: #333; line-height: 1.5; width: 160px; }
+  tbody td.num { text-align: right; white-space: nowrap; padding-right: 28px; }
+  .date-cell { white-space: nowrap; color: #333; line-height: 1.5; }
   .memo-link {
-    display: inline-flex; align-items: center; gap: 4px;
-    color: #5a9b9b; font-size: 11px; margin-top: 3px; cursor: pointer;
+    display: flex; align-items: center; gap: 4px; width: fit-content;
+    color: #5a9b9b; font-size: 11px; margin-top: 4px; cursor: pointer;
   }
   .dash { color: #999; }
 
@@ -167,18 +178,26 @@
 </div>
 
 <div class="header">
-  <div class="header-logo">
-    <div class="mark"></div>
-    <div class="name">リニー銀行</div>
-  </div>
-  <div class="header-right">
-    <div class="header-search">
-      <input type="text" class="search-input" placeholder="検索">
-      <button class="search-btn">🔍 検索</button>
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="mark"></div>
+      <div class="name">リニー銀行</div>
     </div>
-    <span>English</span>
-    <span>🔔 通知</span>
-    <span>↪ ログアウト</span>
+    <div class="header-right">
+      <div class="header-search">
+        <input type="text" class="search-input" placeholder="検索">
+        <button class="search-btn">🔍 検索</button>
+      </div>
+      <span>English</span>
+      <div class="header-icon-btn">
+        <span class="icon">🔔</span>
+        <span class="label">通知</span>
+      </div>
+      <div class="header-icon-btn">
+        <span class="icon">↪</span>
+        <span class="label">ログアウト</span>
+      </div>
+    </div>
   </div>
 </div>
 
