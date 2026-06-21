@@ -112,12 +112,12 @@
     flex-direction: column; align-items: center; justify-content: center;
   }
   .table-loading.active { display: flex; }
-  .loader { position: relative; width: 56px; height: 56px; }
+  .loader { position: relative; width: 76px; height: 76px; }
   .loader div {
-    position: absolute; left: 50%; top: 4px;
-    width: 5px; height: 16px; margin-left: -2.5px;
-    background: #fff; border-radius: 3px;
-    transform-origin: 2.5px 24px;
+    position: absolute; left: 50%; top: 6px;
+    width: 7px; height: 22px; margin-left: -3.5px;
+    background: #f3e7a0; border-radius: 50%;
+    transform-origin: 3.5px 32px;
     animation: blade-fade 1.2s linear infinite;
   }
   .loader div:nth-child(1) {transform:rotate(0deg);  animation-delay:-1.2s}
@@ -133,7 +133,7 @@
   .loader div:nth-child(11){transform:rotate(300deg);animation-delay:-0.2s}
   .loader div:nth-child(12){transform:rotate(330deg);animation-delay:-0.1s}
   @keyframes blade-fade { 0% { opacity: 1; } 100% { opacity: 0.15; } }
-  .loading-text { color: #fff; font-size: 20px; margin-top: 14px; text-align: center; }
+  .loading-text { color: #fff; font-size: 26px; margin-top: 18px; text-align: center; }
   table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; background: #fff; table-layout: fixed; }
   thead th {
     background: #f5f5f5; text-align: left;
