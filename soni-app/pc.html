@@ -61,9 +61,10 @@
     display: flex; align-items: center; background: #0f7575;
   }
   .nav-item {
-    padding: 18px 22px; color: #fff; font-size: 13px; font-weight: normal; cursor: pointer;
+    padding: 18px 18px; color: #fff; font-size: 12px; font-weight: normal; cursor: pointer;
     border-right: 1px solid rgba(255,255,255,0.2);
     display: flex; align-items: center; gap: 4px;
+    white-space: nowrap;
   }
   .nav-item:hover { background: rgba(0,0,0,0.1); }
 
@@ -183,7 +184,12 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <div class="nav-home">🏠</div>
+    <div class="nav-home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+    </div>
     <div class="nav-items">
       <div class="nav-item">商品・サービス ▾</div>
       <div class="nav-item">振込・入出金・ATM ▾</div>
