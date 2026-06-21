@@ -514,6 +514,7 @@
   </div>
 </div>
 
+<script src="./transactions.js"></script>
 <script>
 // PIN
 document.getElementById('pin-input').addEventListener('input', function() {
@@ -537,24 +538,6 @@ function openMenu(){ document.getElementById('side-overlay').style.display='bloc
 function closeMenu(){ document.getElementById('side-overlay').style.display='none'; }
 
 // ===== HISTORY SCREEN =====
-const transactions = [
-  { month: '2026年6月', date: '17', day: '水', name: '振込 カ）アークラボ',          type: '入金', amount: 100 },
-  { month: '2026年6月', date: '11', day: '木', name: '振込手数料（税込）',            type: '出金', amount: 110 },
-  { month: '2026年6月', date: '11', day: '木', name: '振込 ナカギリ　トシエ',         type: '出金', amount: 280000 },
-  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
-  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
-  { month: '2026年6月', date: '10', day: '水', name: 'カード セブンATM',              type: '出金', amount: 500000 },
-  { month: '2026年6月', date: '10', day: '水', name: '振込手数料（税込）',            type: '出金', amount: 110 },
-  { month: '2026年6月', date: '10', day: '水', name: '振込 ナカギリ　ユミコ',         type: '出金', amount: 2000000 },
-  { month: '2026年6月', date: '10', day: '水', name: '振込 カ）アークラボ',           type: '入金', amount: 4280000 },
-  { month: '2026年6月', date: '03', day: '水', name: '振込 アキヤマ　テルト',         type: '出金', amount: 100000 },
-  { month: '2026年6月', date: '03', day: '水', name: '振込 スヤマ　アキラ',           type: '入金', amount: 10000 },
-  { month: '2026年6月', date: '03', day: '水', name: '振込 カ）　アイオーグループ',   type: '出金', amount: 500000 },
-  { month: '2026年6月', date: '03', day: '水', name: '振込 カ）アバンテイア',         type: '入金', amount: 589870 },
-  { month: '2026年3月', date: '23', day: '月', name: 'デビツトリヨウキヤツシユバツク', type: '入金', amount: 5 },
-  { month: '2026年3月', date: '05', day: '木', name: '振込 ナカギリ　ユミコ',         type: '出金', amount: 200 },
-];
-
 function buildHistory() {
   const container = document.getElementById('hist-list');
   if (container.hasChildNodes()) return;
