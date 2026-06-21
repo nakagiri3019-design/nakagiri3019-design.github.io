@@ -1,10 +1,11 @@
 const CACHE_PREFIX = 'rinii-soni-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v43';
+const CACHE_NAME = CACHE_PREFIX + 'v44';
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
   './transactions.js',
+  './transactions_pc.js',
   './icon-192.png',
   './icon-512.png',
 ];
