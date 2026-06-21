@@ -143,7 +143,7 @@
   .page-btn:disabled { color: #ccc; cursor: default; }
   .page-btn.active { background: #1a8a8a; color: #fff; border-color: #1a8a8a; }
 
-  .sub-links { margin-top: 36px; padding-top: 20px; }
+  .sub-links { margin-top: 36px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
   .sub-links a {
     display: block; color: #1a6fb5; padding: 8px 0;
     text-decoration: none; font-size: 14px;
@@ -153,13 +153,30 @@
   /* ===== Footer ===== */
   .footer {
     background: #f5f5f5; border-top: 1px solid #e0e0e0;
-    margin-top: 50px; padding: 30px 24px;
-    color: #555; font-size: 12px; line-height: 1.9;
+    margin-top: 50px; padding: 28px 0 32px;
+    color: #555; font-size: 12px; line-height: 2;
   }
-  .footer-links { max-width: 1000px; margin: 0 auto 16px; }
-  .footer-links a { color: #1a6fb5; text-decoration: none; margin-right: 18px; }
-  .footer-copy { max-width: 1000px; margin: 0 auto; color: #777; line-height: 1.7; }
-  .footer-demo { font-weight: 700; color: #c00; margin-bottom: 10px; }
+  .footer-inner { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+  .footer-links { margin-bottom: 6px; }
+  .footer-links p { margin-bottom: 2px; }
+  .footer-links a { color: #1a6fb5; text-decoration: none; font-size: 12px; }
+  .footer-links a + a::before { content: " ｜ "; color: #bbb; }
+  .footer-group { border-top: 1px solid #ddd; padding-top: 18px; margin-top: 16px; }
+  .footer-group-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 8px; }
+  .footer-group-links a { color: #1a6fb5; text-decoration: none; font-size: 12px; }
+  .footer-group-links a + a::before { content: " ｜ "; color: #bbb; }
+  /* Dark footer bar */
+  .footer-bar {
+    background: #4a4a4a; color: #ccc;
+    padding: 22px 0; font-size: 12px; line-height: 1.9;
+  }
+  .footer-bar-inner { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+  .footer-bar-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .footer-bar-company { color: #fff; font-size: 13px; font-weight: 600; }
+  .footer-bar-en { color: #888; font-size: 11px; }
+  .footer-bar-demo { color: #ff9090; font-size: 12px; }
+  .footer-bar-reg { color: #aaa; font-size: 11px; }
+  .footer-bar-copy { color: #888; font-size: 11px; margin-top: 4px; }
 
   /* ===== Right side floating buttons ===== */
   .side-btns {
@@ -262,14 +279,35 @@
 </div>
 
 <div class="footer">
-  <div class="footer-links">
-    <a href="#">企業情報</a><a href="#">約款など</a><a href="#">契約締結前交付書面</a><a href="#">リスク商品に関する重要事項</a><a href="#">保険募集指針</a><a href="#">リニー銀行の勧誘方針</a><br>
-    <a href="#">プライバシーポリシー</a><a href="#">ソーシャルメディアポリシー</a><a href="#">苦情相談窓口</a><a href="#">大切なお知らせ・ご注意</a><a href="#">ウェブサイト利用条件</a>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <p>
+        <a href="#">企業情報</a><a href="#">約款など</a><a href="#">契約締結前交付書面</a><a href="#">リスク商品に関する重要事項</a><a href="#">保険募集指針</a><a href="#">リニー銀行の勧誘方針</a>
+      </p>
+      <p>
+        <a href="#">プライバシーポリシー</a><a href="#">ソーシャルメディアポリシー</a><a href="#">苦情相談窓口</a><a href="#">大切なお知らせ・ご注意</a><a href="#">ウェブサイト利用条件</a>
+      </p>
+      <p>
+        <a href="#">分析および広告配信について</a><a href="#">マーケティング等の目的で行う個人データの第三者提供</a><a href="#">サイトマップ</a>
+      </p>
+    </div>
+    <div class="footer-group">
+      <div class="footer-group-title">グループ情報</div>
+      <div class="footer-group-links">
+        <a href="#">リニーフィナンシャルグループ</a><a href="#">リニー生命</a><a href="#">リニー損保</a><a href="#">リニー・ライフケア</a>
+      </div>
+    </div>
   </div>
-  <div class="footer-copy">
-    <div class="footer-demo">※ これはデモ画面です。実在の金融機関とは一切関係ありません。</div>
-    リニー銀行株式会社（デモ）<br>
-    Copyright Rinii Bank (DEMO). All rights reserved. This is a demo page.
+</div>
+<div class="footer-bar">
+  <div class="footer-bar-inner">
+    <div class="footer-bar-top">
+      <span class="footer-bar-company">リニー銀行株式会社（デモ）</span>
+      <span class="footer-bar-en">a Demo Company</span>
+    </div>
+    <div class="footer-bar-demo">※ これはデモ画面です。実在の金融機関・実在のソニー銀行とは一切関係ありません。</div>
+    <div class="footer-bar-reg">登録番号・加入協会等はすべて架空のデモ表記です。</div>
+    <div class="footer-bar-copy">Copyright Rinii Bank (DEMO). All rights reserved. This is a demo page.</div>
   </div>
 </div>
 
