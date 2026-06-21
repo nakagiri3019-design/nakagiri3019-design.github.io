@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通帳 - リニー銀行</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    background: #fff; color: #222; font-size: 14px;
+  }
+
+  /* ===== Top SONY-like bar ===== */
+  .top-bar {
+    background: #0a2540; height: 36px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding: 0 24px;
+  }
+  .top-bar .demo-badge {
+    color: #fff; font-weight: 700; letter-spacing: 3px;
+    font-size: 18px; font-family: Arial, sans-serif;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px; border-bottom: 1px solid #e0e0e0;
+  }
+  .header-logo { display: flex; align-items: center; gap: 10px; }
+  .header-logo .mark {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: conic-gradient(from 180deg, #2a7d4f, #1a4f6e, #2a7d4f);
+  }
+  .header-logo .name { font-size: 20px; font-weight: 700; }
+  .header-right { display: flex; align-items: center; gap: 24px; color: #1a6fb5; font-size: 13px; }
+  .header-search {
+    border: 1px solid #ccc; border-radius: 4px; padding: 8px 14px;
+    width: 280px; color: #999;
+  }
+
+  /* ===== Nav ===== */
+  .nav {
+    background: #1a8a8a; display: flex; align-items: stretch;
+  }
+  .nav-home {
+    padding: 14px 22px; color: #fff; border-right: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center;
+  }
+  .nav-item {
+    padding: 14px 22px; color: #fff; font-size: 14px; cursor: pointer;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .nav-item:hover { background: rgba(0,0,0,0.1); }
+
+  /* ===== Main ===== */
+  .main { max-width: 1000px; margin: 0 auto; padding: 30px 20px 60px; }
+  .page-title { font-size: 28px; font-weight: 400; margin-bottom: 30px; }
+  .timestamp-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; color: #444;
+  }
+  .help-link { color: #1a6fb5; cursor: pointer; }
+
+  .setting-bar {
+    border: 1px solid #ddd; border-radius: 4px;
+    padding: 20px 24px; margin-bottom: 26px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; color: #333;
+  }
+  .setting-bar .plus { text-align: center; color: #1a6fb5; font-size: 13px; }
+  .setting-bar .plus .sign { font-size: 22px; display: block; }
+
+  .count-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; color: #333;
+  }
+  .count-row .count { font-size: 15px; }
+  .count-row .page-indicator { font-size: 14px; color: #333; }
+
+  /* ===== Table ===== */
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    background: #f5f5f5; text-align: left;
+    padding: 14px 16px; font-weight: 700; font-size: 14px;
+    border-bottom: 2px solid #ddd; color: #333;
+  }
+  thead th.num { text-align: right; }
+  tbody td {
+    padding: 16px; border-bottom: 1px solid #e8e8e8;
+    vertical-align: top; font-size: 14px;
+  }
+  tbody td.num { text-align: right; white-space: nowrap; }
+  .date-cell { white-space: nowrap; color: #333; line-height: 1.5; }
+  .memo-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: #1a6fb5; font-size: 12px; margin-top: 6px; cursor: pointer;
+  }
+  .dash { color: #999; }
+
+  /* ===== Pagination ===== */
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin-top: 30px;
+  }
+  .page-btn {
+    border: 1px solid #ccc; background: #fff; color: #1a6fb5;
+    padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 13px;
+  }
+  .page-btn:hover { background: #f0f7ff; }
+  .page-btn:disabled { color: #ccc; cursor: default; }
+  .page-btn.active { background: #1a8a8a; color: #fff; border-color: #1a8a8a; }
+
+  .sub-links { margin-top: 36px; padding-top: 20px; }
+  .sub-links a {
+    display: block; color: #1a6fb5; padding: 8px 0;
+    text-decoration: none; font-size: 14px;
+  }
+  .sub-links a::before { content: "› "; }
+
+  /* ===== Footer ===== */
+  .footer {
+    background: #f5f5f5; border-top: 1px solid #e0e0e0;
+    margin-top: 50px; padding: 30px 24px;
+    color: #555; font-size: 12px; line-height: 1.9;
+  }
+  .footer-links { max-width: 1000px; margin: 0 auto 16px; }
+  .footer-links a { color: #1a6fb5; text-decoration: none; margin-right: 18px; }
+  .footer-copy { max-width: 1000px; margin: 0 auto; color: #777; line-height: 1.7; }
+  .footer-demo { font-weight: 700; color: #c00; margin-bottom: 10px; }
+
+  /* ===== Right side floating buttons ===== */
+  .side-btns {
+    position: fixed; right: 0; top: 40%; display: flex; flex-direction: column;
+  }
+  .side-btns .sb {
+    background: #1a1a1a; color: #fff; padding: 18px 26px;
+    font-size: 15px; cursor: pointer; border-bottom: 1px solid #333;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="demo-badge">DEMO</span>
+</div>
+
+<div class="header">
+  <div class="header-logo">
+    <div class="mark"></div>
+    <div class="name">リニー銀行</div>
+  </div>
+  <div class="header-right">
+    <div class="header-search">検索</div>
+    <span>English</span>
+    <span>🔔 通知</span>
+    <span>↪ ログアウト</span>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-home">🏠</div>
+  <div class="nav-item">商品・サービス ▾</div>
+  <div class="nav-item">振込・入出金・ATM ▾</div>
+  <div class="nav-item">優遇・キャンペーン ▾</div>
+  <div class="nav-item">レート・金利・手数料 ▾</div>
+  <div class="nav-item">アプリ・ツール ▾</div>
+  <div class="nav-item">お問い合わせ ▾</div>
+</div>
+
+<div class="main">
+  <h1 class="page-title">通帳</h1>
+
+  <div class="timestamp-row">
+    <span id="timestamp"></span>
+    <span class="help-link">› ヘルプ</span>
+  </div>
+
+  <div class="setting-bar">
+    <span>表示設定</span>
+    <span class="plus"><span class="sign">＋</span>開く</span>
+  </div>
+
+  <div class="count-row">
+    <span class="count">該当件数　（<span id="total-count">0</span>件）</span>
+    <span class="page-indicator">表示ページ　<span id="cur-page">1</span>/<span id="total-pages">1</span></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>摘要</th>
+        <th class="num">入金</th>
+        <th class="num">出金</th>
+        <th class="num">残高</th>
+      </tr>
+    </thead>
+    <tbody id="tx-body"></tbody>
+  </table>
+
+  <div class="pagination" id="pagination"></div>
+
+  <div class="sub-links">
+    <a href="#">普通預金取引履歴</a>
+    <a href="#">Visaデビット利用明細照会</a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-links">
+    <a href="#">企業情報</a><a href="#">約款など</a><a href="#">契約締結前交付書面</a><a href="#">リスク商品に関する重要事項</a><a href="#">保険募集指針</a><a href="#">リニー銀行の勧誘方針</a><br>
+    <a href="#">プライバシーポリシー</a><a href="#">ソーシャルメディアポリシー</a><a href="#">苦情相談窓口</a><a href="#">大切なお知らせ・ご注意</a><a href="#">ウェブサイト利用条件</a>
+  </div>
+  <div class="footer-copy">
+    <div class="footer-demo">※ これはデモ画面です。実在の金融機関とは一切関係ありません。</div>
+    リニー銀行株式会社（デモ）<br>
+    Copyright Rinii Bank (DEMO). All rights reserved. This is a demo page.
+  </div>
+</div>
+
+<div class="side-btns">
+  <div class="sb">残高</div>
+  <div class="sb">振込</div>
+  <div class="sb">キャンペーン</div>
+</div>
+
+<script src="./transactions_pc.js"></script>
+<script>
+  const PER_PAGE = 30;
+  let curPage = 1;
+  const totalPages = Math.ceil(txPC.length / PER_PAGE);
+
+  function fmt(n) { return n.toLocaleString('ja-JP'); }
+
+  function render() {
+    const body = document.getElementById('tx-body');
+    body.innerHTML = '';
+    const start = (curPage - 1) * PER_PAGE;
+    const slice = txPC.slice(start, start + PER_PAGE);
+
+    slice.forEach(t => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="date-cell">${t.y}年<br>${t.mo}月${t.d}日
+          <div class="memo-link">✎ メモを編集</div>
+        </td>
+        <td>${t.name}</td>
+        <td class="num">${t.deposit != null ? fmt(t.deposit) + '円' : '<span class="dash">-</span>'}</td>
+        <td class="num">${t.withdraw != null ? fmt(t.withdraw) + '円' : '<span class="dash">-</span>'}</td>
+        <td class="num">${t.balance != null ? fmt(t.balance) + '円' : '<span class="dash">-</span>'}</td>
+      `;
+      body.appendChild(tr);
+    });
+
+    document.getElementById('cur-page').textContent = curPage;
+    document.getElementById('total-pages').textContent = totalPages;
+    renderPagination();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderPagination() {
+    const pag = document.getElementById('pagination');
+    pag.innerHTML = '';
+
+    const prev = document.createElement('button');
+    prev.className = 'page-btn';
+    prev.textContent = '‹ 前へ';
+    prev.disabled = curPage === 1;
+    prev.onclick = () => { if (curPage > 1) { curPage--; render(); } };
+    pag.appendChild(prev);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const b = document.createElement('button');
+      b.className = 'page-btn' + (i === curPage ? ' active' : '');
+      b.textContent = i;
+      b.onclick = () => { curPage = i; render(); };
+      pag.appendChild(b);
+    }
+
+    const next = document.createElement('button');
+    next.className = 'page-btn';
+    next.textContent = '次へ ›';
+    next.disabled = curPage === totalPages;
+    next.onclick = () => { if (curPage < totalPages) { curPage++; render(); } };
+    pag.appendChild(next);
+  }
+
+  // timestamp
+  const now = new Date();
+  document.getElementById('timestamp').textContent =
+    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日　${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} 時点`;
+  document.getElementById('total-count').textContent = txPC.length;
+
+  render();
+</script>
+</body>
+</html>
