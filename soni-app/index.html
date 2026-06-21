@@ -604,9 +604,17 @@ function buildHistory() {
 }
 
 function showHistory() {
-  buildHistory();
-  document.getElementById('home-screen').style.display = 'none';
-  document.getElementById('history-screen').style.display = 'flex';
+  if (homeLoading) return;
+  homeLoading = true;
+  const loader = document.getElementById('home-loader');
+  loader.classList.add('active');
+  setTimeout(() => {
+    buildHistory();
+    document.getElementById('home-screen').style.display = 'none';
+    document.getElementById('history-screen').style.display = 'flex';
+    loader.classList.remove('active');
+    homeLoading = false;
+  }, 600);
 }
 function hideHistory() {
   document.getElementById('history-screen').style.display = 'none';
