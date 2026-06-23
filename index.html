@@ -97,6 +97,7 @@
           <a class="entry" href="https://nakagiri3019-design.github.io/mail-app/sbi/" target="_blank">普段はこちら(PWA) <span class="who">/mail-app/sbi/</span></a>
           <a class="entry" href="https://nakagiri3019-design.github.io/mail-app/sbi_business_home_v2.html" target="_blank">TWA本番用 <span class="who">…v2</span></a>
           <a class="entry" href="https://nakagiri3019-design.github.io/sbi-twa-app/" target="_blank">SWなし版 <span class="who">/sbi-twa-app/</span></a>
+          <div id="sbi-accounts-list"></div>
         </div>
         <div class="note">⚠ mail-app/sbi_business_home_v2.html は TWA(com.arklabo.sbidemo)が参照中。名前・場所を変えると Android アプリが動かなくなるため触らない。</div>
       </div>
@@ -141,5 +142,22 @@
 
   <footer>編集用の入口メモです。リンクが古くなったら更新を。GitHub Pages は公開直後だと反映に1〜2分かかることがあります（URL末尾に <code>?v=2</code> を付けて再読み込み）。</footer>
 </div>
+<script>
+(function(){
+  var BASE = 'https://nakagiri3019-design.github.io/mail-app/sbi-app/?user=';
+  fetch('https://nakagiri3019-design.github.io/mail-app/sbi-app/accounts.json')
+    .then(function(r){ return r.json(); })
+    .then(function(list){
+      var el = document.getElementById('sbi-accounts-list');
+      if (!el) return;
+      el.innerHTML = list.map(function(a){
+        return '<a class="entry" href="' + BASE + a.id + '" target="_blank">'
+          + a.displayName
+          + ' <span class="who">?user=' + a.id + '</span></a>';
+      }).join('');
+    })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>
