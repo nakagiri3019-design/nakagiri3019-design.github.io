@@ -1,6 +1,6 @@
 {
-  "name": "リニー銀行",
-  "short_name": "リニー銀行",
+  "name": "ソニー銀行",
+  "short_name": "ソニー銀行",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
