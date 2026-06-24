@@ -1,4 +1,13 @@
 const transactions = [
+  { month: '2026年6月', date: '24', day: '水', name: '振込手数料(税込)', type: '出金', amount: 110 },
+  { month: '2026年6月', date: '24', day: '水', name: '振込 ナカギリ　トシエ', type: '出金', amount: 65900 },
+  { month: '2026年6月', date: '23', day: '火', name: '振込手数料(税込)', type: '出金', amount: 110 },
+  { month: '2026年6月', date: '23', day: '火', name: '振込 オオタ　アキラ', type: '出金', amount: 65900 },
+  { month: '2026年6月', date: '23', day: '火', name: '振込手数料(税込)', type: '出金', amount: 110 },
+  { month: '2026年6月', date: '23', day: '火', name: '振込 タナカ　ミツル', type: '出金', amount: 85000 },
+  { month: '2026年6月', date: '22', day: '月', name: 'Visaデビット　149450　Wix.com', type: '出金', amount: 14300 },
+  { month: '2026年6月', date: '22', day: '月', name: 'Visaデビット　882057　GOOGLE PLAY JAPAN', type: '出金', amount: 12700 },
+  { month: '2026年6月', date: '22', day: '月', name: 'ペイペイ', type: '出金', amount: 40000 },
   { month: '2026年6月', date: '21', day: '日', name: 'ペイペイ', type: '出金', amount: 10000 },
   { month: '2026年6月', date: '20', day: '土', name: '振込手数料(税込)', type: '出金', amount: 110 },
   { month: '2026年6月', date: '20', day: '土', name: 'ペイペイ', type: '出金', amount: 20000 },

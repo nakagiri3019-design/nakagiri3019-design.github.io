@@ -1,4 +1,13 @@
 const txPC = [
+  { y: 2026, mo: 6, d: 24, name: '振込手数料(税込)', deposit: null, withdraw: 110, balance: 557390 },
+  { y: 2026, mo: 6, d: 24, name: '振込 ナカギリ　トシエ', deposit: null, withdraw: 65900, balance: 557500 },
+  { y: 2026, mo: 6, d: 23, name: '振込手数料(税込)', deposit: null, withdraw: 110, balance: 623400 },
+  { y: 2026, mo: 6, d: 23, name: '振込 オオタ　アキラ', deposit: null, withdraw: 65900, balance: 623510 },
+  { y: 2026, mo: 6, d: 23, name: '振込手数料(税込)', deposit: null, withdraw: 110, balance: 689410 },
+  { y: 2026, mo: 6, d: 23, name: '振込 タナカ　ミツル', deposit: null, withdraw: 85000, balance: 689520 },
+  { y: 2026, mo: 6, d: 22, name: 'Visaデビット　149450　Wix.com', deposit: null, withdraw: 14300, balance: 774520 },
+  { y: 2026, mo: 6, d: 22, name: 'Visaデビット　882057　GOOGLE PLAY JAPAN', deposit: null, withdraw: 12700, balance: 788820 },
+  { y: 2026, mo: 6, d: 22, name: 'ペイペイ', deposit: null, withdraw: 40000, balance: 801520 },
   { y: 2026, mo: 6, d: 21, name: 'ペイペイ', deposit: null, withdraw: 10000, balance: 841520 },
   { y: 2026, mo: 6, d: 20, name: '振込手数料(税込)', deposit: null, withdraw: 110, balance: 851520 },
   { y: 2026, mo: 6, d: 20, name: 'ペイペイ', deposit: null, withdraw: 20000, balance: 851630 },
