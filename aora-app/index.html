@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>アオソラ銀行</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  font-family: -apple-system, 'Hiragino Sans', 'Helvetica Neue', sans-serif;
+  background: #eaf4f8;
+  color: #222;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== LOADER ===== */
+#app-loader {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(234,244,248,0.88);
+  align-items: center; justify-content: center;
+}
+#app-loader.active { display: flex; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-spinner {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 3px solid rgba(0,160,200,0.22);
+  border-top-color: #00a0c8;
+  animation: spin 0.75s linear infinite;
+}
+
+/* ===== SHARED HEADER ===== */
+.app-header {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #4a4f57;
+  padding: calc(env(safe-area-inset-top, 0px) + 13px) 14px 13px;
+  flex-shrink: 0;
+}
+.hdr-icon {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.hdr-icon svg { width: 24px; height: 24px; }
+.hdr-title { font-size: 17px; font-weight: 600; color: #fff; letter-spacing: 0.3px; }
+.hdr-back {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  font-size: 28px; font-weight: 300; color: #fff; cursor: pointer; line-height: 1;
+}
+
+/* ===== LOGIN SCREEN ===== */
+#login-screen {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: #f5f7fb;
+}
+.login-top {
+  background: #1a3a6b;
+  padding: calc(env(safe-area-inset-top, 0px) + 54px) 24px 38px;
+  text-align: center; flex-shrink: 0;
+}
+.login-logo-text {
+  font-size: 26px; font-weight: 800; color: #fff;
+  letter-spacing: 2px; line-height: 1.2;
+}
+.login-logo-en {
+  font-size: 11px; font-weight: 400;
+  color: rgba(255,255,255,0.6); letter-spacing: 2px; margin-top: 6px;
+}
+.login-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #00a0c8; color: #fff;
+  font-size: 13px; font-weight: 700;
+  padding: 5px 18px; border-radius: 20px; margin-top: 22px;
+}
+.login-body {
+  padding: 32px 24px calc(env(safe-area-inset-bottom, 0px) + 44px);
+  flex: 1;
+}
+.form-group { margin-bottom: 18px; }
+.form-label { font-size: 13px; color: #555; font-weight: 500; margin-bottom: 7px; }
+.form-input {
+  width: 100%; background: #fff;
+  border: 1.5px solid #d8dfe8; border-radius: 8px;
+  padding: 15px 14px; font-size: 16px; color: #222;
+  outline: none; -webkit-appearance: none;
+  transition: border-color 0.18s;
+}
+.form-input-yellow { background: #fcf9d8; }
+.form-input:focus { border-color: #00a0c8; }
+.btn-login {
+  width: 100%; background: #e0285a; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 17px; font-size: 17px; font-weight: 700;
+  cursor: pointer; margin-bottom: 14px; -webkit-appearance: none;
+}
+.btn-secondary {
+  width: 100%; background: #fff; color: #1a3a6b;
+  border: 2px solid #1a3a6b; border-radius: 8px;
+  padding: 15px; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  -webkit-appearance: none;
+}
+.btn-open {
+  width: 100%; background: #fff; color: #00a0c8;
+  border: 2px solid #00a0c8; border-radius: 8px;
+  padding: 15px; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-bottom: 30px; -webkit-appearance: none;
+}
+.login-links {
+  display: flex; justify-content: center; gap: 28px;
+  font-size: 13px; color: #00a0c8;
+}
+.login-link { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ===== HOME SCREEN ===== */
+#home-screen {
+  display: none; position: fixed; inset: 0;
+  background: #eaf4f8;
+  flex-direction: column; overflow: hidden;
+  height: 100%; max-height: 100dvh;
+}
+.home-scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+}
+.home-scroll::-webkit-scrollbar { display: none; }
+
+/* Warning banner */
+.warning-banner {
+  background: #fff; border-left: 4px solid #c8282a;
+  margin: 12px 12px 0; border-radius: 6px;
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.warning-text { font-size: 13px; color: #c8282a; font-weight: 600; flex: 1; }
+.warning-arrow { color: #c8282a; font-size: 18px; flex-shrink: 0; }
+
+/* Last update */
+.last-update {
+  text-align: right; padding: 8px 16px 6px;
+  font-size: 12px; color: #999;
+}
+
+/* Notice buttons */
+.notice-row { display: flex; gap: 10px; padding: 0 12px 12px; }
+.notice-btn {
+  flex: 1; background: #fff; border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.notice-btn-left { display: flex; align-items: center; gap: 8px; }
+.notice-btn-label { font-size: 13px; color: #333; font-weight: 500; }
+.notice-btn-badge {
+  background: #c8282a; color: #fff;
+  border-radius: 10px; min-width: 22px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; padding: 0 5px;
+}
+
+/* Campaign/Service tabs */
+.camp-tab-bar {
+  display: flex; margin: 0 12px 0;
+  border-bottom: 2px solid #d0e4ed; background: transparent;
+}
+.camp-tab {
+  flex: 1; text-align: center; padding: 10px 6px;
+  font-size: 14px; font-weight: 600; color: #aaa;
+  cursor: pointer; border-bottom: 3px solid transparent;
+  margin-bottom: -2px; transition: color 0.15s;
+}
+.camp-tab.active { color: #1a3a6b; border-bottom-color: #1a3a6b; }
+.camp-content { display: none; padding: 10px 12px 6px; }
+.camp-content.active { display: block; }
+.camp-card {
+  background: linear-gradient(135deg, #1a3a6b 0%, #2a5caa 100%);
+  border-radius: 10px; padding: 18px;
+  color: #fff; font-size: 14px; line-height: 1.65;
+}
+.camp-card.teal { background: linear-gradient(135deg, #0080a0 0%, #00b0d0 100%); }
+.camp-card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+
+/* Account card */
+.acct-card {
+  background: #fff; margin: 10px 12px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+  overflow: hidden;
+}
+.acct-card-hd { background: #1a3a6b; padding: 14px 16px 13px; }
+.acct-branch { font-size: 12px; color: rgba(255,255,255,0.65); }
+.acct-num { font-size: 13px; color: #fff; margin-top: 2px; font-weight: 500; }
+.acct-holder { font-size: 14px; font-weight: 700; color: #fff; margin-top: 5px; }
+.acct-card-body { padding: 16px 16px 14px; }
+.acct-type-lbl { font-size: 12px; color: #999; margin-bottom: 1px; }
+.acct-type-name { font-size: 14px; font-weight: 600; color: #1a3a6b; margin-bottom: 12px; }
+.acct-bal-lbl { font-size: 12px; color: #999; }
+.acct-bal-row {
+  display: flex; align-items: baseline; gap: 3px;
+  margin: 4px 0 14px;
+}
+.acct-bal-yen { font-size: 20px; font-weight: 400; color: #1a3a6b; }
+.acct-bal-num { font-size: 40px; font-weight: 200; color: #1a3a6b; letter-spacing: -2px; }
+.acct-cashback {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid #edf1f6;
+  font-size: 13px; color: #888;
+}
+.acct-cashback-val { font-size: 15px; font-weight: 600; color: #1a3a6b; }
+
+/* Quick action grid */
+.quick-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 0 12px 16px;
+}
+.quick-btn {
+  background: #fff; border-radius: 10px;
+  padding: 18px 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 9px;
+}
+.quick-btn-icon {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: #daeef7;
+  display: flex; align-items: center; justify-content: center;
+}
+.quick-btn-icon svg { width: 24px; height: 24px; }
+.quick-btn-label { font-size: 13px; color: #333; font-weight: 500; text-align: center; line-height: 1.3; }
+
+/* ===== HISTORY SCREEN ===== */
+#history-screen {
+  display: none; position: fixed; inset: 0;
+  background: #eaf4f8;
+  flex-direction: column; overflow: hidden;
+  height: 100%; max-height: 100dvh;
+}
+
+/* Account type tabs */
+.hist-acct-tabs {
+  display: flex; background: #fff;
+  border-bottom: 1px solid #d0e4ed; flex-shrink: 0;
+}
+.hist-acct-tab {
+  flex: 1; text-align: center;
+  padding: 11px 4px; font-size: 13px;
+  color: #aaa; cursor: pointer; font-weight: 500;
+  border-bottom: 3px solid transparent;
+}
+.hist-acct-tab.active {
+  color: #1a3a6b; font-weight: 700;
+  border-bottom-color: #1a3a6b;
+}
+
+/* Toggle bar */
+.hist-toggle-bar {
+  display: flex; background: #c8dde8;
+  margin: 10px 12px 6px; border-radius: 8px; padding: 3px;
+  flex-shrink: 0;
+}
+.hist-toggle-btn {
+  flex: 1; text-align: center; padding: 8px;
+  border-radius: 6px; font-size: 13px;
+  color: #666; cursor: pointer; font-weight: 500;
+  transition: all 0.15s;
+}
+.hist-toggle-btn.active {
+  background: #fff; color: #1a3a6b; font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* Account info */
+.hist-acct-info {
+  background: #fff; margin: 0 12px 6px;
+  border-radius: 8px; padding: 11px 14px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.hist-info-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; margin-bottom: 4px;
+}
+.hist-info-row:last-child { margin-bottom: 0; }
+.hist-info-lbl { color: #999; }
+.hist-info-val { color: #333; font-weight: 500; }
+
+/* Period */
+.hist-period-row {
+  padding: 4px 16px 6px; font-size: 12px; color: #aaa;
+  flex-shrink: 0;
+}
+
+/* Transaction scroll */
+.hist-scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+}
+.hist-scroll::-webkit-scrollbar { display: none; }
+
+/* Transaction list */
+#tx-list {
+  margin: 4px 12px 8px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.tx-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 13px 14px;
+  border-bottom: 1px solid #f0f5f8;
+}
+.tx-row:last-child { border-bottom: none; }
+.tx-left { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
+.tx-date { font-size: 13px; color: #888; flex-shrink: 0; min-width: 38px; padding-top: 1px; }
+.tx-memo { font-size: 14px; color: #333; line-height: 1.45; word-break: break-all; }
+.tx-right { text-align: right; flex-shrink: 0; margin-left: 14px; }
+.tx-amt-in  { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+.tx-amt-out { font-size: 15px; font-weight: 600; color: #c8282a; }
+.tx-bal { font-size: 12px; color: #bbb; margin-top: 3px; }
+</style>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#4a4f57">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="アオソラ銀行">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="app-loader"><div class="loader-spinner"></div></div>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen">
+  <div class="login-top">
+    <div class="login-logo-text">アオソラネット銀行</div>
+    <div class="login-logo-en">AOSORA NET BANK</div>
+    <div class="login-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      法人口座
+    </div>
+  </div>
+
+  <div class="login-body">
+    <div class="form-group">
+      <div class="form-label">ログインID</div>
+      <input id="login-id" class="form-input form-input-yellow" type="text"
+        placeholder="ログインIDを入力" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="form-group">
+      <div class="form-label">ログインパスワード</div>
+      <input id="login-pw" class="form-input" type="password"
+        placeholder="パスワードを入力" autocomplete="off">
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">ログイン</button>
+
+    <button class="btn-secondary" onclick="doLogin()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        <circle cx="9" cy="10" r="0.8" fill="#1a3a6b" stroke="none"/>
+        <circle cx="15" cy="10" r="0.8" fill="#1a3a6b" stroke="none"/>
+        <path d="M9.5 14.5a3.5 3.5 0 0 0 5 0"/>
+      </svg>
+      指紋でログイン
+    </button>
+
+    <button class="btn-open">法人口座開設</button>
+
+    <div class="login-links">
+      <span class="login-link">ログインでお困りの方</span>
+      <span class="login-link">よくあるご質問</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HOME SCREEN ===== -->
+<div id="home-screen">
+  <div class="app-header">
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </div>
+    <div class="hdr-title">アオソラ銀行</div>
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="7" width="22" height="14" rx="2"/>
+        <path d="M16 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z" fill="#fff" stroke="none"/>
+        <line x1="1" y1="11" x2="23" y2="11"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="home-scroll">
+
+    <!-- Warning banner -->
+    <div class="warning-banner">
+      <span style="color:#c8282a;font-size:16px;flex-shrink:0;">⚠</span>
+      <span class="warning-text">一部お取引に制限がかかっております。</span>
+      <span class="warning-arrow">›</span>
+    </div>
+
+    <!-- Last update -->
+    <div class="last-update" id="home-update-time"></div>
+
+    <!-- Notice buttons -->
+    <div class="notice-row">
+      <div class="notice-btn">
+        <div class="notice-btn-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notice-btn-label">お知らせ</span>
+        </div>
+        <span class="notice-btn-badge">3</span>
+      </div>
+      <div class="notice-btn">
+        <div class="notice-btn-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span class="notice-btn-label">取引通知</span>
+        </div>
+        <span class="notice-btn-badge">12</span>
+      </div>
+    </div>
+
+    <!-- Campaign/Service tabs -->
+    <div class="camp-tab-bar">
+      <div class="camp-tab active" onclick="switchHomeTab(0)">キャンペーン</div>
+      <div class="camp-tab" onclick="switchHomeTab(1)">サービス</div>
+    </div>
+    <div class="camp-content active" id="ctab-0">
+      <div class="camp-card">
+        <div class="camp-card-title">🎉 法人振込手数料キャッシュバック</div>
+        新規口座開設後3ヶ月間、振込手数料を全額キャッシュバック。<br>2026年9月30日まで
+      </div>
+    </div>
+    <div class="camp-content" id="ctab-1">
+      <div class="camp-card teal">
+        <div class="camp-card-title">💼 アオソラビジネスデビット</div>
+        経費管理をスマートに。後払いで最大60日の支払猶予。<br>年会費無料で申込受付中
+      </div>
+    </div>
+
+    <!-- Account card -->
+    <div class="acct-card">
+      <div class="acct-card-hd">
+        <div class="acct-branch">法人第二営業部</div>
+        <div class="acct-num">普通　2145598</div>
+        <div class="acct-holder">株式会社コスモエンジニアリング</div>
+      </div>
+      <div class="acct-card-body">
+        <div class="acct-type-lbl">科目</div>
+        <div class="acct-type-name">円普通（代表口座）</div>
+        <div class="acct-bal-lbl">残高</div>
+        <div class="acct-bal-row">
+          <span class="acct-bal-yen">¥</span>
+          <span class="acct-bal-num" id="home-balance">78,954</span>
+        </div>
+        <div class="acct-cashback">
+          <span>キャッシュバック金額</span>
+          <span class="acct-cashback-val">0 円</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick action grid -->
+    <div class="quick-grid">
+
+      <div class="quick-btn" onclick="showHistory()">
+        <div class="quick-btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="17" rx="2"/>
+            <line x1="7" y1="9"  x2="17" y2="9"/>
+            <line x1="7" y1="13" x2="13" y2="13"/>
+            <line x1="7" y1="17" x2="10" y2="17"/>
+          </svg>
+        </div>
+        <div class="quick-btn-label">入出金明細</div>
+      </div>
+
+      <div class="quick-btn">
+        <div class="quick-btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round">
+            <rect x="7" y="2" width="10" height="20" rx="2"/>
+            <line x1="10" y1="19" x2="14" y2="19"/>
+            <line x1="10" y1="6"  x2="14" y2="6"/>
+          </svg>
+        </div>
+        <div class="quick-btn-label">スマホATM</div>
+      </div>
+
+      <div class="quick-btn">
+        <div class="quick-btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="7" width="22" height="14" rx="2"/>
+            <line x1="1" y1="11" x2="23" y2="11"/>
+            <line x1="5" y1="16" x2="9" y2="16"/>
+          </svg>
+        </div>
+        <div class="quick-btn-label">デビット後払い</div>
+      </div>
+
+      <div class="quick-btn">
+        <div class="quick-btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <line x1="8" y1="8"  x2="16" y2="8"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="8" y1="16" x2="12" y2="16"/>
+          </svg>
+        </div>
+        <div class="quick-btn-label">払込票支払</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== HISTORY SCREEN ===== -->
+<div id="history-screen">
+  <div class="app-header">
+    <div class="hdr-back" onclick="hideHistory()">‹</div>
+    <div class="hdr-title">入出金明細</div>
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Account type tabs -->
+  <div class="hist-acct-tabs">
+    <div class="hist-acct-tab active">円普通</div>
+    <div class="hist-acct-tab">円定期</div>
+    <div class="hist-acct-tab">外貨普通</div>
+    <div class="hist-acct-tab">外貨定期</div>
+  </div>
+
+  <!-- Toggle -->
+  <div class="hist-toggle-bar">
+    <div class="hist-toggle-btn active">円普通預金</div>
+    <div class="hist-toggle-btn">デビット</div>
+  </div>
+
+  <!-- Account info -->
+  <div class="hist-acct-info">
+    <div class="hist-info-row">
+      <span class="hist-info-lbl">支店名</span>
+      <span class="hist-info-val">法人第二営業部</span>
+    </div>
+    <div class="hist-info-row">
+      <span class="hist-info-lbl">口座番号</span>
+      <span class="hist-info-val">普通 2145598</span>
+    </div>
+    <div class="hist-info-row">
+      <span class="hist-info-lbl">口座名義</span>
+      <span class="hist-info-val">カ）コスモエンジニアリング</span>
+    </div>
+  </div>
+
+  <!-- Period -->
+  <div class="hist-period-row">表示期間：〜2026/06/24</div>
+
+  <!-- Transaction list -->
+  <div class="hist-scroll">
+    <div id="tx-list"></div>
+  </div>
+</div>
+
+<script src="./transactions_cosmo.js"></script>
+<script>
+let isLoading = false;
+
+function showLoader(cb) {
+  if (isLoading) return;
+  isLoading = true;
+  document.getElementById('app-loader').classList.add('active');
+  setTimeout(function() {
+    document.getElementById('app-loader').classList.remove('active');
+    isLoading = false;
+    cb();
+  }, 500);
+}
+
+function doLogin() {
+  showLoader(function() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('home-screen').style.display = 'flex';
+    setUpdateTime();
+  });
+}
+
+function setUpdateTime() {
+  var now = new Date();
+  var pad = function(n) { return String(n).padStart(2, '0'); };
+  document.getElementById('home-update-time').textContent =
+    '最終更新: ' + now.getFullYear() + '/' +
+    pad(now.getMonth() + 1) + '/' + pad(now.getDate()) + ' ' +
+    pad(now.getHours()) + ':' + pad(now.getMinutes()) + ' 現在';
+}
+
+function showHistory() {
+  showLoader(function() {
+    buildTransactions();
+    document.getElementById('home-screen').style.display = 'none';
+    document.getElementById('history-screen').style.display = 'flex';
+  });
+}
+
+function hideHistory() {
+  showLoader(function() {
+    document.getElementById('history-screen').style.display = 'none';
+    document.getElementById('home-screen').style.display = 'flex';
+    setUpdateTime();
+  });
+}
+
+function buildTransactions() {
+  var el = document.getElementById('tx-list');
+  if (el.hasChildNodes()) return;
+  var fmt = function(n) { return n.toLocaleString('ja-JP'); };
+  txCosmo.forEach(function(t) {
+    var row = document.createElement('div');
+    row.className = 'tx-row';
+    var isIn = t.deposit !== null;
+    var amount = isIn ? t.deposit : t.withdraw;
+    var amtClass = isIn ? 'tx-amt-in' : 'tx-amt-out';
+    var amtText = isIn ? fmt(amount) + '円' : '-' + fmt(amount) + '円';
+    var dateStr = t.date.slice(5);
+    row.innerHTML =
+      '<div class="tx-left">' +
+        '<div class="tx-date">' + dateStr + '</div>' +
+        '<div class="tx-memo">' + t.memo + '</div>' +
+      '</div>' +
+      '<div class="tx-right">' +
+        '<div class="' + amtClass + '">' + amtText + '</div>' +
+        '<div class="tx-bal">' + fmt(t.balance) + '円</div>' +
+      '</div>';
+    el.appendChild(row);
+  });
+}
+
+function switchHomeTab(idx) {
+  document.querySelectorAll('.camp-tab').forEach(function(el, i) {
+    el.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.camp-content').forEach(function(el, i) {
+    el.classList.toggle('active', i === idx);
+  });
+}
+
+// 残高を先頭データから設定
+document.getElementById('home-balance').textContent =
+  txCosmo[0].balance.toLocaleString('ja-JP');
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js', { scope: './' })
+    .then(function(r) { console.log('SW registered:', r.scope); })
+    .catch(function(e) { console.error('SW failed:', e); });
+}
+</script>
+</body>
+</html>
