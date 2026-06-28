@@ -29,6 +29,70 @@ body {
   animation: spin 0.75s linear infinite;
 }
 
+/* ===== SIDE MENU OVERLAY ===== */
+#side-menu-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+}
+#side-menu-overlay.active { display: block; }
+.side-menu-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.side-menu-panel {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 82%; max-width: 320px;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+/* メニュー上部（背景画像風） */
+.side-menu-top {
+  background: linear-gradient(135deg, #16386b 0%, #1a4a8a 60%, #0d6ea8 100%);
+  padding: calc(env(safe-area-inset-top,0px) + 44px) 20px 22px;
+  flex-shrink: 0;
+}
+.side-menu-logout-row {
+  display: flex; justify-content: flex-end; margin-bottom: 18px;
+}
+.side-menu-logout-btn {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.5);
+  color: #fff; font-size: 12px; font-weight: 600;
+  padding: 5px 14px; border-radius: 14px; cursor: pointer;
+}
+.side-menu-company {
+  font-size: 15px; font-weight: 700; color: #fff;
+  margin-bottom: 6px;
+}
+.side-menu-last-login {
+  font-size: 11px; color: rgba(255,255,255,0.65);
+}
+/* メニューリスト */
+.side-menu-scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(env(safe-area-inset-bottom,0px) + 20px);
+}
+.side-menu-scroll::-webkit-scrollbar { display: none; }
+.side-menu-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  font-size: 14px; color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+.side-menu-item:active { background: #f5f8fb; }
+.side-menu-item.home-item {
+  color: #00a0c8; font-weight: 700;
+  background: #f0fafd;
+}
+.side-menu-item-gt { color: #ccc; font-size: 16px; flex-shrink: 0; }
+.side-menu-section {
+  padding: 10px 18px 4px;
+  font-size: 11px; color: #aaa; font-weight: 600; letter-spacing: 0.5px;
+  background: #f8f9fb;
+  border-bottom: 1px solid #ebebeb;
+}
+
 /* ===== SHARED HEADER ===== */
 .app-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -127,18 +191,6 @@ body {
   flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 .home-scroll::-webkit-scrollbar { display: none; }
-
-/* Warning banner */
-.warning-banner {
-  background: #fff; border-left: 4px solid #c8282a;
-  margin: 12px 12px 0; border-radius: 6px;
-  padding: 12px 14px;
-  display: flex; align-items: center; gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-}
-.warning-text { font-size: 13px; color: #c8282a; font-weight: 600; flex: 1; }
-.warning-arrow { color: #c8282a; font-size: 18px; flex-shrink: 0; }
 
 /* Last update */
 .last-update {
@@ -357,6 +409,59 @@ body {
 <!-- LOADER -->
 <div id="app-loader"><div class="loader-spinner"></div></div>
 
+<!-- ===== SIDE MENU ===== -->
+<div id="side-menu-overlay">
+  <div class="side-menu-backdrop" onclick="closeSideMenu()"></div>
+  <div class="side-menu-panel">
+    <div class="side-menu-top">
+      <div class="side-menu-logout-row">
+        <div class="side-menu-logout-btn" onclick="doLogout()">ログアウト</div>
+      </div>
+      <div class="side-menu-company">株式会社コスモエンジニアリング 様</div>
+      <div class="side-menu-last-login" id="side-last-login">前回ログイン：</div>
+    </div>
+    <div class="side-menu-scroll">
+      <div class="side-menu-item home-item" onclick="closeSideMenu(); showScreen('home');">
+        <span>🏠 ホーム</span>
+        <span class="side-menu-item-gt">›</span>
+      </div>
+
+      <div class="side-menu-section">入出金・振込</div>
+      <div class="side-menu-item" onclick="closeSideMenu(); showScreen('history');">
+        <span>入出金明細</span><span class="side-menu-item-gt">›</span>
+      </div>
+      <div class="side-menu-item"><span>振込状況・予約一覧</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>申請・承認一覧</span><span class="side-menu-item-gt">›</span></div>
+
+      <div class="side-menu-section">振込・お支払い</div>
+      <div class="side-menu-item"><span>振込・振替</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>PayB払込票支払い</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>ペイジー税金等支払い</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>口座登録先一覧</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>海外送金</span><span class="side-menu-item-gt">›</span></div>
+
+      <div class="side-menu-section">サービス</div>
+      <div class="side-menu-item"><span>デビット基本設定</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>デビット後払い</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>あんしんワイド</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>円定期</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>外貨普通</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>外貨定期</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>FX取引</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>ポイント・キャンペーン</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>スマホATM</span><span class="side-menu-item-gt">›</span></div>
+
+      <div class="side-menu-section">設定・サポート</div>
+      <div class="side-menu-item"><span>各種手続き</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>カードロック設定</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>アプリ設定</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>お問い合わせ</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>ヘルプ</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>ガイド一覧</span><span class="side-menu-item-gt">›</span></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen">
   <div class="login-top">
@@ -367,15 +472,15 @@ body {
         <rect x="3" y="11" width="18" height="11" rx="2"/>
         <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
       </svg>
-      法人口座
+      ログイン
     </div>
   </div>
 
   <div class="login-body">
     <div class="form-group">
-      <div class="form-label">ログインID</div>
+      <div class="form-label">法人ID</div>
       <input id="login-id" class="form-input form-input-yellow" type="text"
-        placeholder="ログインIDを入力" autocomplete="off" autocorrect="off" spellcheck="false">
+        placeholder="法人IDを入力" autocomplete="off" autocorrect="off" spellcheck="false">
     </div>
     <div class="form-group">
       <div class="form-label">ログインパスワード</div>
@@ -395,14 +500,14 @@ body {
         <circle cx="15" cy="10" r="0.8" fill="#1a3a6b" stroke="none"/>
         <path d="M9.5 14.5a3.5 3.5 0 0 0 5 0"/>
       </svg>
-      指紋でログイン
+      生体認証ログイン
     </button>
 
-    <button class="btn-open">法人口座開設</button>
+    <button class="btn-open">口座開設</button>
 
     <div class="login-links">
-      <span class="login-link">ログインでお困りの方</span>
-      <span class="login-link">よくあるご質問</span>
+      <span class="login-link">IDをお忘れの方</span>
+      <span class="login-link">パスワード再設定</span>
     </div>
   </div>
 </div>
@@ -410,14 +515,14 @@ body {
 <!-- ===== HOME SCREEN ===== -->
 <div id="home-screen">
   <div class="app-header">
-    <div class="hdr-icon">
+    <div class="hdr-icon" onclick="openSideMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
         <line x1="3" y1="6" x2="21" y2="6"/>
         <line x1="3" y1="12" x2="21" y2="12"/>
         <line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
     </div>
-    <div class="hdr-title">アオソラ銀行</div>
+    <div class="hdr-title">ホーム</div>
     <div class="hdr-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <rect x="1" y="7" width="22" height="14" rx="2"/>
@@ -429,20 +534,13 @@ body {
 
   <div class="home-scroll">
 
-    <!-- Warning banner -->
-    <div class="warning-banner">
-      <span style="color:#c8282a;font-size:15px;flex-shrink:0;">⚠</span>
-      <span class="warning-text">一部お取引に制限がかかっております。</span>
-      <span class="warning-arrow">›</span>
-    </div>
-
     <!-- Last update -->
     <div class="last-update" id="home-update-time"></div>
 
     <!-- Notice buttons -->
     <div class="notice-row">
-      <div class="notice-btn">重要なお知らせ<span class="notice-btn-gt">›</span></div>
-      <div class="notice-btn">ご確認事項<span class="notice-btn-gt">›</span></div>
+      <div class="notice-btn">お知らせ<span class="notice-btn-gt">›</span></div>
+      <div class="notice-btn">メッセージ<span class="notice-btn-gt">›</span></div>
     </div>
 
     <!-- Campaign/Service tabs -->
@@ -454,15 +552,15 @@ body {
     <div class="camp-content active" id="ctab-0">
       <div class="camp-wrapper">
         <div class="camp-list-item">
-          <span class="camp-list-text">法人さまを応援！FX新規口座開設と取引で最大1,000万円のキャッシュバック！</span>
+          <span class="camp-list-text">新規FX取引で最大1,000ポイントプレゼント</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-list-item">
-          <span class="camp-list-text">はじめての外貨定期預金で預入金額に応じて最大5,000円プレゼント</span>
+          <span class="camp-list-text">口座開設＋条件達成で最大5,000円キャッシュバック</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-list-item">
-          <span class="camp-list-text">ビジネスデビットカードのご利用で最大2%キャッシュバック実施中</span>
+          <span class="camp-list-text">デビットカード利用で還元率2%アップキャンペーン</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-more">もっと見る ›</div>
@@ -472,15 +570,15 @@ body {
     <div class="camp-content" id="ctab-1">
       <div class="camp-wrapper">
         <div class="camp-list-item">
-          <span class="camp-list-text">アオソラビジネスデビット　最大60日後払い・年会費無料</span>
+          <span class="camp-list-text">外貨定期預金 最高60日ものの金利優遇中</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-list-item">
-          <span class="camp-list-text">スマホATM　手数料0円でいつでも引き出し・預け入れ</span>
+          <span class="camp-list-text">スマホATM 手数料0円でいつでも引き出し</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-list-item">
-          <span class="camp-list-text">外貨普通預金　最大50通貨で運用、24時間取引可能</span>
+          <span class="camp-list-text">振込手数料 月50回まで24時間無料</span>
           <span class="camp-list-gt">›</span>
         </div>
         <div class="camp-more">もっと見る ›</div>
@@ -490,7 +588,7 @@ body {
     <!-- Account card (simple gray) -->
     <div class="acct-card-simple">
       <div>
-        <div class="acct-simple-line1">法人第二営業部　普通 2145598</div>
+        <div class="acct-simple-line1">法人第二営業部 普通 2145598</div>
         <div class="acct-simple-line2">株式会社コスモエンジニアリング</div>
       </div>
       <div class="acct-simple-gt">›</div>
@@ -498,13 +596,13 @@ body {
 
     <!-- ATM badge -->
     <div class="atm-badge-row">
-      <span class="atm-badge-pill">ATM無料あと 0回</span>
+      <span class="atm-badge-pill">ATM手数料 0円</span>
     </div>
 
     <!-- Balance card -->
     <div class="balance-card">
       <div class="balance-inner">
-        <div class="balance-heading">円普通（代表口座）</div>
+        <div class="balance-heading">円普通預金</div>
         <div class="balance-row" onclick="showHistory()">
           <span class="balance-num" id="home-balance">78,954</span>
           <span class="balance-yen-unit">円</span>
@@ -512,19 +610,19 @@ body {
         </div>
       </div>
       <div class="cashback-row">
-        <span class="cashback-text">キャッシュバック金額　2026年06月 0円　／　2026年累計 0円</span>
+        <span class="cashback-text">キャッシュバック累計　2026年06月 0円　2026年累計 0円</span>
         <span class="cashback-gt">›</span>
       </div>
     </div>
 
   </div><!-- /.home-scroll -->
 
-  <!-- Bottom navigation bar (outside scroll, pinned at bottom) -->
+  <!-- Bottom navigation bar -->
   <div class="home-bottom-bar">
     <div class="bottom-btn" onclick="showHistory()">入出金<br>明細</div>
-    <div class="bottom-btn">スマホ<br>ATM</div>
-    <div class="bottom-btn">デビット<br>後払い</div>
-    <div class="bottom-btn">払込票<br>支払</div>
+    <div class="bottom-btn">振込<br>ATM</div>
+    <div class="bottom-btn">振込先<br>管理</div>
+    <div class="bottom-btn">各種<br>設定</div>
   </div>
 
 </div>
@@ -534,10 +632,11 @@ body {
   <div class="app-header">
     <div class="hdr-back" onclick="hideHistory()">‹</div>
     <div class="hdr-title">入出金明細</div>
-    <div class="hdr-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="23 4 23 10 17 10"/>
-        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    <div class="hdr-icon" onclick="openSideMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
     </div>
   </div>
@@ -545,15 +644,15 @@ body {
   <!-- Account type tabs -->
   <div class="hist-acct-tabs">
     <div class="hist-acct-tab active">円普通</div>
+    <div class="hist-acct-tab">外貨</div>
     <div class="hist-acct-tab">円定期</div>
-    <div class="hist-acct-tab">外貨普通</div>
     <div class="hist-acct-tab">外貨定期</div>
   </div>
 
   <!-- Toggle -->
   <div class="hist-toggle-bar">
-    <div class="hist-toggle-btn active">円普通預金</div>
-    <div class="hist-toggle-btn">デビット</div>
+    <div class="hist-toggle-btn active">入出金明細</div>
+    <div class="hist-toggle-btn">月別明細</div>
   </div>
 
   <!-- Account info -->
@@ -568,12 +667,12 @@ body {
     </div>
     <div class="hist-info-row">
       <span class="hist-info-lbl">口座名義</span>
-      <span class="hist-info-val">カ）コスモエンジニアリング</span>
+      <span class="hist-info-val">株式会社コスモエンジニアリング</span>
     </div>
   </div>
 
   <!-- Period -->
-  <div class="hist-period-row">表示期間：〜2026/06/24</div>
+  <div class="hist-period-row">照会期間：2026/06/24まで</div>
 
   <!-- Transaction list -->
   <div class="hist-scroll">
@@ -584,6 +683,7 @@ body {
 <script src="./transactions_cosmo.js"></script>
 <script>
 let isLoading = false;
+let lastLoginTime = '';
 
 function showLoader(cb) {
   if (isLoading) return;
@@ -597,6 +697,10 @@ function showLoader(cb) {
 }
 
 function doLogin() {
+  var now = new Date();
+  var pad = function(n) { return String(n).padStart(2, '0'); };
+  lastLoginTime = now.getFullYear() + '/' + pad(now.getMonth()+1) + '/' + pad(now.getDate()) +
+    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
   showLoader(function() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('home-screen').style.display = 'flex';
@@ -604,13 +708,36 @@ function doLogin() {
   });
 }
 
+function doLogout() {
+  closeSideMenu();
+  showLoader(function() {
+    document.getElementById('home-screen').style.display = 'none';
+    document.getElementById('history-screen').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  });
+}
+
 function setUpdateTime() {
   var now = new Date();
   var pad = function(n) { return String(n).padStart(2, '0'); };
   document.getElementById('home-update-time').textContent =
-    '最終更新: ' + now.getFullYear() + '/' +
+    '更新: ' + now.getFullYear() + '/' +
     pad(now.getMonth() + 1) + '/' + pad(now.getDate()) + ' ' +
     pad(now.getHours()) + ':' + pad(now.getMinutes()) + ' 現在';
+}
+
+function showScreen(name) {
+  showLoader(function() {
+    document.getElementById('home-screen').style.display = 'none';
+    document.getElementById('history-screen').style.display = 'none';
+    if (name === 'home') {
+      document.getElementById('home-screen').style.display = 'flex';
+      setUpdateTime();
+    } else if (name === 'history') {
+      buildTransactions();
+      document.getElementById('history-screen').style.display = 'flex';
+    }
+  });
 }
 
 function showHistory() {
@@ -627,6 +754,20 @@ function hideHistory() {
     document.getElementById('home-screen').style.display = 'flex';
     setUpdateTime();
   });
+}
+
+function openSideMenu() {
+  var pad = function(n) { return String(n).padStart(2, '0'); };
+  var now = new Date();
+  var timeStr = lastLoginTime ||
+    (now.getFullYear() + '/' + pad(now.getMonth()+1) + '/' + pad(now.getDate()) +
+    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()));
+  document.getElementById('side-last-login').textContent = '前回ログイン：' + timeStr;
+  document.getElementById('side-menu-overlay').classList.add('active');
+}
+
+function closeSideMenu() {
+  document.getElementById('side-menu-overlay').classList.remove('active');
 }
 
 function buildTransactions() {
