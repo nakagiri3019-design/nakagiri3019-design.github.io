@@ -125,7 +125,6 @@ body {
 }
 .home-scroll {
   flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
 }
 .home-scroll::-webkit-scrollbar { display: none; }
 
@@ -150,25 +149,19 @@ body {
 /* Notice buttons */
 .notice-row { display: flex; gap: 10px; padding: 0 12px 12px; }
 .notice-btn {
-  flex: 1; background: #fff; border-radius: 8px;
-  padding: 12px 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between;
+  flex: 1; background: #fff;
+  border: 1.5px solid #a8d4e8; border-radius: 8px;
+  padding: 12px 8px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  font-size: 13px; color: #333; font-weight: 500; cursor: pointer;
 }
-.notice-btn-left { display: flex; align-items: center; gap: 8px; }
-.notice-btn-label { font-size: 13px; color: #333; font-weight: 500; }
-.notice-btn-badge {
-  background: #c8282a; color: #fff;
-  border-radius: 10px; min-width: 22px; height: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; padding: 0 5px;
-}
+.notice-btn-gt { color: #c0c0c0; font-size: 15px; }
 
 /* Campaign/Service tabs */
 .camp-tab-bar {
   display: flex; margin: 0 12px 0;
-  border-bottom: 2px solid #d0e4ed; background: transparent;
+  background: #fff; border-radius: 8px 8px 0 0;
+  border-bottom: 2px solid #d8eaf2;
 }
 .camp-tab {
   flex: 1; text-align: center; padding: 10px 6px;
@@ -177,64 +170,89 @@ body {
   margin-bottom: -2px; transition: color 0.15s;
 }
 .camp-tab.active { color: #1a3a6b; border-bottom-color: #1a3a6b; }
-.camp-content { display: none; padding: 10px 12px 6px; }
+.camp-content { display: none; }
 .camp-content.active { display: block; }
-.camp-card {
-  background: linear-gradient(135deg, #1a3a6b 0%, #2a5caa 100%);
-  border-radius: 10px; padding: 18px;
-  color: #fff; font-size: 14px; line-height: 1.65;
-}
-.camp-card.teal { background: linear-gradient(135deg, #0080a0 0%, #00b0d0 100%); }
-.camp-card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 
-/* Account card */
-.acct-card {
-  background: #fff; margin: 10px 12px 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.09);
-  overflow: hidden;
+/* Campaign text list */
+.camp-wrapper {
+  background: #fff; margin: 0 12px 12px;
+  border-radius: 0 0 8px 8px; overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-.acct-card-hd { background: #1a3a6b; padding: 14px 16px 13px; }
-.acct-branch { font-size: 12px; color: rgba(255,255,255,0.65); }
-.acct-num { font-size: 13px; color: #fff; margin-top: 2px; font-weight: 500; }
-.acct-holder { font-size: 14px; font-weight: 700; color: #fff; margin-top: 5px; }
-.acct-card-body { padding: 16px 16px 14px; }
-.acct-type-lbl { font-size: 12px; color: #999; margin-bottom: 1px; }
-.acct-type-name { font-size: 14px; font-weight: 600; color: #1a3a6b; margin-bottom: 12px; }
-.acct-bal-lbl { font-size: 12px; color: #999; }
-.acct-bal-row {
-  display: flex; align-items: baseline; gap: 3px;
-  margin: 4px 0 14px;
+.camp-list-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 13px 14px; border-bottom: 1px solid #f0f0f0; cursor: pointer;
 }
-.acct-bal-yen { font-size: 20px; font-weight: 400; color: #1a3a6b; }
-.acct-bal-num { font-size: 40px; font-weight: 200; color: #1a3a6b; letter-spacing: -2px; }
-.acct-cashback {
+.camp-list-item:last-child { border-bottom: none; }
+.camp-list-text {
+  flex: 1; font-size: 13px; color: #333;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.camp-list-gt { color: #ccc; font-size: 16px; flex-shrink: 0; }
+.camp-more {
+  text-align: center; padding: 10px;
+  font-size: 13px; color: #00a0c8; cursor: pointer;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Account card - simple gray */
+.acct-card-simple {
+  background: #f0f2f5; border-radius: 8px;
+  margin: 0 12px; padding: 13px 14px;
   display: flex; align-items: center; justify-content: space-between;
-  padding-top: 12px; border-top: 1px solid #edf1f6;
-  font-size: 13px; color: #888;
-}
-.acct-cashback-val { font-size: 15px; font-weight: 600; color: #1a3a6b; }
-
-/* Quick action grid */
-.quick-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 10px; margin: 0 12px 16px;
-}
-.quick-btn {
-  background: #fff; border-radius: 10px;
-  padding: 18px 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
   cursor: pointer;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 9px;
 }
-.quick-btn-icon {
-  width: 46px; height: 46px; border-radius: 50%;
-  background: #daeef7;
-  display: flex; align-items: center; justify-content: center;
+.acct-simple-line1 { font-size: 12px; color: #777; }
+.acct-simple-line2 { font-size: 14px; font-weight: 600; color: #222; margin-top: 3px; }
+.acct-simple-gt { color: #c0c0c0; font-size: 22px; flex-shrink: 0; }
+
+/* ATM badge */
+.atm-badge-row { text-align: right; padding: 6px 14px 0; }
+.atm-badge-pill {
+  display: inline-block; background: #d2c4b0;
+  color: #5a4c3c; font-size: 12px; font-weight: 600;
+  padding: 4px 14px; border-radius: 12px;
 }
-.quick-btn-icon svg { width: 24px; height: 24px; }
-.quick-btn-label { font-size: 13px; color: #333; font-weight: 500; text-align: center; line-height: 1.3; }
+
+/* Balance card */
+.balance-card {
+  background: #fff; margin: 10px 12px 0;
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.balance-inner { padding: 14px 16px 12px; }
+.balance-heading { font-size: 14px; font-weight: 600; color: #222; margin-bottom: 10px; }
+.balance-row {
+  display: flex; align-items: baseline; justify-content: flex-end;
+  gap: 2px; cursor: pointer;
+}
+.balance-num { font-size: 38px; font-weight: 200; color: #1a1a1a; letter-spacing: -1px; }
+.balance-yen-unit { font-size: 18px; font-weight: 400; color: #1a1a1a; }
+.balance-gt { color: #c8c8c8; font-size: 22px; margin-left: 6px; align-self: center; }
+
+/* Cashback row */
+.cashback-row {
+  background: #f5f6f8; border-top: 1px solid #eaecf0;
+  padding: 11px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  cursor: pointer;
+}
+.cashback-text { font-size: 12px; color: #666; line-height: 1.5; flex: 1; }
+.cashback-gt { color: #c8c8c8; font-size: 18px; flex-shrink: 0; }
+
+/* Bottom navigation bar */
+.home-bottom-bar {
+  background: #1a3a6b;
+  padding: 11px 8px calc(env(safe-area-inset-bottom, 0px) + 11px);
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.bottom-btn {
+  flex: 1; border: 1.5px solid rgba(255,255,255,0.6);
+  border-radius: 20px; padding: 9px 4px;
+  color: #fff; font-size: 11px; font-weight: 600;
+  text-align: center; cursor: pointer; background: transparent;
+  line-height: 1.4;
+}
 
 /* ===== HISTORY SCREEN ===== */
 #history-screen {
@@ -412,7 +430,7 @@ body {
 
     <!-- Warning banner -->
     <div class="warning-banner">
-      <span style="color:#c8282a;font-size:16px;flex-shrink:0;">⚠</span>
+      <span style="color:#c8282a;font-size:15px;flex-shrink:0;">⚠</span>
       <span class="warning-text">一部お取引に制限がかかっております。</span>
       <span class="warning-arrow">›</span>
     </div>
@@ -422,25 +440,8 @@ body {
 
     <!-- Notice buttons -->
     <div class="notice-row">
-      <div class="notice-btn">
-        <div class="notice-btn-left">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-          <span class="notice-btn-label">お知らせ</span>
-        </div>
-        <span class="notice-btn-badge">3</span>
-      </div>
-      <div class="notice-btn">
-        <div class="notice-btn-left">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span class="notice-btn-label">取引通知</span>
-        </div>
-        <span class="notice-btn-badge">12</span>
-      </div>
+      <div class="notice-btn">重要なお知らせ<span class="notice-btn-gt">›</span></div>
+      <div class="notice-btn">ご確認事項<span class="notice-btn-gt">›</span></div>
     </div>
 
     <!-- Campaign/Service tabs -->
@@ -448,92 +449,83 @@ body {
       <div class="camp-tab active" onclick="switchHomeTab(0)">キャンペーン</div>
       <div class="camp-tab" onclick="switchHomeTab(1)">サービス</div>
     </div>
+
     <div class="camp-content active" id="ctab-0">
-      <div class="camp-card">
-        <div class="camp-card-title">🎉 法人振込手数料キャッシュバック</div>
-        新規口座開設後3ヶ月間、振込手数料を全額キャッシュバック。<br>2026年9月30日まで
+      <div class="camp-wrapper">
+        <div class="camp-list-item">
+          <span class="camp-list-text">法人さまを応援！FX新規口座開設と取引で最大1,000万円のキャッシュバック！</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-list-item">
+          <span class="camp-list-text">はじめての外貨定期預金で預入金額に応じて最大5,000円プレゼント</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-list-item">
+          <span class="camp-list-text">ビジネスデビットカードのご利用で最大2%キャッシュバック実施中</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-more">もっと見る ›</div>
       </div>
     </div>
+
     <div class="camp-content" id="ctab-1">
-      <div class="camp-card teal">
-        <div class="camp-card-title">💼 アオソラビジネスデビット</div>
-        経費管理をスマートに。後払いで最大60日の支払猶予。<br>年会費無料で申込受付中
+      <div class="camp-wrapper">
+        <div class="camp-list-item">
+          <span class="camp-list-text">アオソラビジネスデビット　最大60日後払い・年会費無料</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-list-item">
+          <span class="camp-list-text">スマホATM　手数料0円でいつでも引き出し・預け入れ</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-list-item">
+          <span class="camp-list-text">外貨普通預金　最大50通貨で運用、24時間取引可能</span>
+          <span class="camp-list-gt">›</span>
+        </div>
+        <div class="camp-more">もっと見る ›</div>
       </div>
     </div>
 
-    <!-- Account card -->
-    <div class="acct-card">
-      <div class="acct-card-hd">
-        <div class="acct-branch">法人第二営業部</div>
-        <div class="acct-num">普通　2145598</div>
-        <div class="acct-holder">株式会社コスモエンジニアリング</div>
+    <!-- Account card (simple gray) -->
+    <div class="acct-card-simple">
+      <div>
+        <div class="acct-simple-line1">法人第二営業部　普通 2145598</div>
+        <div class="acct-simple-line2">株式会社コスモエンジニアリング</div>
       </div>
-      <div class="acct-card-body">
-        <div class="acct-type-lbl">科目</div>
-        <div class="acct-type-name">円普通（代表口座）</div>
-        <div class="acct-bal-lbl">残高</div>
-        <div class="acct-bal-row">
-          <span class="acct-bal-yen">¥</span>
-          <span class="acct-bal-num" id="home-balance">78,954</span>
+      <div class="acct-simple-gt">›</div>
+    </div>
+
+    <!-- ATM badge -->
+    <div class="atm-badge-row">
+      <span class="atm-badge-pill">ATM無料あと 0回</span>
+    </div>
+
+    <!-- Balance card -->
+    <div class="balance-card">
+      <div class="balance-inner">
+        <div class="balance-heading">円普通（代表口座）</div>
+        <div class="balance-row" onclick="showHistory()">
+          <span class="balance-num" id="home-balance">78,954</span>
+          <span class="balance-yen-unit">円</span>
+          <span class="balance-gt">›</span>
         </div>
-        <div class="acct-cashback">
-          <span>キャッシュバック金額</span>
-          <span class="acct-cashback-val">0 円</span>
-        </div>
+      </div>
+      <div class="cashback-row">
+        <span class="cashback-text">キャッシュバック金額　2026年06月 0円　／　2026年累計 0円</span>
+        <span class="cashback-gt">›</span>
       </div>
     </div>
 
-    <!-- Quick action grid -->
-    <div class="quick-grid">
+  </div><!-- /.home-scroll -->
 
-      <div class="quick-btn" onclick="showHistory()">
-        <div class="quick-btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="17" rx="2"/>
-            <line x1="7" y1="9"  x2="17" y2="9"/>
-            <line x1="7" y1="13" x2="13" y2="13"/>
-            <line x1="7" y1="17" x2="10" y2="17"/>
-          </svg>
-        </div>
-        <div class="quick-btn-label">入出金明細</div>
-      </div>
-
-      <div class="quick-btn">
-        <div class="quick-btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round">
-            <rect x="7" y="2" width="10" height="20" rx="2"/>
-            <line x1="10" y1="19" x2="14" y2="19"/>
-            <line x1="10" y1="6"  x2="14" y2="6"/>
-          </svg>
-        </div>
-        <div class="quick-btn-label">スマホATM</div>
-      </div>
-
-      <div class="quick-btn">
-        <div class="quick-btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="1" y="7" width="22" height="14" rx="2"/>
-            <line x1="1" y1="11" x2="23" y2="11"/>
-            <line x1="5" y1="16" x2="9" y2="16"/>
-          </svg>
-        </div>
-        <div class="quick-btn-label">デビット後払い</div>
-      </div>
-
-      <div class="quick-btn">
-        <div class="quick-btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="1.8" stroke-linecap="round">
-            <rect x="4" y="3" width="16" height="18" rx="2"/>
-            <line x1="8" y1="8"  x2="16" y2="8"/>
-            <line x1="8" y1="12" x2="16" y2="12"/>
-            <line x1="8" y1="16" x2="12" y2="16"/>
-          </svg>
-        </div>
-        <div class="quick-btn-label">払込票支払</div>
-      </div>
-
-    </div>
+  <!-- Bottom navigation bar (outside scroll, pinned at bottom) -->
+  <div class="home-bottom-bar">
+    <div class="bottom-btn" onclick="showHistory()">入出金<br>明細</div>
+    <div class="bottom-btn">スマホ<br>ATM</div>
+    <div class="bottom-btn">デビット<br>後払い</div>
+    <div class="bottom-btn">払込票<br>支払</div>
   </div>
+
 </div>
 
 <!-- ===== HISTORY SCREEN ===== -->
