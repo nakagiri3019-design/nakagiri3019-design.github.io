@@ -118,11 +118,11 @@ body {
   position: fixed; inset: 0; z-index: 100;
   display: flex; flex-direction: column;
   overflow-y: auto; -webkit-overflow-scrolling: touch;
-  background: #eaf4f8;
+  background: #fff;
 }
 .login-top {
-  background: #eaf4f8;
-  padding: calc(env(safe-area-inset-top, 0px) + 60px) 24px 40px;
+  background: #fff;
+  padding: calc(env(safe-area-inset-top, 0px) + 60px) 24px 32px;
   text-align: center; flex-shrink: 0;
 }
 .login-logo-wrap {
@@ -148,12 +148,13 @@ body {
 }
 .login-badge {
   display: inline-block;
-  background: #16386b; color: #fff;
+  background: #1a6fc4; color: #fff;
   font-size: 14px; font-weight: 700;
-  padding: 7px 32px; border-radius: 6px; margin-top: 4px;
+  padding: 8px 36px; border-radius: 6px; margin-top: 8px;
+  letter-spacing: 2px;
 }
 .login-body {
-  padding: 8px 24px calc(env(safe-area-inset-bottom, 0px) + 32px);
+  padding: 28px 28px calc(env(safe-area-inset-bottom, 0px) + 32px);
   flex: 1;
 }
 .form-group { margin-bottom: 20px; }
@@ -161,10 +162,11 @@ body {
 .form-input {
   width: 100%; background: transparent;
   border: none; border-bottom: 1.5px solid #b0bcc8;
-  padding: 10px 2px; font-size: 16px; color: #222;
+  padding: 12px 0; font-size: 16px; color: #222;
   outline: none; -webkit-appearance: none;
   transition: border-color 0.18s;
   border-radius: 0;
+  display: block;
 }
 .form-input-yellow { background: transparent; }
 .form-input:focus { border-bottom-color: #00a0c8; }
