@@ -385,17 +385,22 @@ body {
 }
 .tx-row {
   display: flex; align-items: flex-start; justify-content: space-between;
-  padding: 13px 14px;
+  padding: 14px 14px 12px;
   border-bottom: 1px solid #f0f5f8;
 }
 .tx-row:last-child { border-bottom: none; }
-.tx-left { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
-.tx-date { font-size: 13px; color: #888; flex-shrink: 0; min-width: 38px; padding-top: 1px; }
-.tx-memo { font-size: 14px; color: #333; line-height: 1.45; word-break: break-all; }
+.tx-left { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+.tx-date { font-size: 13px; color: #555; font-weight: 600; }
+.tx-memo { font-size: 13px; color: #666; line-height: 1.4; word-break: break-all; }
 .tx-right { text-align: right; flex-shrink: 0; margin-left: 14px; }
 .tx-amt-in  { font-size: 15px; font-weight: 600; color: #1a1a1a; }
 .tx-amt-out { font-size: 15px; font-weight: 600; color: #c8282a; }
 .tx-bal { font-size: 12px; color: #bbb; margin-top: 3px; }
+.tx-year-header {
+  padding: 8px 14px 4px;
+  font-size: 15px; font-weight: 700; color: #222;
+  background: #f5f7fa;
+}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#16386b">
@@ -644,31 +649,24 @@ body {
   <!-- Account type tabs -->
   <div class="hist-acct-tabs">
     <div class="hist-acct-tab active">円普通</div>
-    <div class="hist-acct-tab">外貨</div>
     <div class="hist-acct-tab">円定期</div>
+    <div class="hist-acct-tab">外貨普通</div>
     <div class="hist-acct-tab">外貨定期</div>
   </div>
 
   <!-- Toggle -->
   <div class="hist-toggle-bar">
-    <div class="hist-toggle-btn active">入出金明細</div>
-    <div class="hist-toggle-btn">月別明細</div>
+    <div class="hist-toggle-btn active">円普通預金</div>
+    <div class="hist-toggle-btn">デビット</div>
   </div>
 
   <!-- Account info -->
-  <div class="hist-acct-info">
-    <div class="hist-info-row">
-      <span class="hist-info-lbl">支店名</span>
-      <span class="hist-info-val">法人第二営業部</span>
+  <div class="hist-acct-info" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+    <div>
+      <div style="font-size:14px;color:#333;font-weight:600;">法人第二営業部 普通 2145598</div>
+      <div style="font-size:13px;color:#666;margin-top:3px;">株式会社コスモエンジニアリング</div>
     </div>
-    <div class="hist-info-row">
-      <span class="hist-info-lbl">口座番号</span>
-      <span class="hist-info-val">普通 2145598</span>
-    </div>
-    <div class="hist-info-row">
-      <span class="hist-info-lbl">口座名義</span>
-      <span class="hist-info-val">株式会社コスモエンジニアリング</span>
-    </div>
+    <div style="color:#ccc;font-size:20px;">›</div>
   </div>
 
   <!-- Period -->
@@ -774,7 +772,16 @@ function buildTransactions() {
   var el = document.getElementById('tx-list');
   if (el.hasChildNodes()) return;
   var fmt = function(n) { return n.toLocaleString('ja-JP'); };
+  var lastYear = '';
   txCosmo.forEach(function(t) {
+    var year = t.date.slice(0, 4);
+    if (year !== lastYear) {
+      var yh = document.createElement('div');
+      yh.className = 'tx-year-header';
+      yh.textContent = year;
+      el.appendChild(yh);
+      lastYear = year;
+    }
     var row = document.createElement('div');
     row.className = 'tx-row';
     var isIn = t.deposit !== null;
