@@ -775,7 +775,7 @@ body {
   <div class="hist-date-bar">
     <div class="hist-date-btn placeholder" id="hist-date-from" onclick="openCal('from')">開始日</div>
     <div class="hist-date-sep">〜</div>
-    <div class="hist-date-btn" id="hist-date-to" onclick="openCal('to')">2026/06/24</div>
+    <div class="hist-date-btn" id="hist-date-to" onclick="openCal('to')"></div>
   </div>
 
   <!-- Transaction list -->
@@ -917,6 +917,14 @@ function switchHomeTab(idx) {
   });
 }
 
+// 日付バー初期値（今日）
+(function() {
+  var pad = function(n) { return String(n).padStart(2,'0'); };
+  var t = new Date();
+  var str = t.getFullYear() + '/' + pad(t.getMonth()+1) + '/' + pad(t.getDate());
+  document.getElementById('hist-date-to').textContent = str;
+})();
+
 // 残高を先頭データから設定
 document.getElementById('home-balance').textContent =
   txCosmo[0].balance.toLocaleString('ja-JP');
@@ -927,7 +935,7 @@ var calYear = 2026;
 var calMonth = 5; // 0-indexed
 var calSelected = null;
 var calFromDate = null;
-var calToDate = new Date(2026, 5, 24); // 2026/06/24
+var calToDate = new Date();
 
 function openCal(target) {
   calTarget = target;
@@ -949,16 +957,20 @@ function confirmCal() {
   if (!calSelected) { closeCal(); return; }
   var pad = function(n) { return String(n).padStart(2,'0'); };
   var str = calSelected.getFullYear() + '/' + pad(calSelected.getMonth()+1) + '/' + pad(calSelected.getDate());
-  if (calTarget === 'from') {
-    calFromDate = new Date(calSelected);
-    var el = document.getElementById('hist-date-from');
-    el.textContent = str;
-    el.classList.remove('placeholder');
-  } else {
-    calToDate = new Date(calSelected);
-    document.getElementById('hist-date-to').textContent = str;
-  }
   closeCal();
+  document.getElementById('app-loader').classList.add('active');
+  setTimeout(function() {
+    document.getElementById('app-loader').classList.remove('active');
+    if (calTarget === 'from') {
+      calFromDate = new Date(calSelected);
+      var el = document.getElementById('hist-date-from');
+      el.textContent = str;
+      el.classList.remove('placeholder');
+    } else {
+      calToDate = new Date(calSelected);
+      document.getElementById('hist-date-to').textContent = str;
+    }
+  }, 600);
 }
 
 function calPrevMonth() {
