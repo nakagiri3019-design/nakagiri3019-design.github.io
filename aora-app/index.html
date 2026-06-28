@@ -514,6 +514,50 @@ body {
   border: none; background: #e0285a;
   color: #fff; font-size: 16px; font-weight: 600; cursor: pointer;
 }
+
+/* ===== TX DETAIL MODAL ===== */
+#tx-detail-overlay {
+  display: none; position: fixed; inset: 0; z-index: 4000;
+  background: rgba(0,0,0,0.5);
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#tx-detail-overlay.active { display: flex; }
+.tx-detail-panel {
+  background: #fff; width: 100%; max-width: 420px;
+  border-radius: 14px; overflow: hidden;
+  max-height: 85vh; display: flex; flex-direction: column;
+}
+.tx-detail-title {
+  text-align: center; font-size: 18px; font-weight: 600; color: #333;
+  padding: 20px; background: #f7f8fa;
+  border-bottom: 1px solid #eee;
+}
+.tx-detail-body { padding: 4px 20px; overflow-y: auto; }
+.tx-detail-item {
+  padding: 16px 0; border-bottom: 1px solid #f0f0f0;
+}
+.tx-detail-label { font-size: 14px; color: #999; margin-bottom: 8px; }
+.tx-detail-value { font-size: 17px; color: #333; }
+.tx-detail-value.amount-in { text-align: right; font-weight: 600; color: #1a1a1a; }
+.tx-detail-value.amount-out { text-align: right; font-weight: 600; color: #e0285a; }
+.tx-detail-value.balance { text-align: right; }
+.tx-detail-memo-row {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+}
+.tx-detail-memo-line {
+  flex: 1; border-bottom: 1px solid #ccc; height: 24px;
+}
+.tx-detail-memo-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.tx-detail-close {
+  margin: 16px 20px 20px; padding: 16px;
+  border: 1.5px solid #1a3a6b; border-radius: 8px;
+  background: #fff; color: #333; font-size: 16px; font-weight: 600;
+  cursor: pointer; text-align: center;
+}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#16386b">
@@ -836,6 +880,44 @@ body {
   </div>
 </div>
 
+<!-- ===== TX DETAIL MODAL ===== -->
+<div id="tx-detail-overlay">
+  <div class="tx-detail-panel">
+    <div class="tx-detail-title">詳細</div>
+    <div class="tx-detail-body">
+      <div class="tx-detail-item">
+        <div class="tx-detail-label">日付</div>
+        <div class="tx-detail-value" id="detail-date"></div>
+      </div>
+      <div class="tx-detail-item">
+        <div class="tx-detail-label">摘要</div>
+        <div class="tx-detail-value" id="detail-memo"></div>
+      </div>
+      <div class="tx-detail-item">
+        <div class="tx-detail-label">入出金金額</div>
+        <div class="tx-detail-value" id="detail-amount"></div>
+      </div>
+      <div class="tx-detail-item">
+        <div class="tx-detail-label">残高</div>
+        <div class="tx-detail-value balance" id="detail-balance"></div>
+      </div>
+      <div class="tx-detail-item">
+        <div class="tx-detail-label">メモ</div>
+        <div class="tx-detail-memo-row">
+          <div class="tx-detail-memo-line"></div>
+          <div class="tx-detail-memo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a4cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tx-detail-close" onclick="closeTxDetail()">閉じる</div>
+  </div>
+</div>
+
 <script src="./transactions_cosmo.js"></script>
 <script>
 let isLoading = false;
@@ -947,6 +1029,10 @@ function buildTransactions() {
     var amtClass = isIn ? 'tx-amt-in' : 'tx-amt-out';
     var amtText = isIn ? fmt(amount) + '円' : '-' + fmt(amount) + '円';
     var dateStr = t.date.slice(5);
+    row.style.cursor = 'pointer';
+    (function(tx) {
+      row.addEventListener('click', function() { openTxDetail(tx); });
+    })(t);
     row.innerHTML =
       '<div class="tx-left">' +
         '<div class="tx-date">' + dateStr + '</div>' +
@@ -1066,6 +1152,24 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js', { scope: './' })
     .then(function(r) { console.log('SW registered:', r.scope); })
     .catch(function(e) { console.error('SW failed:', e); });
+}
+
+// ===== TX DETAIL MODAL =====
+function openTxDetail(t) {
+  var fmt = function(n) { return n.toLocaleString('ja-JP'); };
+  var isIn = t.deposit !== null;
+  var amount = isIn ? t.deposit : t.withdraw;
+  document.getElementById('detail-date').textContent = t.date;
+  document.getElementById('detail-memo').textContent = t.memo;
+  var amtEl = document.getElementById('detail-amount');
+  amtEl.textContent = (isIn ? '' : '-') + fmt(amount) + ' 円';
+  amtEl.className = 'tx-detail-value ' + (isIn ? 'amount-in' : 'amount-out');
+  document.getElementById('detail-balance').textContent = fmt(t.balance) + ' 円';
+  document.getElementById('tx-detail-overlay').classList.add('active');
+}
+
+function closeTxDetail() {
+  document.getElementById('tx-detail-overlay').classList.remove('active');
 }
 </script>
 </body>
