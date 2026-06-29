@@ -346,6 +346,9 @@ body {
   flex-direction: column; overflow: hidden;
   height: 100%; max-height: 100dvh;
 }
+#content-normal {
+  display: flex; flex-direction: column; flex: 1; overflow: hidden;
+}
 
 /* Account type tabs */
 .hist-acct-tabs {
@@ -1280,7 +1283,7 @@ function switchAcctTab(tab) {
     var contentEl = document.getElementById('content-' + t);
     if (t === tab) {
       tabEl.classList.add('active');
-      if (contentEl) contentEl.style.display = t === 'normal' ? '' : 'flex';
+      if (contentEl) contentEl.style.display = 'flex';
     } else {
       tabEl.classList.remove('active');
       if (contentEl) contentEl.style.display = 'none';
