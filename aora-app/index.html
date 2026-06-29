@@ -566,6 +566,9 @@ body {
   padding: 80px 20px;
 }
 .hist-empty.active { display: block; }
+.cur-item { padding:18px 22px; font-size:17px; color:#222; border-bottom:1px solid #f0f0f0; cursor:pointer; }
+.cur-item:last-child { border-bottom:none; }
+.cur-item:active { background:#eaf4f8; }
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#16386b">
@@ -854,12 +857,13 @@ body {
 
   <!-- Account type tabs -->
   <div class="hist-acct-tabs">
-    <div class="hist-acct-tab active">円普通</div>
-    <div class="hist-acct-tab">円定期</div>
-    <div class="hist-acct-tab">外貨普通</div>
-    <div class="hist-acct-tab">外貨定期</div>
+    <div class="hist-acct-tab active" id="atab-normal" onclick="switchAcctTab('normal')">円普通</div>
+    <div class="hist-acct-tab" id="atab-time" onclick="switchAcctTab('time')">円定期</div>
+    <div class="hist-acct-tab" id="atab-fx" onclick="switchAcctTab('fx')">外貨普通</div>
+    <div class="hist-acct-tab" id="atab-fxtime" onclick="switchAcctTab('fxtime')">外貨定期</div>
   </div>
 
+  <div id="content-normal">
   <!-- Toggle -->
   <div class="hist-toggle-bar">
     <div class="hist-toggle-btn active" id="toggle-normal" onclick="switchHistToggle('normal')">円普通預金</div>
@@ -886,6 +890,76 @@ body {
   <div class="hist-scroll">
     <div id="tx-list"></div>
     <div class="hist-empty" id="hist-empty-msg">該当する入出金明細はございません。</div>
+  </div>
+  </div><!-- /#content-normal -->
+
+  <!-- 円定期 -->
+  <div id="content-time" style="display:none; flex:1; flex-direction:column;">
+    <div class="hist-period-row" style="display:flex; align-items:center; justify-content:space-between; margin:0 12px 4px; padding:10px 14px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <div></div>
+      <div class="hist-date-sep">〜</div>
+      <div class="hist-date-btn">2026/06/29</div>
+    </div>
+    <div style="background:#e0e4ea; padding:11px 16px; display:flex; justify-content:space-between; font-size:13px; color:#555;">
+      <div>日付<br>円定期預金<br>摘要</div>
+      <div style="text-align:right;">入出金金額<br><br>残高</div>
+    </div>
+    <div class="hist-empty active" style="display:block;">対象のお取引はございません。</div>
+  </div>
+
+  <!-- 外貨普通 -->
+  <div id="content-fx" style="display:none; flex:1; flex-direction:column;">
+    <div style="margin:8px 12px 4px; padding:8px 14px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <div class="fx-currency-select" onclick="toggleCurrency('fx')" style="display:flex; align-items:center; justify-content:space-between; border-bottom:1.5px solid #b0bcc8; padding:8px 2px; cursor:pointer;">
+        <span id="fx-cur-label">米ドル</span>
+        <span style="color:#888;">▼</span>
+      </div>
+    </div>
+    <div class="hist-period-row" style="display:flex; align-items:center; justify-content:space-between; margin:0 12px 4px; padding:10px 14px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <div></div>
+      <div class="hist-date-sep">〜</div>
+      <div class="hist-date-btn">2026/06/29</div>
+    </div>
+    <div style="background:#e0e4ea; padding:11px 16px; display:flex; justify-content:space-between; font-size:13px; color:#555;">
+      <div>日付<br>摘要</div>
+      <div style="text-align:right;">入出金金額<br>残高</div>
+    </div>
+    <div class="hist-empty active" style="display:block;">対象のお取引はございません。</div>
+  </div>
+
+  <!-- 外貨定期 -->
+  <div id="content-fxtime" style="display:none; flex:1; flex-direction:column;">
+    <div style="margin:8px 12px 4px; padding:8px 14px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <div class="fx-currency-select" onclick="toggleCurrency('fxtime')" style="display:flex; align-items:center; justify-content:space-between; border-bottom:1.5px solid #b0bcc8; padding:8px 2px; cursor:pointer;">
+        <span id="fxtime-cur-label">米ドル</span>
+        <span style="color:#888;">▼</span>
+      </div>
+    </div>
+    <div class="hist-period-row" style="display:flex; align-items:center; justify-content:space-between; margin:0 12px 4px; padding:10px 14px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <div></div>
+      <div class="hist-date-sep">〜</div>
+      <div class="hist-date-btn">2026/06/29</div>
+    </div>
+    <div style="background:#e0e4ea; padding:11px 16px; display:flex; justify-content:space-between; font-size:13px; color:#555;">
+      <div>日付<br>外貨定期預金<br>摘要</div>
+      <div style="text-align:right;">入出金金額<br><br>残高</div>
+    </div>
+    <div class="hist-empty active" style="display:block;">対象のお取引はございません。</div>
+  </div>
+
+  <!-- 通貨ドロップダウン オーバーレイ -->
+  <div id="currency-overlay" style="display:none; position:fixed; left:0; right:0; top:0; bottom:0; z-index:2500;">
+    <div onclick="closeCurrency()" style="position:absolute; inset:0;"></div>
+    <div style="position:absolute; left:0; top:120px; width:88%; max-width:360px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.2); border-radius:0 8px 8px 0;">
+      <div class="cur-item" onclick="selectCurrency('米ドル')">米ドル</div>
+      <div class="cur-item" onclick="selectCurrency('ユーロ')">ユーロ</div>
+      <div class="cur-item" onclick="selectCurrency('英ポンド')">英ポンド</div>
+      <div class="cur-item" onclick="selectCurrency('豪ドル')">豪ドル</div>
+      <div class="cur-item" onclick="selectCurrency('NZドル')">NZドル</div>
+      <div class="cur-item" onclick="selectCurrency('カナダドル')">カナダドル</div>
+      <div class="cur-item" onclick="selectCurrency('スイスフラン')">スイスフラン</div>
+      <div class="cur-item" onclick="selectCurrency('南アランド')">南アランド</div>
+    </div>
   </div>
 </div>
 
@@ -1197,6 +1271,32 @@ function switchHistToggle(mode) {
     txList.style.display = '';
     emptyMsg.classList.remove('active');
   }
+}
+
+var currentFxTab = 'fx';
+function switchAcctTab(tab) {
+  ['normal','time','fx','fxtime'].forEach(function(t) {
+    var tabEl = document.getElementById('atab-' + t);
+    var contentEl = document.getElementById('content-' + t);
+    if (t === tab) {
+      tabEl.classList.add('active');
+      if (contentEl) contentEl.style.display = t === 'normal' ? '' : 'flex';
+    } else {
+      tabEl.classList.remove('active');
+      if (contentEl) contentEl.style.display = 'none';
+    }
+  });
+}
+function toggleCurrency(which) {
+  currentFxTab = which;
+  document.getElementById('currency-overlay').style.display = 'block';
+}
+function closeCurrency() {
+  document.getElementById('currency-overlay').style.display = 'none';
+}
+function selectCurrency(name) {
+  document.getElementById(currentFxTab + '-cur-label').textContent = name;
+  closeCurrency();
 }
 </script>
 </body>
