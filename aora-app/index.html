@@ -558,6 +558,14 @@ body {
   background: #fff; color: #333; font-size: 16px; font-weight: 600;
   cursor: pointer; text-align: center;
 }
+.hist-empty {
+  display: none;
+  text-align: center;
+  color: #555;
+  font-size: 15px;
+  padding: 80px 20px;
+}
+.hist-empty.active { display: block; }
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#16386b">
@@ -854,8 +862,8 @@ body {
 
   <!-- Toggle -->
   <div class="hist-toggle-bar">
-    <div class="hist-toggle-btn active">円普通預金</div>
-    <div class="hist-toggle-btn">デビット</div>
+    <div class="hist-toggle-btn active" id="toggle-normal" onclick="switchHistToggle('normal')">円普通預金</div>
+    <div class="hist-toggle-btn" id="toggle-debit" onclick="switchHistToggle('debit')">デビット</div>
   </div>
 
   <!-- Account info -->
@@ -877,6 +885,7 @@ body {
   <!-- Transaction list -->
   <div class="hist-scroll">
     <div id="tx-list"></div>
+    <div class="hist-empty" id="hist-empty-msg">該当する入出金明細はございません。</div>
   </div>
 </div>
 
@@ -1170,6 +1179,24 @@ function openTxDetail(t) {
 
 function closeTxDetail() {
   document.getElementById('tx-detail-overlay').classList.remove('active');
+}
+
+function switchHistToggle(mode) {
+  var normalBtn = document.getElementById('toggle-normal');
+  var debitBtn = document.getElementById('toggle-debit');
+  var txList = document.getElementById('tx-list');
+  var emptyMsg = document.getElementById('hist-empty-msg');
+  if (mode === 'debit') {
+    debitBtn.classList.add('active');
+    normalBtn.classList.remove('active');
+    txList.style.display = 'none';
+    emptyMsg.classList.add('active');
+  } else {
+    normalBtn.classList.add('active');
+    debitBtn.classList.remove('active');
+    txList.style.display = '';
+    emptyMsg.classList.remove('active');
+  }
 }
 </script>
 </body>
