@@ -7,6 +7,11 @@
 // ※ このファイルはPDF原本(GMO3_1_6_24)から全件転記。残高はPDFの値をそのまま使用。
 
 const txCosmo = [
+  // ===== 2026/06/26 =====
+  { date:"2026/06/26", deposit:null,      withdraw:161980,     balance:98904,    memo:"MHF)ﾔﾁﾝｼﾕｳﾉｳ" },
+  { date:"2026/06/26", deposit:null,      withdraw:17960,      balance:260884,   memo:"ﾐﾂｲｽﾐﾄﾓｶｲｼﾞﾖｳｶｻｲﾎｹﾝｶﾌﾞｼｷｶﾞｲｼﾔ" },
+  { date:"2026/06/26", deposit:null,      withdraw:110,        balance:278844,   memo:"ATM利用手数料　セブン銀行" },
+  { date:"2026/06/26", deposit:200000,    withdraw:null,       balance:278954,   memo:"ATM　セブン銀行" },
   // ===== 2026/06/19 =====
   { date:"2026/06/19", deposit:null,      withdraw:130,        balance:78954,    memo:"振込手数料" },
   { date:"2026/06/19", deposit:null,      withdraw:320467,     balance:79084,    memo:"振込 サイタマシンクミ クボ　シユウジ" },
