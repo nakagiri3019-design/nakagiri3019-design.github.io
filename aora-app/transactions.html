@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入出金明細｜アオソラ銀行ビジネス | DEMO</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+  color: #1a1a1a;
+  background: #fff;
+  line-height: 1.5;
+  font-size: 13px;
+}
+a { color: #00aac6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.demo-ribbon {
+  background: #003a70;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  padding: 2px 0;
+  letter-spacing: 1px;
+}
+
+/* Utility bar */
+.utility-bar { background: #fff; font-size: 11px; color: #333; }
+.utility-bar .inner {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 4px 20px 2px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.utility-bar a { color: #333; }
+
+/* Header */
+.header { background: #fff; }
+.header-inner {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 2px 20px 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand { display: flex; flex-direction: column; }
+.brand-logo-img { width: 190px; height: auto; display: block; }
+.brand-code { font-size: 10px; color: #888; margin-top: 2px; padding-left: 36px; }
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+.header-tools .tool {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #333;
+  cursor: pointer;
+}
+.header-tools .tool svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #0099d6;
+  stroke-width: 1.8;
+}
+.company-name { font-size: 12px; color: #1a1a1a; font-weight: 500; margin-left: 8px; }
+.last-login-time { font-size: 10px; color: #888; }
+.btn-logout {
+  background: #fff;
+  border: 1px solid #888;
+  color: #1a1a1a;
+  padding: 4px 14px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Global Nav */
+.gnav { background: #fff; border-bottom: 1px solid #00aac6; }
+.gnav-inner {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.gnav-item {
+  flex: 1;
+  text-align: center;
+  padding: 8px 2px 9px;
+  font-size: 14px;
+  color: #1a1a1a;
+  cursor: pointer;
+  line-height: 1.25;
+  font-weight: 400;
+}
+.gnav-item:hover { color: #00aac6; }
+.gnav-item.active { color: #00aac6; font-weight: 500; border-bottom: 3px solid #00aac6; margin-bottom: -1px; }
+
+/* Banner */
+.top-banner {
+  max-width: 1050px;
+  margin: 14px auto 6px;
+  padding: 0 20px;
+}
+.top-banner-inner {
+  background: linear-gradient(90deg, #b6e6f0 0%, #d4eff5 50%, #b6e6f0 100%);
+  border-radius: 3px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  position: relative;
+  cursor: pointer;
+}
+.top-banner-inner .ill-l, .top-banner-inner .ill-r {
+  width: 70px;
+  height: 70px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.top-banner-inner .copy {
+  text-align: center;
+  color: #003a70;
+}
+.top-banner-inner .copy .lead { font-size: 14px; margin-bottom: 4px; }
+.top-banner-inner .copy .main { font-size: 22px; font-weight: 700; color: #d6395a; }
+.top-banner-inner .copy .sub { font-size: 10px; color: #555; margin-top: 4px; }
+
+/* Inquiry timestamp */
+.inquiry-time {
+  max-width: 1050px;
+  margin: 8px auto 4px;
+  padding: 0 20px;
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+}
+
+/* Page title */
+.page-title-row {
+  max-width: 1050px;
+  margin: 8px auto 12px;
+  padding: 0 20px;
+}
+.page-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  border-left: 4px solid #00aac6;
+  padding-left: 10px;
+  line-height: 1.2;
+}
+
+/* Tabs */
+.tabs-row {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  border-bottom: 1px solid #d9dde2;
+}
+.tabs {
+  display: flex;
+  gap: 0;
+}
+.tab-item {
+  padding: 11px 32px 10px;
+  font-size: 13.5px;
+  color: #1a1a1a;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  background: #f5f6f8;
+  margin-right: 2px;
+}
+.tab-item.active {
+  background: #fff;
+  border-bottom: 3px solid #00aac6;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+.tabs-right {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+.btn-fx {
+  background: #fff;
+  border: 1px solid #c9d1d9;
+  color: #1a1a1a;
+  padding: 6px 18px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.btn-fx::after { content: ' ›'; color: #00aac6; }
+
+/* Content area */
+.content {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 16px 20px 24px;
+}
+
+.notice-text {
+  font-size: 12.5px;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+
+/* Search panel */
+.search-panel {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 16px;
+  margin-bottom: 12px;
+}
+.search-toggle {
+  font-size: 13px;
+  color: #00aac6;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.search-toggle::before {
+  content: '∧';
+  font-size: 11px;
+}
+.search-actions {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  gap: 6px;
+}
+.search-actions .icn-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #c9d1d9;
+  background: #fff;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #444;
+}
+.search-form {
+  background: #fff;
+  padding: 14px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+}
+.search-row .lbl {
+  color: #555;
+  width: 80px;
+  text-align: right;
+}
+.search-row .val {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-row .selected {
+  color: #00aac6;
+}
+.search-row .selectbox,
+.search-row .datebox {
+  border: 1px solid #c9d1d9;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background: #f7f9fb;
+  font-size: 12.5px;
+  min-width: 100px;
+}
+.search-row .placeholder {
+  color: #aaa;
+  font-size: 12.5px;
+}
+.search-row .checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #00aac6;
+  border-radius: 2px;
+  display: inline-block;
+  position: relative;
+  background: #00aac6;
+}
+.search-row .checkbox::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  top: 1px;
+  left: 5px;
+}
+.search-row .date-icon {
+  font-size: 13px;
+  color: #00aac6;
+  margin-left: 4px;
+}
+.btn-search {
+  align-self: flex-start;
+  margin-left: 92px;
+  background: #fff;
+  border: 1px solid #c9d1d9;
+  padding: 7px 36px;
+  border-radius: 2px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Toolbar above table */
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 12.5px;
+  gap: 16px;
+}
+.toolbar .left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #00aac6;
+  cursor: pointer;
+}
+.toolbar .left::before { content: '+'; font-size: 16px; line-height: 1; }
+.toolbar .center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.toolbar .pg {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #555;
+}
+.toolbar .pg .num {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #555;
+}
+.toolbar .pg .num.active {
+  background: #b89968;
+  color: #fff;
+}
+.toolbar .pg .arr {
+  padding: 0 6px;
+  cursor: pointer;
+  color: #555;
+}
+.toolbar .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toolbar .count { color: #1a1a1a; }
+.toolbar .per-page {
+  border: 1px solid #c9d1d9;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  background: #fff;
+  cursor: pointer;
+}
+.toolbar .per-page::after { content: ' ▾'; color: #888; font-size: 10px; }
+
+/* Table */
+.tx-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.tx-table thead th {
+  background: #fff;
+  border-bottom: 1px solid #d9dde2;
+  padding: 14px 12px;
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: left;
+  font-size: 13px;
+}
+.tx-table thead th.num { text-align: right; }
+.tx-table thead th .sort::after { content: ' ▾'; font-size: 10px; color: #666; }
+.tx-table tbody td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 12px;
+  color: #1a1a1a;
+  vertical-align: middle;
+}
+.tx-table tbody td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.tx-table tbody td.date {
+  white-space: nowrap;
+  color: #1a1a1a;
+}
+.tx-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+/* Bottom pagination */
+.bottom-pg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 0 8px;
+}
+.bottom-pg .num {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #555;
+}
+.bottom-pg .num.active {
+  background: #b89968;
+  color: #fff;
+}
+.bottom-pg .arr {
+  padding: 0 6px;
+  cursor: pointer;
+  color: #555;
+}
+
+/* Footer */
+.footer { background: #4a4a4a; color: #d0d0d0; padding: 20px 0 18px; margin-top: 24px; }
+.footer-inner { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+.footer .links2 {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+}
+.footer .links2 a { color: #d0d0d0; }
+.footer .copyright {
+  font-size: 10.5px;
+  color: #aaa;
+  margin-top: 14px;
+  line-height: 1.7;
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 24px;
+  width: 38px;
+  height: 38px;
+  background: #888;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body { font-size: 13px; }
+  .demo-ribbon { font-size: 9px; padding: 2px 0; }
+  .utility-bar { display: none; }
+  .header { background: #4a4a4a; position: relative; }
+  .header-inner {
+    padding: 10px 12px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .brand { flex-direction: row; align-items: center; }
+  .brand-logo-img { width: 150px; filter: brightness(0) invert(1); }
+  .brand-code { display: none; }
+  .header-tools { display: none; }
+  .header::before {
+    content: '☰ メニュー';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 11px;
+  }
+  .gnav { display: none; }
+  .top-banner { display: none; }
+  .inquiry-time { padding: 0 12px; }
+  .page-title-row { padding: 0 12px; }
+  .tabs-row {
+    padding: 0 12px;
+    overflow-x: auto;
+  }
+  .tab-item { padding: 9px 14px; font-size: 12.5px; }
+  .tabs-right { display: none; }
+  .content { padding: 12px 12px 16px; }
+  .notice-text { font-size: 11.5px; }
+
+  /* Search collapses to compact form */
+  .search-form { padding: 10px 12px; gap: 8px; }
+  .search-row { flex-wrap: wrap; gap: 6px 10px; font-size: 12px; }
+  .search-row .lbl { width: 60px; font-size: 11.5px; }
+  .btn-search { margin-left: 0; width: 100%; }
+
+  /* Toolbar wraps */
+  .toolbar { flex-wrap: wrap; gap: 8px; font-size: 11.5px; padding: 8px 0; }
+  .toolbar .left { order: 1; }
+  .toolbar .right { order: 2; margin-left: auto; }
+  .toolbar .center { order: 3; flex: 1 0 100%; justify-content: center; }
+
+  /* Table responsive */
+  .tx-table { font-size: 12px; }
+  .tx-table thead th { padding: 10px 6px; font-size: 11.5px; }
+  .tx-table tbody td { padding: 10px 6px; }
+  /* Hide memo column on mobile */
+  .tx-table th:nth-child(6),
+  .tx-table td:nth-child(6) { display: none; }
+
+  .footer .links2 { gap: 12px; font-size: 11px; }
+  .top-btn { bottom: 30px; right: 14px; width: 34px; height: 34px; }
+}
+
+@media (max-width: 480px) {
+  /* Even tighter table on small phones */
+  .tx-table { font-size: 11.5px; }
+  .tx-table thead th, .tx-table tbody td { padding: 8px 4px; }
+  .tx-table td.date { white-space: nowrap; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<div class="demo-ribbon">DEMO ENVIRONMENT — これはアオソラ銀行（架空）のデモ画面です</div>
+
+<!-- Utility bar -->
+<div class="utility-bar">
+  <div class="inner">
+    <a href="#">金融をもっと自由に</a>
+    <a href="#">📊 証券</a>
+    <a href="#">Ⓜ 仮想通貨</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <img src="aora_logo.png" alt="アオソラ銀行 ビジネス" class="brand-logo-img">
+      <div class="brand-code">金融機関コード:9999</div>
+    </div>
+    <div class="header-tools">
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        ご確認事項
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><path d="M6 18 L6 10 a6 6 0 0 1 12 0 L18 18 L20 20 L4 20 Z"/><line x1="10" y1="22" x2="14" y2="22"/></svg>
+        お知らせ
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><polyline points="3,7 12,14 21,7"/></svg>
+        お問い合わせ
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+        ガイド一覧
+      </div>
+      <span class="company-name">株式会社コスモエンジニアリング さま</span>
+      <span class="last-login-time">2026/06/30 17:18</span>
+      <button class="btn-logout">ログアウト</button>
+    </div>
+  </div>
+</header>
+
+<!-- Global Nav -->
+<nav class="gnav">
+  <div class="gnav-inner">
+    <div class="gnav-item">振込・税金等支払</div>
+    <div class="gnav-item active">残高・明細<br>・振込状況</div>
+    <div class="gnav-item">デビット<br>カード</div>
+    <div class="gnav-item">ローン</div>
+    <div class="gnav-item">海外送金</div>
+    <div class="gnav-item">円定期</div>
+    <div class="gnav-item">外 貨</div>
+    <div class="gnav-item">FX取引</div>
+    <div class="gnav-item">振込入金口座</div>
+    <div class="gnav-item">ポイント<br>・キャンペーン</div>
+    <div class="gnav-item">お客さま情報<br>（申込・設定）</div>
+  </div>
+</nav>
+
+<!-- Banner -->
+<div class="top-banner">
+  <div class="top-banner-inner">
+    <div class="ill-l">💼</div>
+    <div class="copy">
+      <div class="lead">ビジネスデビットカードなら利用代金の</div>
+      <div class="main">最大 1<small style="font-size:14px;">※</small>% キャッシュバック！</div>
+      <div class="sub">※一部キャッシュバック率が異なる利用先がございます。</div>
+    </div>
+    <div class="ill-r">💳</div>
+  </div>
+</div>
+
+<!-- Inquiry timestamp -->
+<div class="inquiry-time">照会日時：2026/06/30 20:35</div>
+
+<!-- Page title -->
+<div class="page-title-row">
+  <h1 class="page-title">入出金明細</h1>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-row">
+  <div class="tabs">
+    <div class="tab-item active">円普通</div>
+    <div class="tab-item">円定期</div>
+    <div class="tab-item">デビット</div>
+    <div class="tab-item">外貨普通</div>
+    <div class="tab-item">外貨定期</div>
+  </div>
+  <div class="tabs-right">
+    <button class="btn-fx">FX取引</button>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+  <p class="notice-text">過去6ヵ月分を初期表示しています。それ以前の明細は検索条件よりご指定ください。</p>
+
+  <div class="search-panel" style="position: relative;">
+    <div class="search-toggle">検索条件</div>
+    <div class="search-actions">
+      <div class="icn-btn" title="印刷">🖨</div>
+      <div class="icn-btn" title="再表示">↻</div>
+    </div>
+    <div class="search-form">
+      <div class="search-row">
+        <span class="lbl">口座：</span>
+        <span class="val">
+          <span class="selected">選択</span>
+          <span>法人第二営業部</span>
+          <span>普通</span>
+          <span>2145598</span>
+          <span>株式会社コスモエンジニアリング</span>
+        </span>
+      </div>
+      <div class="search-row">
+        <span class="lbl">期間指定：</span>
+        <span class="val">
+          <span class="placeholder selectbox">選択してください</span>
+          <span class="checkbox"></span>
+          <span>日付入力：</span>
+          <span class="datebox">20260101</span>
+          <span class="date-icon">📅</span>
+          <span>～</span>
+          <span class="datebox">20260630</span>
+          <span class="date-icon">📅</span>
+        </span>
+      </div>
+      <button class="btn-search">検索</button>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="left">操作メニュー</div>
+    <div class="center">
+      <div class="pg">
+        <span class="arr">|‹</span>
+        <span class="arr">‹</span>
+        <span class="num active">1</span>
+        <span class="num">2</span>
+        <span class="arr">›</span>
+        <span class="arr">›|</span>
+      </div>
+    </div>
+    <div class="right">
+      <span class="count">1-20件 / 全25件</span>
+      <span class="per-page">20件</span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <table class="tx-table">
+    <thead>
+      <tr>
+        <th><span class="sort">日付</span></th>
+        <th>摘要</th>
+        <th class="num">入金金額</th>
+        <th class="num">出金金額</th>
+        <th class="num">残高</th>
+        <th>メモ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="date">2026/06/26</td>
+        <td>ATM 利用手数料 セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">110 円</td>
+        <td class="num">78,954 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/26</td>
+        <td>ATM セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">200,000 円</td>
+        <td class="num">79,064 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/24</td>
+        <td>振込 カ）コスモエンジニアリング</td>
+        <td class="num">350,000 円</td>
+        <td class="num"></td>
+        <td class="num">279,064 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/20</td>
+        <td>振込手数料</td>
+        <td class="num"></td>
+        <td class="num">145 円</td>
+        <td class="num">-70,936 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/20</td>
+        <td>振込 カ）取引先A</td>
+        <td class="num"></td>
+        <td class="num">80,000 円</td>
+        <td class="num">-70,791 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/18</td>
+        <td>デビット利用</td>
+        <td class="num"></td>
+        <td class="num">12,580 円</td>
+        <td class="num">9,209 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/16</td>
+        <td>ATM 利用手数料 セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">110 円</td>
+        <td class="num">21,789 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/16</td>
+        <td>ATM セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">50,000 円</td>
+        <td class="num">21,899 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/12</td>
+        <td>振込 カ）取引先B</td>
+        <td class="num">120,000 円</td>
+        <td class="num"></td>
+        <td class="num">71,899 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/05</td>
+        <td>口座振替 公共料金</td>
+        <td class="num"></td>
+        <td class="num">8,420 円</td>
+        <td class="num">-48,101 円</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Bottom pagination -->
+  <div class="bottom-pg">
+    <span class="arr">|‹</span>
+    <span class="arr">‹</span>
+    <span class="num active">1</span>
+    <span class="num">2</span>
+    <span class="arr">›</span>
+    <span class="arr">›|</span>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="links2">
+      <a href="#">金利</a>
+      <a href="#">手数料</a>
+      <a href="#">よくあるご質問</a>
+      <a href="#">会社情報</a>
+      <a href="#">各種方針</a>
+      <a href="#">苦情・紛争解決機関</a>
+      <a href="#">規定・約款一覧</a>
+      <a href="#">金融犯罪の注意喚起</a>
+      <a href="#">セキュリティ対策</a>
+      <a href="#">ガイド一覧</a>
+    </div>
+    <div class="copyright">
+      アオソラ銀行（架空デモ）｜本サイトは デモ環境 です。実在の金融機関ではありません。<br>
+      Copyright © Aora Bank Demo. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<div class="top-btn">▲</div>
+
+</body>
+</html>

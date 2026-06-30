@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>アオソラ銀行ビジネス | DEMO</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+  color: #1a1a1a;
+  background: #fff;
+  line-height: 1.5;
+  font-size: 13px;
+}
+a { color: #00aac6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* DEMO ribbon */
+.demo-ribbon {
+  background: #003a70;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  padding: 2px 0;
+  letter-spacing: 1px;
+}
+
+/* Utility bar */
+.utility-bar { background: #fff; font-size: 11px; color: #555; }
+.utility-bar .inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4px 20px 2px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.utility-bar a { color: #555; }
+.utility-bar .icon-link { display: inline-flex; align-items: center; gap: 4px; }
+
+/* Header */
+.header { background: #fff; }
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4px 20px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand { display: flex; flex-direction: column; }
+.brand-code { font-size: 10px; color: #888; margin-top: 2px; padding-left: 42px; }
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  background: #0099d6;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.brand-mark::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 8px;
+  background: #fff;
+  border-radius: 8px;
+  top: 12px;
+  left: 5px;
+}
+.brand-mark::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 5px;
+  background: #fff;
+  border-radius: 5px;
+  top: 19px;
+  left: 12px;
+  opacity: 0.85;
+}
+.brand-text-main {
+  font-size: 19px;
+  font-weight: 700;
+  color: #003a70;
+  letter-spacing: 0.5px;
+}
+.brand-text-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0099d6;
+  margin-left: 6px;
+}
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 11px;
+}
+.header-tools .tool {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #444;
+  cursor: pointer;
+  font-size: 11px;
+}
+.header-tools .tool svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #00aac6;
+  stroke-width: 1.8;
+}
+.company-name {
+  font-size: 12px;
+  color: #1a1a1a;
+  font-weight: 500;
+  margin-left: 8px;
+}
+.last-login-time { font-size: 10px; color: #888; }
+.btn-logout {
+  background: #fff;
+  border: 1px solid #888;
+  color: #1a1a1a;
+  padding: 4px 14px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Global Nav */
+.gnav {
+  background: #fff;
+  border-bottom: 1px solid #00aac6;
+}
+.gnav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.gnav-item {
+  flex: 1;
+  text-align: center;
+  padding: 9px 2px 9px;
+  font-size: 12px;
+  color: #1a1a1a;
+  cursor: pointer;
+  line-height: 1.3;
+  font-weight: 400;
+}
+.gnav-item:hover { color: #00aac6; }
+
+/* Last login row */
+.last-login-row {
+  max-width: 1100px;
+  margin: 8px auto 4px;
+  padding: 0 20px;
+  text-align: right;
+  font-size: 10.5px;
+  color: #666;
+}
+
+/* Account banner */
+.account-banner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 10px;
+}
+.account-box {
+  background: #002855;
+  border-radius: 3px;
+  padding: 12px 18px 12px;
+  color: #fff;
+}
+.account-row1 {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.account-row1 .item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+}
+.account-row1 .label { font-size: 12px; color: #fff; }
+.account-row1 .value { font-weight: 500; }
+.account-row1 .balance {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.account-row1 .balance .yen {
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0;
+}
+.account-row1 .balance .unit { font-size: 13px; }
+.account-row1 .applied-rate {
+  margin-left: 20px;
+  font-size: 12px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.account-row1 .applied-rate::after { content: '›'; font-size: 12px; }
+
+.account-row2 {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.account-row2 .tab {
+  background: #fff;
+  color: #1a1a1a;
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.account-row2 .tab .arrow { color: #00aac6; font-size: 10px; font-weight: 500; }
+.account-row2 .tab .status { color: #888; font-size: 10.5px; }
+
+/* Summary */
+.summary-row { max-width: 1100px; margin: 0 auto; padding: 4px 20px 10px; }
+.summary-table {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.summary-table .col-label {
+  color: #00aac6;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.summary-table .col-label::after { content: '›'; font-size: 11px; }
+.summary-table .col-sub { color: #555; font-size: 12px; }
+.summary-table .col-val {
+  color: #1a1a1a;
+  font-weight: 400;
+  text-align: right;
+  font-size: 12.5px;
+}
+
+/* CTA */
+.cta-row { max-width: 1100px; margin: 0 auto; padding: 6px 20px 10px; }
+.cta-box {
+  background: #fff;
+  border: 1.5px solid #00aac6;
+  border-radius: 3px;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+}
+.cta-box .small { font-size: 11.5px; color: #555; margin-bottom: 2px; }
+.cta-box .main { font-size: 17px; font-weight: 500; color: #00aac6; }
+.cta-box .main::after { content: ' ›'; font-size: 15px; }
+
+/* News */
+.news-row {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+}
+.news-box { padding: 0 18px; position: relative; }
+.news-box:first-child { border-right: 1px solid #e5e7eb; }
+.news-box h3 {
+  font-size: 12.5px;
+  color: #00aac6;
+  margin-bottom: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.news-box h3::after { content: ' ›'; font-size: 11px; }
+.news-box p { font-size: 12px; color: #1a1a1a; margin-bottom: 2px; }
+.news-box .pin {
+  position: absolute;
+  top: -4px;
+  right: 18px;
+  display: flex;
+  gap: 6px;
+}
+.news-box .pin .btn-small {
+  background: #fff;
+  border: 1px solid #00aac6;
+  color: #00aac6;
+  font-size: 10.5px;
+  padding: 3px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+/* Carousel */
+.carousel-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 20px;
+  position: relative;
+}
+.carousel-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.carousel-item {
+  background: linear-gradient(180deg, #e8f6fa 0%, #cfeaf2 100%);
+  border-radius: 3px;
+  padding: 14px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #003a70;
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+}
+.carousel-item .badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: #ff6b6b;
+  color: #fff;
+  font-size: 9.5px;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.carousel-item .big {
+  font-size: 19px;
+  margin-top: 4px;
+  color: #00aac6;
+  font-weight: 700;
+}
+.carousel-item .sub { font-size: 10.5px; color: #444; margin-top: 2px; font-weight: 400; line-height: 1.4; }
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  background: #ddd;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 2;
+}
+.carousel-arrow.left { left: -2px; }
+.carousel-arrow.right { right: -2px; }
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.carousel-dots .dot {
+  width: 7px;
+  height: 7px;
+  background: #cfe9ef;
+  border-radius: 50%;
+}
+.carousel-dots .dot.active { background: #00aac6; }
+
+/* Feature grid */
+.feature-grid-section {
+  background: #f5f7f9;
+  padding: 18px 0 32px;
+}
+.feature-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.feature-card {
+  background: #fff;
+  border-radius: 3px;
+  padding: 16px 18px 14px;
+  border-top: 2px solid;
+  border-image: linear-gradient(to right, #003a70, #00aac6) 1;
+  position: relative;
+  min-height: 240px;
+  border-left: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+}
+.feature-card .icon {
+  text-align: center;
+  margin-bottom: 4px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-card .icon svg {
+  width: 50px;
+  height: 50px;
+  stroke: #003a70;
+  stroke-width: 1.4;
+  fill: none;
+}
+.feature-card h3 {
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+.feature-card ul { list-style: none; }
+.feature-card ul li { margin-bottom: 4px; font-size: 12px; }
+.feature-card ul li a { color: #00aac6; }
+.feature-card ul li.sub {
+  font-size: 10.5px;
+  color: #555;
+  margin-top: -1px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.feature-card .new-tag {
+  display: inline-block;
+  background: #ff5252;
+  color: #fff;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+/* Footer */
+.footer { background: #4a4a4a; color: #d0d0d0; padding: 20px 0 18px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.footer h4 { color: #fff; font-size: 12px; margin-bottom: 10px; font-weight: 500; }
+.footer .links1 {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 11.5px;
+}
+.footer .links1 a { color: #d0d0d0; }
+.footer .links2 {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #6a6a6a;
+  font-size: 11.5px;
+}
+.footer .links2 a { color: #d0d0d0; }
+.footer .copyright {
+  font-size: 10.5px;
+  color: #aaa;
+  margin-top: 14px;
+  line-height: 1.7;
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 24px;
+  width: 38px;
+  height: 38px;
+  background: #888;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+</style>
+</head>
+<body>
+
+<div class="demo-ribbon">DEMO ENVIRONMENT — これはアオソラ銀行（架空）のデモ画面です</div>
+
+<!-- Utility bar -->
+<div class="utility-bar">
+  <div class="inner">
+    <a href="#">金融をもっと自由に</a>
+    <a href="#" class="icon-link">📊 証券</a>
+    <a href="#" class="icon-link">Ⓜ 仮想通貨</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-logo">
+        <div class="brand-mark"></div>
+        <span class="brand-text-main">アオソラ銀行</span>
+        <span class="brand-text-sub">ビジネス</span>
+      </div>
+      <div class="brand-code">金融機関コード:9999</div>
+    </div>
+    <div class="header-tools">
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        ご確認事項
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><path d="M6 18 L6 10 a6 6 0 0 1 12 0 L18 18 L20 20 L4 20 Z"/><line x1="10" y1="22" x2="14" y2="22"/></svg>
+        お知らせ
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><polyline points="3,7 12,14 21,7"/></svg>
+        お問い合わせ
+      </div>
+      <div class="tool">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+        ガイド一覧
+      </div>
+      <span class="company-name">株式会社コスモエンジニアリング さま</span>
+      <span class="last-login-time">2026/06/30 17:18</span>
+      <button class="btn-logout">ログアウト</button>
+    </div>
+  </div>
+</header>
+
+<!-- Global Nav -->
+<nav class="gnav">
+  <div class="gnav-inner">
+    <div class="gnav-item">振込・税金等支払</div>
+    <a class="gnav-item" href="transactions.html" style="text-decoration:none;">残高・明細<br>・振込状況</a>
+    <div class="gnav-item">デビット<br>カード</div>
+    <div class="gnav-item">ローン</div>
+    <div class="gnav-item">海外送金</div>
+    <div class="gnav-item">円定期</div>
+    <div class="gnav-item">外 貨</div>
+    <div class="gnav-item">FX取引</div>
+    <div class="gnav-item">振込入金口座</div>
+    <div class="gnav-item">ポイント<br>・キャンペーン</div>
+    <div class="gnav-item">お客さま情報<br>（申込・設定）</div>
+  </div>
+</nav>
+
+<div class="last-login-row">前回ログイン：2026/06/30 12:37</div>
+
+<!-- Account banner -->
+<div class="account-banner">
+  <div class="account-box">
+    <div class="account-row1">
+      <div class="item"><span class="label">支店名：</span><span class="value">法人第二営業部(102)</span></div>
+      <div class="item"><span class="label">口座番号：</span><span class="value">2145598</span></div>
+      <div class="item"><span class="value">円普通預金（代表口座）</span></div>
+      <div class="balance">
+        <span class="yen">78,954</span><span class="unit">円</span>
+      </div>
+      <div class="applied-rate">円普通預金　適用金利</div>
+    </div>
+    <div class="account-row2">
+      <div class="tab">ATM出金無料あと0回</div>
+      <div class="tab">振込料金とくとく会員 <span class="status">未申込</span> <span class="arrow">›</span></div>
+      <div class="tab">請求書管理・支払い <span class="status">未申込</span> <span class="arrow">›</span></div>
+      <div class="tab">サブカード発行・管理 <span class="status">未申込</span> <span class="arrow">›</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-row">
+  <div class="summary-table">
+    <div>
+      <div class="col-label">キャッシュバック金額</div>
+      <div class="col-label" style="margin-top:4px;">デビットご利用金額 <span style="color:#888;font-size:10.5px;">?</span></div>
+    </div>
+    <div>
+      <div class="col-sub">2026年06月合算</div>
+      <div class="col-sub" style="margin-top:4px;">2026年05月</div>
+    </div>
+    <div>
+      <div class="col-val">0 円</div>
+      <div class="col-val" style="margin-top:4px;">―</div>
+    </div>
+    <div>
+      <div class="col-sub">2026年合算累計</div>
+      <div class="col-sub" style="margin-top:4px;">2026年累計</div>
+    </div>
+    <div>
+      <div class="col-val">0 円</div>
+      <div class="col-val" style="margin-top:4px;">―</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-row">
+  <div class="cta-box">
+    <div class="small">他行の口座・クレジットカードの明細を表示する</div>
+    <div class="main">他社明細おまとめ表示サービス</div>
+  </div>
+</div>
+
+<!-- News -->
+<div class="news-row">
+  <div class="news-box">
+    <h3>サービス等のご案内</h3>
+    <p>現在、ご案内はありません。</p>
+  </div>
+  <div class="news-box">
+    <h3>キャンペーン</h3>
+    <p>法人さまを応援！FX新規口座開設と取引で最大1,000万円キャッシュバックプログラム</p>
+    <p>はじめての外貨定期預金で預入金額に応じて最大5,000円プレゼント</p>
+    <div class="pin">
+      <button class="btn-small">重要なお知らせ</button>
+      <button class="btn-small">ご確認事項</button>
+    </div>
+  </div>
+</div>
+
+<!-- Carousel -->
+<div class="carousel-section">
+  <div class="carousel-arrow left">‹</div>
+  <div class="carousel-arrow right">›</div>
+  <div class="carousel-row">
+    <div class="carousel-item">
+      <div class="badge">初回限定特典</div>
+      <div class="sub">外貨定期預金（1ヵ月もの）</div>
+      <div class="big">最大5,000円プレゼント</div>
+      <div class="sub">対象期間中の預入金額に応じて</div>
+    </div>
+    <div class="carousel-item">
+      <div class="sub">個人向けサービス・個人口座のATM手数料<br>他行宛て振込手数料</div>
+      <div class="big">毎月20回無料</div>
+      <div class="sub">Mastercardプラチナデビットカード</div>
+    </div>
+    <div class="carousel-item">
+      <div class="sub">まずは1枚発行してみませんか？</div>
+      <div class="big">サブカード</div>
+      <div class="sub">発行・管理サービス</div>
+    </div>
+  </div>
+  <div class="carousel-dots">
+    <span class="dot"></span>
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</div>
+
+<!-- Feature grid -->
+<div class="feature-grid-section">
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="8" y="12" width="40" height="36" rx="2"/><line x1="16" y1="22" x2="40" y2="22"/><line x1="16" y1="30" x2="40" y2="30"/><line x1="16" y1="38" x2="32" y2="38"/><circle cx="52" cy="44" r="8"/></svg>
+      </div>
+      <h3>各種照会・申請承認</h3>
+      <ul>
+        <li><a href="#">残高照会</a></li>
+        <li class="sub">円普通 ｜ 円定期 ｜ 外貨普通 ｜ 外貨定期</li>
+        <li><a href="#">入出金明細</a></li>
+        <li class="sub">円普通 ｜ 円定期 ｜ デビット ｜ 外貨普通<br>外貨定期</li>
+        <li><a href="#">申請・承認一覧</a></li>
+        <li class="sub">振込 ｜ 一括振込 ｜ 総合振込</li>
+        <li><a href="#">振込状況照会</a></li>
+        <li class="sub">振込 ｜ 一括振込 ｜ 総合振込 ｜ 定額自動</li>
+        <li><a href="#">口座振替</a></li>
+        <li class="sub">契約先一覧 ｜ 承認</li>
+        <li><a href="#">ペイジー払込履歴照会</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="8" y="14" width="36" height="28" rx="2"/><line x1="44" y1="28" x2="58" y2="28"/><polyline points="52,22 58,28 52,34"/><line x1="16" y1="22" x2="36" y2="22"/><line x1="16" y1="30" x2="28" y2="30"/></svg>
+      </div>
+      <h3>支払い・送金</h3>
+      <ul>
+        <li><a href="#">振込</a></li>
+        <li><a href="#">振込先登録</a></li>
+        <li><a href="#">定額自動振込</a></li>
+        <li><a href="#">ペイジー税金等支払い</a></li>
+        <li><a href="#">海外送金</a></li>
+        <li><a href="#">組戻し（組戻し申請一覧）</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="8" y="14" width="22" height="28" rx="1"/><rect x="34" y="20" width="20" height="22" rx="1"/><line x1="14" y1="22" x2="24" y2="22"/><line x1="14" y1="28" x2="24" y2="28"/><line x1="40" y1="28" x2="48" y2="28"/></svg>
+      </div>
+      <h3>まとめて振込 <span style="font-size:10.5px; color:#888;">?</span></h3>
+      <ul>
+        <li style="color:#555; font-weight:500; margin-bottom:4px;">入力</li>
+        <li><a href="#">一括振込（〜99件）</a></li>
+        <li><a href="#">総合振込（〜99件）</a></li>
+        <li style="color:#555; font-weight:500; margin: 8px 0 4px;">WEBアップロード</li>
+        <li><a href="#">一括振込（〜999件）</a></li>
+        <li><a href="#">総合振込（〜9,999件）</a></li>
+        <li style="margin-top:8px;"><a href="#">一時保存データから振込</a></li>
+        <li style="margin-top:8px; text-align:right;"><a href="#">振込自動化（API）›</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="34" y="14" width="22" height="28" rx="1"/><rect x="8" y="20" width="22" height="22" rx="1"/><polyline points="30,28 22,28 22,34"/><polyline points="34,34 42,34 42,28"/></svg>
+      </div>
+      <h3>振込入金口座</h3>
+      <ul>
+        <li><a href="#">契約一覧</a></li>
+        <li><a href="#">口座照会</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="8" y="18" width="48" height="30" rx="3"/><line x1="8" y1="26" x2="56" y2="26"/><circle cx="44" cy="38" r="4"/><circle cx="50" cy="38" r="4"/></svg>
+      </div>
+      <h3>デビットカード</h3>
+      <ul>
+        <li><a href="#">カード基本設定</a></li>
+        <li><a href="#">デビット入出金明細</a></li>
+        <li><a href="#">カード追加（追加口座開設）・カード国際ブランド切替</a></li>
+        <li><a href="#">サブカード発行・管理</a></li>
+        <li><a href="#">デビット後払いオプション</a></li>
+        <li><a href="#">カード盗難・紛失／不正利用申告</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><path d="M14 32 L32 18 L50 32 L50 50 L14 50 Z"/><circle cx="32" cy="38" r="5"/></svg>
+      </div>
+      <h3>ローン</h3>
+      <ul>
+        <li><a href="#">あんしんワイド</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="6" y="20" width="22" height="18" rx="1"/><circle cx="48" cy="32" r="12"/><line x1="36" y1="32" x2="60" y2="32"/><path d="M48 20 Q40 32 48 44 Q56 32 48 20"/><line x1="28" y1="29" x2="36" y2="29"/><polyline points="32,25 36,29 32,33"/></svg>
+      </div>
+      <h3>海外送金</h3>
+      <ul>
+        <li><a href="#">海外送金利用申込</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="8"/><line x1="32" y1="14" x2="32" y2="22"/><line x1="32" y1="42" x2="32" y2="50"/><line x1="14" y1="32" x2="22" y2="32"/><line x1="42" y1="32" x2="50" y2="32"/><line x1="20" y1="20" x2="26" y2="26"/><line x1="38" y1="38" x2="44" y2="44"/><line x1="44" y1="20" x2="38" y2="26"/><line x1="20" y1="44" x2="26" y2="38"/></svg>
+      </div>
+      <h3>ビジネス支援サービス</h3>
+      <ul>
+        <li><a href="#">法人紹介プログラム ›</a></li>
+        <li><a href="#">ビジネスコミュニティ ›</a></li>
+        <li><a href="#">ビジネスサポートサービス ›</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="8" y="16" width="48" height="32" rx="2"/><circle cx="20" cy="30" r="4"/><line x1="14" y1="40" x2="26" y2="40"/><circle cx="44" cy="30" r="4"/><line x1="38" y1="40" x2="50" y2="40"/></svg>
+      </div>
+      <h3>ビジネスID管理</h3>
+      <ul>
+        <li><a href="#">グループ一覧</a></li>
+        <li><a href="#">ユーザー一覧</a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="14" y="14" width="36" height="40" rx="2"/><line x1="22" y1="24" x2="42" y2="24"/><line x1="22" y1="32" x2="42" y2="32"/><line x1="22" y1="40" x2="34" y2="40"/><circle cx="44" cy="44" r="6"/><polyline points="41,44 43,46 47,42"/></svg>
+      </div>
+      <h3>経理業務改善</h3>
+      <ul>
+        <li><a href="#">請求書管理・支払い</a></li>
+        <li><a href="#">請求書カード払い <span class="new-tag">NEW</span></a></li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">
+        <svg viewBox="0 0 64 64"><rect x="12" y="10" width="32" height="40" rx="2"/><line x1="20" y1="20" x2="36" y2="20"/><line x1="20" y1="28" x2="36" y2="28"/><line x1="20" y1="36" x2="36" y2="36"/><path d="M44 38 L50 32 L56 38 L52 38 L52 50 L48 50 L48 38 Z"/></svg>
+      </div>
+      <h3>各種お手続き</h3>
+      <ul>
+        <li><a href="#">お客さま情報（申込・設定）</a></li>
+        <li class="sub">登録情報 ｜ カード ｜ セキュリティ ｜ メール</li>
+        <li><a href="#">書面発行</a></li>
+        <li class="sub">残高証明書 ｜ 取引明細書 ｜ 利息計算書</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h4>便利なサービス</h4>
+    <div class="links1">
+      <a href="#">商品・サービス一覧</a>
+      <a href="#">振込入金口座</a>
+      <a href="#">ビジネスデビット</a>
+      <a href="#">総合振込</a>
+      <a href="#">複数口座・ビジネスID管理</a>
+      <a href="#">電子証明書</a>
+    </div>
+    <div class="links2">
+      <a href="#">金利</a>
+      <a href="#">手数料</a>
+      <a href="#">よくあるご質問</a>
+      <a href="#">会社情報</a>
+      <a href="#">各種方針</a>
+      <a href="#">苦情・紛争解決機関</a>
+      <a href="#">規定・約款一覧</a>
+      <a href="#">金融犯罪の注意喚起</a>
+      <a href="#">セキュリティ対策</a>
+      <a href="#">ガイド一覧</a>
+    </div>
+    <div class="copyright">
+      アオソラ銀行（架空デモ）｜本サイトは デモ環境 です。実在の金融機関ではありません。<br>
+      Copyright © Aora Bank Demo. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<div class="top-btn">▲</div>
+
+</body>
+</html>
