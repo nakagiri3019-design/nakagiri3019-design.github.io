@@ -6,6 +6,10 @@
 <title>入出金明細｜アオソラ銀行ビジネス | DEMO</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: auto;
+  min-height: 100%;
+}
 body {
   font-family: "Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
   color: #1a1a1a;
@@ -38,48 +42,60 @@ a:hover { text-decoration: underline; }
 .utility-bar a { color: #333; }
 
 /* Header */
-.header { background: #fff; }
+.header { background: #fff; border-bottom: 1px solid #e8eaed; }
 .header-inner {
   max-width: 1050px;
   margin: 0 auto;
-  padding: 2px 20px 7px;
+  padding: 6px 20px 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
-.brand { display: flex; flex-direction: column; }
-.brand-logo-img { width: 190px; height: auto; display: block; }
+.brand { display: flex; flex-direction: column; line-height: 1; }
+.brand-logo-img {
+  width: 190px;
+  height: auto;
+  display: block;
+}
 .brand-code { font-size: 10px; color: #888; margin-top: 2px; padding-left: 36px; }
 .header-tools {
   display: flex;
   align-items: center;
-  gap: 16px;
-  font-size: 12px;
+  gap: 14px;
+  font-size: 11px;
 }
 .header-tools .tool {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #333;
+  color: #444;
   cursor: pointer;
+  font-size: 11px;
 }
 .header-tools .tool svg {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   fill: none;
   stroke: #0099d6;
   stroke-width: 1.8;
 }
-.company-name { font-size: 12px; color: #1a1a1a; font-weight: 500; margin-left: 8px; }
+.company-name {
+  font-size: 11.5px;
+  color: #1a1a1a;
+  font-weight: 500;
+  margin-left: 6px;
+}
 .last-login-time { font-size: 10px; color: #888; }
 .btn-logout {
   background: #fff;
-  border: 1px solid #888;
+  border: 1px solid #c9d1d9;
   color: #1a1a1a;
-  padding: 4px 14px;
-  border-radius: 3px;
-  font-size: 12px;
+  padding: 3px 12px;
+  border-radius: 2px;
+  font-size: 11px;
   cursor: pointer;
+  line-height: 1.4;
 }
 
 /* Global Nav */
@@ -94,55 +110,92 @@ a:hover { text-decoration: underline; }
 .gnav-item {
   flex: 1;
   text-align: center;
-  padding: 8px 2px 9px;
-  font-size: 14px;
+  padding: 3px 2px 4px;
+  font-size: 13px;
   color: #1a1a1a;
   cursor: pointer;
-  line-height: 1.25;
+  line-height: 1.3;
   font-weight: 400;
 }
 .gnav-item:hover { color: #00aac6; }
-.gnav-item.active { color: #00aac6; font-weight: 500; border-bottom: 3px solid #00aac6; margin-bottom: -1px; }
+.gnav-item.active { color: #00aac6; font-weight: 500; }
 
 /* Banner */
 .top-banner {
   max-width: 1050px;
-  margin: 14px auto 6px;
+  margin: 10px auto 4px;
   padding: 0 20px;
 }
 .top-banner-inner {
-  background: linear-gradient(90deg, #b6e6f0 0%, #d4eff5 50%, #b6e6f0 100%);
-  border-radius: 3px;
-  padding: 20px 28px;
+  background: linear-gradient(90deg, #cfe5ef 0%, #e4f1f6 35%, #f7eedb 70%, #f3dde2 100%);
+  border-radius: 2px;
+  padding: 16px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 24px;
-  position: relative;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 78px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
-.top-banner-inner .ill-l, .top-banner-inner .ill-r {
-  width: 70px;
-  height: 70px;
-  background: #fff;
+/* 左側に淡い円の装飾 */
+.top-banner-inner::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
+}
+/* 右側に淡い円の装飾 */
+.top-banner-inner::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
 }
 .top-banner-inner .copy {
   text-align: center;
   color: #003a70;
+  position: relative;
+  z-index: 1;
 }
-.top-banner-inner .copy .lead { font-size: 14px; margin-bottom: 4px; }
-.top-banner-inner .copy .main { font-size: 22px; font-weight: 700; color: #d6395a; }
-.top-banner-inner .copy .sub { font-size: 10px; color: #555; margin-top: 4px; }
+.top-banner-inner .copy .lead {
+  font-size: 12.5px;
+  margin-bottom: 3px;
+  color: #1a4575;
+}
+.top-banner-inner .copy .main {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d6395a;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+}
+.top-banner-inner .copy .main .pct {
+  font-size: 28px;
+  font-weight: 800;
+  vertical-align: -2px;
+  margin: 0 2px;
+}
+.top-banner-inner .copy .sub {
+  font-size: 9.5px;
+  color: #666;
+  margin-top: 3px;
+}
 
 /* Inquiry timestamp */
 .inquiry-time {
   max-width: 1050px;
-  margin: 8px auto 4px;
+  margin: 4px auto 2px;
   padding: 0 20px;
   text-align: right;
   font-size: 11px;
@@ -152,11 +205,11 @@ a:hover { text-decoration: underline; }
 /* Page title */
 .page-title-row {
   max-width: 1050px;
-  margin: 8px auto 12px;
+  margin: 4px auto 8px;
   padding: 0 20px;
 }
 .page-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: #1a1a1a;
   border-left: 4px solid #00aac6;
@@ -179,13 +232,14 @@ a:hover { text-decoration: underline; }
   gap: 0;
 }
 .tab-item {
-  padding: 11px 32px 10px;
-  font-size: 13.5px;
-  color: #1a1a1a;
+  padding: 8px 30px 7px;
+  font-size: 13px;
+  color: #555;
   cursor: pointer;
   border-bottom: 3px solid transparent;
-  background: #f5f6f8;
+  background: #eaedf1;
   margin-right: 2px;
+  margin-bottom: -1px;
 }
 .tab-item.active {
   background: #fff;
@@ -196,13 +250,13 @@ a:hover { text-decoration: underline; }
 .tabs-right {
   display: flex;
   align-items: center;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 .btn-fx {
   background: #fff;
   border: 1px solid #c9d1d9;
   color: #1a1a1a;
-  padding: 6px 18px;
+  padding: 5px 16px;
   border-radius: 2px;
   font-size: 12.5px;
   cursor: pointer;
@@ -213,20 +267,20 @@ a:hover { text-decoration: underline; }
 .content {
   max-width: 1050px;
   margin: 0 auto;
-  padding: 16px 20px 24px;
+  padding: 10px 20px 18px;
 }
 
 .notice-text {
   font-size: 12.5px;
   color: #1a1a1a;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 /* Search panel */
 .search-panel {
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 16px;
-  margin-bottom: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 4px;
 }
 .search-toggle {
   font-size: 13px;
@@ -235,7 +289,7 @@ a:hover { text-decoration: underline; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .search-toggle::before {
   content: '∧';
@@ -244,12 +298,13 @@ a:hover { text-decoration: underline; }
 .search-actions {
   position: absolute;
   right: 20px;
+  top: 0;
   display: flex;
   gap: 6px;
 }
 .search-actions .icn-btn {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border: 1px solid #c9d1d9;
   background: #fff;
   border-radius: 2px;
@@ -257,17 +312,16 @@ a:hover { text-decoration: underline; }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   color: #444;
 }
 .search-form {
   background: #fff;
-  padding: 14px 18px;
-  border: 1px solid #e5e7eb;
-  border-radius: 2px;
+  padding: 4px 0;
+  border: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 .search-row {
   display: flex;
@@ -276,7 +330,7 @@ a:hover { text-decoration: underline; }
   font-size: 12.5px;
 }
 .search-row .lbl {
-  color: #555;
+  color: #1a1a1a;
   width: 80px;
   text-align: right;
 }
@@ -291,9 +345,9 @@ a:hover { text-decoration: underline; }
 .search-row .selectbox,
 .search-row .datebox {
   border: 1px solid #c9d1d9;
-  padding: 5px 10px;
+  padding: 4px 10px;
   border-radius: 2px;
-  background: #f7f9fb;
+  background: #fff;
   font-size: 12.5px;
   min-width: 100px;
 }
@@ -331,10 +385,11 @@ a:hover { text-decoration: underline; }
   margin-left: 92px;
   background: #fff;
   border: 1px solid #c9d1d9;
-  padding: 7px 36px;
+  padding: 6px 32px;
   border-radius: 2px;
   font-size: 13px;
   cursor: pointer;
+  margin-top: 2px;
 }
 
 /* Toolbar above table */
@@ -345,6 +400,10 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid #e5e7eb;
   font-size: 12.5px;
   gap: 16px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 6;
 }
 .toolbar .left {
   display: flex;
@@ -409,32 +468,42 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
 }
 .tx-table thead th {
-  background: #fff;
-  border-bottom: 1px solid #d9dde2;
-  padding: 14px 12px;
-  font-weight: 400;
+  background: #f7f9fb;
+  border-bottom: 2px solid #b9c0ca;
+  padding: 12px 12px;
+  font-weight: 500;
   color: #1a1a1a;
   text-align: left;
   font-size: 13px;
+  position: sticky;
+  top: 50px;
+  z-index: 5;
 }
 .tx-table thead th.num { text-align: right; }
 .tx-table thead th .sort::after { content: ' ▾'; font-size: 10px; color: #666; }
 .tx-table tbody td {
   border-bottom: 1px solid #e5e7eb;
-  padding: 14px 12px;
+  padding: 12px 12px;
   color: #1a1a1a;
   vertical-align: middle;
+  font-size: 13px;
+  background: #fff;
+}
+.tx-table tbody tr:nth-child(even) td {
+  background: #fafbfc;
 }
 .tx-table tbody td.num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+  color: #1a1a1a;
+  font-weight: 400;
 }
 .tx-table tbody td.date {
   white-space: nowrap;
   color: #1a1a1a;
 }
-.tx-table tbody tr:hover {
-  background: #fafbfc;
+.tx-table tbody tr:hover td {
+  background: #eef6f8;
 }
 
 /* Bottom pagination */
@@ -633,13 +702,11 @@ a:hover { text-decoration: underline; }
 <!-- Banner -->
 <div class="top-banner">
   <div class="top-banner-inner">
-    <div class="ill-l">💼</div>
     <div class="copy">
       <div class="lead">ビジネスデビットカードなら利用代金の</div>
-      <div class="main">最大 1<small style="font-size:14px;">※</small>% キャッシュバック！</div>
+      <div class="main">最大<span class="pct">1<small style="font-size:11px;">※</small>%</span>キャッシュバック！</div>
       <div class="sub">※一部キャッシュバック率が異なる利用先がございます。</div>
     </div>
-    <div class="ill-r">💳</div>
   </div>
 </div>
 
@@ -669,72 +736,72 @@ a:hover { text-decoration: underline; }
 <div class="content">
   <p class="notice-text">過去6ヵ月分を初期表示しています。それ以前の明細は検索条件よりご指定ください。</p>
 
-  <div class="search-panel" style="position: relative;">
-    <div class="search-toggle">検索条件</div>
-    <div class="search-actions">
-      <div class="icn-btn" title="印刷">🖨</div>
-      <div class="icn-btn" title="再表示">↻</div>
-    </div>
-    <div class="search-form">
-      <div class="search-row">
-        <span class="lbl">口座：</span>
-        <span class="val">
-          <span class="selected">選択</span>
-          <span>法人第二営業部</span>
-          <span>普通</span>
-          <span>2145598</span>
-          <span>株式会社コスモエンジニアリング</span>
-        </span>
+    <div class="search-panel" style="position: relative;">
+      <div class="search-toggle">検索条件</div>
+      <div class="search-actions">
+        <div class="icn-btn" title="印刷">🖨</div>
+        <div class="icn-btn" title="再表示">↻</div>
       </div>
-      <div class="search-row">
-        <span class="lbl">期間指定：</span>
-        <span class="val">
-          <span class="placeholder selectbox">選択してください</span>
-          <span class="checkbox"></span>
-          <span>日付入力：</span>
-          <span class="datebox">20260101</span>
-          <span class="date-icon">📅</span>
-          <span>～</span>
-          <span class="datebox">20260630</span>
-          <span class="date-icon">📅</span>
-        </span>
+      <div class="search-form">
+        <div class="search-row">
+          <span class="lbl">口座：</span>
+          <span class="val">
+            <span class="selected">選択</span>
+            <span>法人第二営業部</span>
+            <span>普通</span>
+            <span>2145598</span>
+            <span>株式会社コスモエンジニアリング</span>
+          </span>
+        </div>
+        <div class="search-row">
+          <span class="lbl">期間指定：</span>
+          <span class="val">
+            <span class="placeholder selectbox">選択してください</span>
+            <span class="checkbox"></span>
+            <span>日付入力：</span>
+            <span class="datebox">20260101</span>
+            <span class="date-icon">📅</span>
+            <span>～</span>
+            <span class="datebox">20260630</span>
+            <span class="date-icon">📅</span>
+          </span>
+        </div>
+        <button class="btn-search">検索</button>
       </div>
-      <button class="btn-search">検索</button>
     </div>
-  </div>
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="left">操作メニュー</div>
-    <div class="center">
-      <div class="pg">
-        <span class="arr">|‹</span>
-        <span class="arr">‹</span>
-        <span class="num active">1</span>
-        <span class="num">2</span>
-        <span class="arr">›</span>
-        <span class="arr">›|</span>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="left">操作メニュー</div>
+      <div class="center">
+        <div class="pg">
+          <span class="arr">|‹</span>
+          <span class="arr">‹</span>
+          <span class="num active">1</span>
+          <span class="num">2</span>
+          <span class="arr">›</span>
+          <span class="arr">›|</span>
+        </div>
+      </div>
+      <div class="right">
+        <span class="count">1-20件 / 全25件</span>
+        <span class="per-page">20件</span>
       </div>
     </div>
-    <div class="right">
-      <span class="count">1-20件 / 全25件</span>
-      <span class="per-page">20件</span>
-    </div>
-  </div>
 
-  <!-- Table -->
-  <table class="tx-table">
-    <thead>
-      <tr>
-        <th><span class="sort">日付</span></th>
-        <th>摘要</th>
-        <th class="num">入金金額</th>
-        <th class="num">出金金額</th>
-        <th class="num">残高</th>
-        <th>メモ</th>
-      </tr>
-    </thead>
-    <tbody>
+    <!-- Table -->
+    <table class="tx-table">
+      <thead>
+        <tr>
+          <th><span class="sort">日付</span></th>
+          <th>摘要</th>
+          <th class="num">入金金額</th>
+          <th class="num">出金金額</th>
+          <th class="num">残高</th>
+          <th>メモ</th>
+        </tr>
+      </thead>
+      <tbody>
       <tr>
         <td class="date">2026/06/26</td>
         <td>ATM 利用手数料 セブン銀行</td>
@@ -808,25 +875,105 @@ a:hover { text-decoration: underline; }
         <td></td>
       </tr>
       <tr>
+        <td class="date">2026/06/10</td>
+        <td>振込手数料</td>
+        <td class="num"></td>
+        <td class="num">145 円</td>
+        <td class="num">-48,101 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/10</td>
+        <td>振込 カ）取引先C</td>
+        <td class="num"></td>
+        <td class="num">120,000 円</td>
+        <td class="num">-47,956 円</td>
+        <td></td>
+      </tr>
+      <tr>
         <td class="date">2026/06/05</td>
         <td>口座振替 公共料金</td>
         <td class="num"></td>
         <td class="num">8,420 円</td>
-        <td class="num">-48,101 円</td>
+        <td class="num">72,044 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/06/03</td>
+        <td>振込 カ）アセントアセットマネジメント</td>
+        <td class="num">300,000 円</td>
+        <td class="num"></td>
+        <td class="num">80,464 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/30</td>
+        <td>振込手数料</td>
+        <td class="num"></td>
+        <td class="num">145 円</td>
+        <td class="num">-219,536 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/30</td>
+        <td>振込 カ）取引先D</td>
+        <td class="num"></td>
+        <td class="num">150,000 円</td>
+        <td class="num">-219,391 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/28</td>
+        <td>ATM 利用手数料 セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">110 円</td>
+        <td class="num">-69,391 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/28</td>
+        <td>ATM セブン銀行</td>
+        <td class="num"></td>
+        <td class="num">100,000 円</td>
+        <td class="num">-69,281 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/25</td>
+        <td>振込 カ）コスモエンジニアリング</td>
+        <td class="num">280,000 円</td>
+        <td class="num"></td>
+        <td class="num">30,719 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/22</td>
+        <td>口座振替 通信費</td>
+        <td class="num"></td>
+        <td class="num">12,650 円</td>
+        <td class="num">-249,281 円</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="date">2026/05/20</td>
+        <td>振込 カ）取引先E</td>
+        <td class="num"></td>
+        <td class="num">90,000 円</td>
+        <td class="num">-236,631 円</td>
         <td></td>
       </tr>
     </tbody>
-  </table>
+    </table>
 
-  <!-- Bottom pagination -->
-  <div class="bottom-pg">
-    <span class="arr">|‹</span>
-    <span class="arr">‹</span>
-    <span class="num active">1</span>
-    <span class="num">2</span>
-    <span class="arr">›</span>
-    <span class="arr">›|</span>
-  </div>
+    <!-- Bottom pagination -->
+    <div class="bottom-pg">
+      <span class="arr">|‹</span>
+      <span class="arr">‹</span>
+      <span class="num active">1</span>
+      <span class="num">2</span>
+      <span class="arr">›</span>
+      <span class="arr">›|</span>
+    </div>
 </div>
 
 <!-- Footer -->
