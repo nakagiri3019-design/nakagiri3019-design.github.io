@@ -298,7 +298,43 @@ a:hover { text-decoration: underline; }
   cursor: pointer;
   font-size: 13px;
   color: #444;
+  position: relative;
 }
+.output-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid #d0d5db;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  border-radius: 3px;
+  min-width: 300px;
+  z-index: 3000;
+  text-align: left;
+  cursor: default;
+}
+.output-menu.open { display: block; }
+.output-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+.output-menu a:last-child { border-bottom: none; }
+.output-menu a::after {
+  content: '›';
+  color: #00aac6;
+  font-size: 16px;
+  margin-left: 12px;
+}
+.output-menu a:hover { background: #f0fafd; }
 .search-form {
   background: #fff;
   padding: 4px 0;
@@ -948,7 +984,18 @@ a:hover { text-decoration: underline; }
     <div class="search-panel" style="position: relative;">
       <div class="search-toggle">検索条件</div>
       <div class="search-actions">
-        <div class="icn-btn" title="印刷">🖨</div>
+        <div class="icn-btn print-btn" id="print-btn" title="出力">🖨
+          <div class="output-menu" id="output-menu">
+            <a href="#" data-out="pdf">PDFを表示</a>
+            <a href="#" data-out="zengin-fixed">入出金取引明細（全銀固定長）を出力</a>
+            <a href="#" data-out="zengin-csv">入出金取引明細（全銀CSV）を出力</a>
+            <a href="#" data-out="own-csv">入出金明細（当社CSV）を出力</a>
+            <a href="#" data-out="notice-fixed">振込入金通知（全銀固定長）を出力</a>
+            <a href="#" data-out="notice-csv">振込入金通知（全銀CSV）を出力</a>
+            <a href="#" data-out="incoming-csv">振込入金口座入金明細CSVを出力</a>
+            <a href="#" data-out="file">ファイル出力</a>
+          </div>
+        </div>
         <div class="icn-btn" title="再表示">↻</div>
       </div>
       <div class="search-form">
@@ -1783,6 +1830,40 @@ const txCosmo = [
   });
 
   render();
+})();
+
+/* ===== 出力メニュー（印刷アイコン） ===== */
+(function() {
+  var printBtn = document.getElementById('print-btn');
+  var menu = document.getElementById('output-menu');
+  if (!printBtn || !menu) return;
+
+  printBtn.addEventListener('click', function(e) {
+    // メニュー内クリックは無視（項目側で処理）
+    if (e.target.closest('.output-menu')) return;
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+
+  // 外側クリックで閉じる
+  document.addEventListener('click', function(e) {
+    if (!printBtn.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  // 各項目クリック（今は動作未実装：デモ表示）
+  menu.querySelectorAll('a[data-out]').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var type = item.getAttribute('data-out');
+      menu.classList.remove('open');
+      // TODO: 各出力処理をここに実装
+      // 現時点はデモのため、選択された種別を通知
+      console.log('output selected:', type);
+    });
+  });
 })();
 </script>
 </body>
