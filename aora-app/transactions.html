@@ -363,6 +363,107 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
   color: #00aac6;
   margin-left: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+.date-field {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+.datebox-input {
+  border: 1px solid #c9d1d9;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: #fff;
+  font-size: 12.5px;
+  width: 92px;
+  font-family: inherit;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+.datebox-input:focus {
+  outline: none;
+  border-color: #00aac6;
+  box-shadow: 0 0 0 2px rgba(0,170,198,0.15);
+}
+/* Calendar popup */
+.cal-popup {
+  display: none;
+  position: absolute;
+  z-index: 2000;
+  background: #fff;
+  border: 1px solid #d0d5db;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  border-radius: 4px;
+  padding: 14px;
+  width: 300px;
+  border-top: 3px solid #00aac6;
+}
+.cal-popup.open { display: block; }
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+.cal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.cal-nav {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  border-radius: 4px;
+  user-select: none;
+}
+.cal-nav:hover { background: #f0f0f0; color: #00aac6; }
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+.cal-weekdays span {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding: 4px 0;
+}
+.cal-weekdays .sun { color: #e53935; }
+.cal-weekdays .sat { color: #1e88e5; }
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-days .day {
+  text-align: center;
+  padding: 7px 0;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 50%;
+  color: #1a1a1a;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cal-days .day.sun { color: #e53935; }
+.cal-days .day.sat { color: #1e88e5; }
+.cal-days .day.empty { cursor: default; }
+.cal-days .day:not(.empty):hover { background: #e8f6fa; }
+.cal-days .day.selected {
+  background: #c7a94a;
+  color: #fff;
+  font-weight: 600;
 }
 .btn-search {
   align-self: flex-start;
@@ -676,6 +777,8 @@ a:hover { text-decoration: underline; }
 <!-- Page transition overlay -->
 <div id="page-transition"><div class="spinner"></div></div>
 
+<div class="demo-ribbon">DEMO ENVIRONMENT — これはアオソラ銀行（架空）のデモ画面です</div>
+
 <!-- Utility bar -->
 <div class="utility-bar">
   <div class="inner">
@@ -865,14 +968,30 @@ a:hover { text-decoration: underline; }
             <span class="placeholder selectbox">選択してください</span>
             <span class="checkbox"></span>
             <span>日付入力：</span>
-            <span class="datebox">20260301</span>
-            <span class="date-icon">📅</span>
+            <span class="date-field">
+              <input type="text" class="datebox-input" id="date-from" value="20260301" maxlength="8" inputmode="numeric" autocomplete="off">
+              <span class="date-icon" data-cal="date-from">📅</span>
+            </span>
             <span>～</span>
-            <span class="datebox">20260626</span>
-            <span class="date-icon">📅</span>
+            <span class="date-field">
+              <input type="text" class="datebox-input" id="date-to" value="20260626" maxlength="8" inputmode="numeric" autocomplete="off">
+              <span class="date-icon" data-cal="date-to">📅</span>
+            </span>
           </span>
         </div>
-        <button class="btn-search">検索</button>
+        <button class="btn-search" id="btn-search">検索</button>
+      </div>
+      <!-- Calendar popup -->
+      <div class="cal-popup" id="cal-popup">
+        <div class="cal-head">
+          <span class="cal-nav" id="cal-prev">‹</span>
+          <span class="cal-title" id="cal-title"></span>
+          <span class="cal-nav" id="cal-next">›</span>
+        </div>
+        <div class="cal-weekdays">
+          <span class="sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span>
+        </div>
+        <div class="cal-days" id="cal-days"></div>
       </div>
     </div>
 
@@ -929,8 +1048,8 @@ a:hover { text-decoration: underline; }
       <a href="#">ガイド一覧</a>
     </div>
     <div class="copyright">
-      GMOあおぞらネット銀行株式会社 登録金融機関 関東財務局長（登金）第665号 一般社団法人 金融先物取引業協会加入<br>
-      Copyright © GMO Aozora Net Bank, Ltd. All Rights Reserved.
+      アオソラ銀行（架空デモ）｜本サイトは デモ環境 です。実在の金融機関ではありません。<br>
+      Copyright © Aora Bank Demo. All Rights Reserved.
     </div>
   </div>
 </footer>
@@ -1387,7 +1506,8 @@ const txCosmo = [
 /* ===== ページング表示ロジック ===== */
 (function() {
   var PER_PAGE = 20;
-  var data = txCosmo;
+  var allData = txCosmo;      // 全データ
+  var data = txCosmo;         // 表示中データ（絞り込み後）
   var total = data.length;
   var totalPages = Math.ceil(total / PER_PAGE);
   var currentPage = 1;
@@ -1409,6 +1529,14 @@ const txCosmo = [
     var rows = data.slice(start, end);
 
     var html = '';
+    if (total === 0) {
+      html = '<tr><td colspan="6" style="text-align:center; padding:40px 0; color:#888;">該当する明細がありません。</td></tr>';
+      tbody.innerHTML = html;
+      countTop.textContent = '0件 / 全0件';
+      renderPager(pgTop);
+      renderPager(pgBottom);
+      return;
+    }
     rows.forEach(function(t) {
       html += '<tr>';
       html += '<td class="date">' + t.date + '</td>';
@@ -1482,6 +1610,177 @@ const txCosmo = [
       }, 450);
     });
   }
+
+  /* ===== カレンダー ===== */
+  var calPopup = document.getElementById('cal-popup');
+  var calTitle = document.getElementById('cal-title');
+  var calDays = document.getElementById('cal-days');
+  var calPrev = document.getElementById('cal-prev');
+  var calNext = document.getElementById('cal-next');
+  var fromInput = document.getElementById('date-from');
+  var toInput = document.getElementById('date-to');
+  var activeInput = null;   // 今カレンダーが対象にしている入力欄
+  var calYear, calMonth;    // 表示中の年月
+
+  function parseYMD(str) {
+    // "20260301" → {y,m,d}
+    var s = (str || '').replace(/[^0-9]/g, '');
+    if (s.length !== 8) return null;
+    var y = parseInt(s.slice(0,4),10);
+    var m = parseInt(s.slice(4,6),10);
+    var d = parseInt(s.slice(6,8),10);
+    if (m < 1 || m > 12 || d < 1 || d > 31) return null;
+    return { y:y, m:m, d:d };
+  }
+
+  function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+  function buildCalendar(year, month) {
+    calTitle.textContent = year + ' 年 　' + month + ' 月';
+    calDays.innerHTML = '';
+    var first = new Date(year, month-1, 1);
+    var startDow = first.getDay(); // 0=日
+    var daysInMonth = new Date(year, month, 0).getDate();
+
+    // 選択中の日
+    var sel = parseYMD(activeInput ? activeInput.value : '');
+
+    // 空セル
+    for (var i=0; i<startDow; i++) {
+      var e = document.createElement('span');
+      e.className = 'day empty';
+      calDays.appendChild(e);
+    }
+    for (var d=1; d<=daysInMonth; d++) {
+      var cell = document.createElement('span');
+      var dow = new Date(year, month-1, d).getDay();
+      cell.className = 'day' + (dow===0?' sun':'') + (dow===6?' sat':'');
+      if (sel && sel.y===year && sel.m===month && sel.d===d) {
+        cell.className += ' selected';
+      }
+      cell.textContent = d;
+      cell.setAttribute('data-day', d);
+      calDays.appendChild(cell);
+    }
+  }
+
+  function openCalendar(input, iconEl) {
+    activeInput = input;
+    var ymd = parseYMD(input.value) || (function(){
+      var now = new Date();
+      return { y: now.getFullYear(), m: now.getMonth()+1, d: now.getDate() };
+    })();
+    calYear = ymd.y;
+    calMonth = ymd.m;
+    buildCalendar(calYear, calMonth);
+
+    // 位置：アイコンの下に表示
+    var field = iconEl.closest('.date-field');
+    calPopup.style.left = field.offsetLeft + 'px';
+    calPopup.style.top = (field.offsetTop + field.offsetHeight + 6) + 'px';
+    calPopup.classList.add('open');
+  }
+
+  function closeCalendar() {
+    calPopup.classList.remove('open');
+    activeInput = null;
+  }
+
+  // アイコンクリックでカレンダーを開閉
+  document.querySelectorAll('.date-icon').forEach(function(icon) {
+    icon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var targetId = icon.getAttribute('data-cal');
+      var input = document.getElementById(targetId);
+      if (calPopup.classList.contains('open') && activeInput === input) {
+        closeCalendar();
+      } else {
+        openCalendar(input, icon);
+      }
+    });
+  });
+
+  // 日付セルクリック
+  calDays.addEventListener('click', function(e) {
+    var cell = e.target.closest('.day');
+    if (!cell || cell.classList.contains('empty')) return;
+    var d = parseInt(cell.getAttribute('data-day'),10);
+    if (activeInput) {
+      activeInput.value = '' + calYear + pad(calMonth) + pad(d);
+    }
+    closeCalendar();
+  });
+
+  // 前月・次月
+  calPrev.addEventListener('click', function(e){
+    e.stopPropagation();
+    calMonth--;
+    if (calMonth < 1) { calMonth = 12; calYear--; }
+    buildCalendar(calYear, calMonth);
+  });
+  calNext.addEventListener('click', function(e){
+    e.stopPropagation();
+    calMonth++;
+    if (calMonth > 12) { calMonth = 1; calYear++; }
+    buildCalendar(calYear, calMonth);
+  });
+
+  // 外側クリックで閉じる
+  document.addEventListener('click', function(e){
+    if (calPopup.classList.contains('open') &&
+        !calPopup.contains(e.target) &&
+        !e.target.classList.contains('date-icon')) {
+      closeCalendar();
+    }
+  });
+
+  // 手入力：数字だけ許可
+  [fromInput, toInput].forEach(function(inp){
+    inp.addEventListener('input', function(){
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0,8);
+    });
+  });
+
+  /* ===== 検索（期間絞り込み） ===== */
+  function ymdToNum(str) {
+    var p = parseYMD(str);
+    if (!p) return null;
+    return p.y * 10000 + p.m * 100 + p.d;
+  }
+  function txDateToNum(dateStr) {
+    // "2026/03/01" → 20260301
+    var s = dateStr.replace(/[^0-9]/g,'');
+    return parseInt(s, 10);
+  }
+
+  var btnSearch = document.getElementById('btn-search');
+  btnSearch.addEventListener('click', function(){
+    var fromN = ymdToNum(fromInput.value);
+    var toN = ymdToNum(toInput.value);
+
+    if (fromN === null || toN === null) {
+      alert('日付は8桁（例：20260301）で入力してください。');
+      return;
+    }
+    if (fromN > toN) {
+      alert('開始日が終了日より後になっています。');
+      return;
+    }
+
+    if (overlay) overlay.classList.add('active');
+    setTimeout(function(){
+      data = allData.filter(function(t){
+        var n = txDateToNum(t.date);
+        return n >= fromN && n <= toN;
+      });
+      total = data.length;
+      totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+      currentPage = 1;
+      render();
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      if (overlay) overlay.classList.remove('active');
+    }, 450);
+  });
 
   render();
 })();
