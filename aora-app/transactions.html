@@ -444,6 +444,22 @@ a:hover { text-decoration: underline; }
   cursor: pointer;
 }
 .toolbar .per-page::after { content: ' ▾'; color: #888; font-size: 10px; }
+.toolbar .per-page-select {
+  border: 1px solid #c9d1d9;
+  padding: 4px 24px 4px 10px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  background: #fff;
+  cursor: pointer;
+  color: #1a1a1a;
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
 
 /* Table */
 .tx-table {
@@ -870,7 +886,11 @@ a:hover { text-decoration: underline; }
       </div>
       <div class="right">
         <span class="count" id="count-top">1-20件 / 全0件</span>
-        <span class="per-page">20件</span>
+        <select class="per-page-select" id="per-page-select">
+          <option value="20">20件</option>
+          <option value="50">50件</option>
+          <option value="100">100件</option>
+        </select>
       </div>
     </div>
 
@@ -1378,6 +1398,8 @@ const txCosmo = [
   var countTop = document.getElementById('count-top');
   var pgTop = document.getElementById('pg-top');
   var pgBottom = document.getElementById('pg-bottom');
+  var perPageSelect = document.getElementById('per-page-select');
+  var overlay = document.getElementById('page-transition');
 
   function fmt(n) {
     return n.toLocaleString('ja-JP');
@@ -1426,19 +1448,42 @@ const txCosmo = [
     container.innerHTML = html;
   }
 
+  // ローディング演出をはさんでページ切り替え
+  function goToPage(p) {
+    if (isNaN(p) || p < 1 || p > totalPages || p === currentPage) return;
+    if (overlay) overlay.classList.add('active');
+    setTimeout(function() {
+      currentPage = p;
+      render();
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      if (overlay) overlay.classList.remove('active');
+    }, 450);
+  }
+
   function onPagerClick(e) {
     var el = e.target.closest('[data-page]');
     if (!el) return;
     var p = parseInt(el.getAttribute('data-page'), 10);
-    if (isNaN(p) || p < 1 || p > totalPages || p === currentPage) return;
-    currentPage = p;
-    render();
-    // ページ上部へスクロール
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    goToPage(p);
   }
 
   pgTop.addEventListener('click', onPagerClick);
   pgBottom.addEventListener('click', onPagerClick);
+
+  // 表示件数の切り替え
+  if (perPageSelect) {
+    perPageSelect.addEventListener('change', function() {
+      PER_PAGE = parseInt(this.value, 10);
+      totalPages = Math.ceil(total / PER_PAGE);
+      currentPage = 1;
+      if (overlay) overlay.classList.add('active');
+      setTimeout(function() {
+        render();
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        if (overlay) overlay.classList.remove('active');
+      }, 450);
+    });
+  }
 
   render();
 })();
