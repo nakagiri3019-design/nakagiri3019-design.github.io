@@ -98,64 +98,57 @@ a:hover { text-decoration: underline; }
 }
 
 /* Global Nav */
-.gnav {
-  background: #fff;
-  border-bottom: 1px solid #00aac6;
-}
+.gnav { background: #fff; border-bottom: 1px solid #00aac6; }
 .gnav-inner {
   max-width: 1150px;
   margin: 0 auto;
-  padding: 0 12px;
+  padding: 0 8px;
   display: flex;
   justify-content: space-between;
-  gap: 4px;
+  align-items: stretch;
 }
 .gnav-item {
   flex: 1;
   text-align: center;
-  padding: 6px 8px;
-  font-size: 13px;
+  padding: 5px 3px 6px;
+  font-size: 12.5px;
   color: #1a1a1a;
   cursor: pointer;
   line-height: 1.35;
   font-weight: 400;
-  white-space: nowrap;
-  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  white-space: normal;
+  word-break: keep-all;
 }
 .gnav-item:hover { color: #00aac6; }
-.nav-item {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-}
-.nav-item:first-child .gnav-item { font-size: 11.5px; }
-.nav-item .dropdown {
+.gnav-item { position: relative; }
+.gnav-item .dropdown {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
   background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #d0d5db;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   z-index: 1000;
-  min-width: 220px;
+  min-width: 210px;
   white-space: nowrap;
 }
-.nav-item:hover .dropdown {
-  display: block;
-}
+.gnav-item:hover .dropdown { display: block; }
 .dropdown a {
   display: block;
-  padding: 10px 16px;
+  padding: 9px 16px;
   color: #333;
   text-decoration: none;
   font-size: 13px;
   border-bottom: 1px solid #f0f0f0;
+  text-align: left;
 }
-.dropdown a:hover {
-  background: #f5f9ff;
-  color: #0066cc;
-}
+.dropdown a:last-child { border-bottom: none; }
+.dropdown a:hover { background: #f0fafd; color: #00aac6; }
 
 /* Last login row */
 .last-login-row {
@@ -798,8 +791,7 @@ a:hover { text-decoration: underline; }
 <!-- Global Nav -->
 <nav class="gnav">
   <div class="gnav-inner">
-    <div class="nav-item">
-      <div class="gnav-item">振込・税金等支払</div>
+    <div class="gnav-item">振込・<br>税金等支払
       <div class="dropdown">
         <a href="#">振込</a>
         <a href="#">一括振込（入力）</a>
@@ -813,8 +805,7 @@ a:hover { text-decoration: underline; }
         <a href="#">組戻し</a>
       </div>
     </div>
-    <div class="nav-item">
-      <a class="gnav-item" href="transactions.html" style="text-decoration:none;">残高・明細<br>・振込状況</a>
+    <div class="gnav-item">残高・明細<br>・振込状況
       <div class="dropdown">
         <a href="#">残高照会</a>
         <a href="transactions.html">入出金明細</a>
@@ -824,8 +815,7 @@ a:hover { text-decoration: underline; }
         <a href="#">ペイジー払込履歴照会</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">デビット<br>カード</div>
+    <div class="gnav-item">デビット<br>カード
       <div class="dropdown">
         <a href="#">カード基本設定</a>
         <a href="#">デビット入出金明細</a>
@@ -835,23 +825,18 @@ a:hover { text-decoration: underline; }
         <a href="#">カード盗難・紛失／不正利用申告</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">ローン</div>
+    <div class="gnav-item">ローン
       <div class="dropdown">
         <a href="#">あんしんワイド</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">海外送金</div>
+    <div class="gnav-item">海外送金
       <div class="dropdown">
         <a href="#">海外送金利用申込</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">円定期</div>
-    </div>
-    <div class="nav-item">
-      <div class="gnav-item">外 貨</div>
+    <div class="gnav-item">円定期</div>
+    <div class="gnav-item">外 貨
       <div class="dropdown">
         <a href="#">外貨普通（残高照会・新規購入・売却）</a>
         <a href="#">入出金明細</a>
@@ -861,32 +846,28 @@ a:hover { text-decoration: underline; }
         <a href="#">外貨定期（残高照会・解約）</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">FX取引</div>
+    <div class="gnav-item">FX取引
       <div class="dropdown">
         <a href="#">FX口座情報（新規決済・振替履歴）</a>
         <a href="#">振替</a>
         <a href="#">FX電子帳票</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">振込入金口座</div>
+    <div class="gnav-item">振込入金口座
       <div class="dropdown">
         <a href="#">契約一覧（新規契約・口座発行）</a>
         <a href="#">口座照会（停止・再開・削除）</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">ポイント<br>・キャンペーン</div>
+    <div class="gnav-item">ポイント<br>・キャンペーン
       <div class="dropdown">
         <a href="#">ポイント・キャンペーン一覧</a>
         <a href="#">ポイント設定</a>
         <a href="#">ポイント履歴</a>
       </div>
     </div>
-    <div class="nav-item">
-      <div class="gnav-item">お客さま情報<br>（申込・設定）</div>
-      <div class="dropdown">
+    <div class="gnav-item">お客さま情報<br>（申込・設定）
+      <div class="dropdown" style="left: auto; right: 0;">
         <a href="#">カード・ATM</a>
         <a href="#">セキュリティ</a>
         <a href="#">メール・通知</a>
