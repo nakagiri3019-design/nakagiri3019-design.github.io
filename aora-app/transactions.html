@@ -120,6 +120,37 @@ a:hover { text-decoration: underline; }
 }
 .gnav-item:hover { color: #00aac6; }
 .gnav-item.active { color: #00aac6; font-weight: 500; }
+.nav-item {
+  position: relative;
+  flex: 1;
+}
+.nav-item .dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  min-width: 220px;
+  white-space: nowrap;
+}
+.nav-item:hover .dropdown {
+  display: block;
+}
+.dropdown a {
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.dropdown a:hover {
+  background: #f5f9ff;
+  color: #0066cc;
+}
 
 /* Banner */
 .top-banner {
@@ -607,7 +638,7 @@ a:hover { text-decoration: underline; }
 <header class="header">
   <div class="header-inner">
     <div class="brand">
-      <img src="aora_logo.png" alt="アオソラ銀行 ビジネス" class="brand-logo-img">
+      <a href="home_v2.html"><img src="aora_logo.png" alt="アオソラ銀行 ビジネス" class="brand-logo-img"></a>
       <div class="brand-code">金融機関コード:9999</div>
     </div>
     <div class="header-tools">
@@ -637,17 +668,106 @@ a:hover { text-decoration: underline; }
 <!-- Global Nav -->
 <nav class="gnav">
   <div class="gnav-inner">
-    <div class="gnav-item">振込・税金等支払</div>
-    <div class="gnav-item active">残高・明細<br>・振込状況</div>
-    <div class="gnav-item">デビット<br>カード</div>
-    <div class="gnav-item">ローン</div>
-    <div class="gnav-item">海外送金</div>
-    <div class="gnav-item">円定期</div>
-    <div class="gnav-item">外 貨</div>
-    <div class="gnav-item">FX取引</div>
-    <div class="gnav-item">振込入金口座</div>
-    <div class="gnav-item">ポイント<br>・キャンペーン</div>
-    <div class="gnav-item">お客さま情報<br>（申込・設定）</div>
+    <div class="nav-item">
+      <div class="gnav-item">振込・税金等支払</div>
+      <div class="dropdown">
+        <a href="#">振込</a>
+        <a href="#">一括振込（入力）</a>
+        <a href="#">振込先登録</a>
+        <a href="#">一括振込（WEBアップロード）</a>
+        <a href="#">総合振込（WEBアップロード）</a>
+        <a href="#">一時保存データから振込</a>
+        <a href="#">ペイジー税金等支払い</a>
+        <a href="#">請求書管理・支払い</a>
+        <a href="#">定額自動振込</a>
+        <a href="#">組戻し</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="gnav-item active" href="transactions.html" style="text-decoration:none;">残高・明細<br>・振込状況</a>
+      <div class="dropdown">
+        <a href="#">残高照会</a>
+        <a href="transactions.html">入出金明細</a>
+        <a href="#">振込状況照会</a>
+        <a href="#">申請・承認一覧</a>
+        <a href="#">口座振替</a>
+        <a href="#">ペイジー払込履歴照会</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">デビット<br>カード</div>
+      <div class="dropdown">
+        <a href="#">カード基本設定</a>
+        <a href="#">デビット入出金明細</a>
+        <a href="#">カード追加・切替</a>
+        <a href="#">サブカード発行・管理</a>
+        <a href="#">デビット後払いオプション</a>
+        <a href="#">カード盗難・紛失</a>
+        <a href="#">不正利用申告</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">ローン</div>
+      <div class="dropdown">
+        <a href="#">あんしんワイド</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">海外送金</div>
+      <div class="dropdown">
+        <a href="#">海外送金利用申込</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">円定期</div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">外 貨</div>
+      <div class="dropdown">
+        <a href="#">外貨普通（残高照会・新規購入・売却）</a>
+        <a href="#">入出金明細</a>
+        <a href="#">実現損益</a>
+        <a href="#">外貨積立</a>
+        <a href="#">注文一覧（積立中止・変更）</a>
+        <a href="#">外貨定期（残高照会・解約）</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">FX取引</div>
+      <div class="dropdown">
+        <a href="#">FX口座情報（新規決済・振替履歴）</a>
+        <a href="#">振替</a>
+        <a href="#">FX電子帳票</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">振込入金口座</div>
+      <div class="dropdown">
+        <a href="#">契約一覧（新規契約・口座発行）</a>
+        <a href="#">口座照会（停止・再開・削除）</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">ポイント<br>・キャンペーン</div>
+      <div class="dropdown">
+        <a href="#">ポイント・キャンペーン一覧</a>
+        <a href="#">ポイント設定</a>
+        <a href="#">ポイント履歴</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="gnav-item">お客さま情報<br>（申込・設定）</div>
+      <div class="dropdown">
+        <a href="#">カード・ATM</a>
+        <a href="#">セキュリティ</a>
+        <a href="#">メール・通知</a>
+        <a href="#">ファイル出力</a>
+        <a href="#">書面発行（残高証明書等）</a>
+        <a href="#">FX電子帳票</a>
+        <a href="#">ログイン履歴</a>
+        <a href="#">ビジネスID管理（電子証明書発行）</a>
+      </div>
+    </div>
   </div>
 </nav>
 
