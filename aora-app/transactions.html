@@ -1123,6 +1123,8 @@ a:hover { text-decoration: underline; }
 </script>
 
 <script>
+const PDF_SERVER = 'https://aora-pdf-server.onrender.com';
+
 /* ===== 入出金明細データ（コスモエンジニアリング・PDF原本転記） ===== */
 const txCosmo = [
   // ===== 2026/06/26 =====
@@ -1858,6 +1860,15 @@ const txCosmo = [
       var type = item.getAttribute('data-out');
       menu.classList.remove('open');
 
+      if (type === 'pdf') {
+        // PDFを表示 → PDFサーバーで期間指定PDFを生成して開く
+        var dateFrom = document.getElementById('date-from');
+        var dateTo = document.getElementById('date-to');
+        var params = new URLSearchParams();
+        if (dateFrom && dateFrom.value) params.set('from', dateFrom.value);
+        if (dateTo && dateTo.value) params.set('to', dateTo.value);
+        window.open(PDF_SERVER + '/pdf?' + params.toString(), '_blank', 'noopener');
+      }
       if (type === 'zengin-fixed') {
         // 入出金取引明細（全銀固定長）を出力 → PDFダウンロード
         var pdfName = '入出金明細照会結果書.pdf';
