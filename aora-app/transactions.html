@@ -620,9 +620,42 @@ a:hover { text-decoration: underline; }
   .tx-table thead th, .tx-table tbody td { padding: 8px 4px; }
   .tx-table td.date { white-space: nowrap; font-size: 11px; }
 }
+/* Page transition overlay */
+#page-transition {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+#page-transition.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+#page-transition .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #d9e6ee;
+  border-top-color: #00aac6;
+  border-radius: 50%;
+  animation: pt-spin 0.7s linear infinite;
+}
+@keyframes pt-spin {
+  to { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
+
+<!-- Page transition overlay -->
+<div id="page-transition"><div class="spinner"></div></div>
 
 <div class="demo-ribbon">DEMO ENVIRONMENT — これはアオソラ銀行（架空）のデモ画面です</div>
 
@@ -1056,5 +1089,25 @@ a:hover { text-decoration: underline; }
 
 <div class="top-btn">▲</div>
 
+<script>
+(function() {
+  var overlay = document.getElementById('page-transition');
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href === '#' || href.charAt(0) === '#' || a.target === '_blank') return;
+    if (href.indexOf('javascript:') === 0) return;
+    e.preventDefault();
+    overlay.classList.add('active');
+    setTimeout(function() {
+      window.location.href = href;
+    }, 550);
+  });
+  window.addEventListener('pageshow', function() {
+    overlay.classList.remove('active');
+  });
+})();
+</script>
 </body>
 </html>
