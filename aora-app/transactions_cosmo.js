@@ -1,17 +1,28 @@
 // アオソラ銀行デモ - コスモエンジニアリング 入出金明細データ
 // 口座: 法人第二営業部 普通 2145598 / 株式会社コスモエンジニアリング
-// 対象期間: 2026/03/01 ～ 2026/06/19
+// 対象期間: 2026/03/01 ～ 2026/06/30
 // 並び順: 最新が先頭（降順）
 // deposit: 入金額（出金時は null） / withdraw: 出金額（入金時は null） / balance: 残高 / memo: 摘要
 //
 // ※ このファイルはPDF原本(GMO3_1_6_24)から全件転記。残高はPDFの値をそのまま使用。
 
 const txCosmo = [
+  // ===== 2026/06/30 =====
+  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:110183,   memo:"振込手数料" },
+  { date:"2026/06/30", deposit:null,      withdraw:9956861,    balance:110313,   memo:"振込 キタキユウシユウ ダイシンケンセツ（カ" },
+  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:10067174, memo:"振込手数料" },
+  { date:"2026/06/30", deposit:null,      withdraw:9996800,    balance:10067304, memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
+  { date:"2026/06/30", deposit:20000000,  withdraw:null,       balance:20064104, memo:"振込 カ）コスモエンジニアリング" },
+  // ===== 2026/06/29 =====
+  { date:"2026/06/29", deposit:null,      withdraw:131000,     balance:64104,    memo:"APアプラス" },
+  { date:"2026/06/29", deposit:null,      withdraw:116800,     balance:195104,   memo:"APアプラス" },
+  { date:"2026/06/29", deposit:null,      withdraw:87000,      balance:311904,   memo:"オリコ" },
   // ===== 2026/06/26 =====
-  { date:"2026/06/26", deposit:null,      withdraw:161980,     balance:98904,    memo:"MHF)ﾔﾁﾝｼﾕｳﾉｳ" },
-  { date:"2026/06/26", deposit:null,      withdraw:17960,      balance:260884,   memo:"ﾐﾂｲｽﾐﾄﾓｶｲｼﾞﾖｳｶｻｲﾎｹﾝｶﾌﾞｼｷｶﾞｲｼﾔ" },
-  { date:"2026/06/26", deposit:null,      withdraw:110,        balance:278844,   memo:"ATM利用手数料　セブン銀行" },
-  { date:"2026/06/26", deposit:200000,    withdraw:null,       balance:278954,   memo:"ATM　セブン銀行" },
+  { date:"2026/06/26", deposit:null,      withdraw:161980,     balance:398904,   memo:"MHF)ﾔﾁﾝｼﾕｳﾉｳ" },
+  { date:"2026/06/26", deposit:null,      withdraw:17960,      balance:560884,   memo:"ﾐﾂｲｽﾐﾄﾓｶｲｼﾞﾖｳｶｻｲﾎｹﾝｶﾌﾞｼｷｶﾞｲｼﾔ" },
+  // ===== 2026/06/25 =====
+  { date:"2026/06/25", deposit:null,      withdraw:110,        balance:578844,   memo:"ATM利用手数料　セブン銀行" },
+  { date:"2026/06/25", deposit:500000,    withdraw:null,       balance:578954,   memo:"ATM　セブン銀行" },
   // ===== 2026/06/19 =====
   { date:"2026/06/19", deposit:null,      withdraw:130,        balance:78954,    memo:"振込手数料" },
   { date:"2026/06/19", deposit:null,      withdraw:320467,     balance:79084,    memo:"振込 サイタマシンクミ クボ　シユウジ" },
