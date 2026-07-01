@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'aora-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v51';
+const CACHE_NAME = CACHE_PREFIX + 'v52';
 const PRECACHE_URLS = [
   './',
   './index.html',
