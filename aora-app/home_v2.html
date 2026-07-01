@@ -29,7 +29,7 @@ a:hover { text-decoration: underline; }
 /* Utility bar */
 .utility-bar { background: #fff; font-size: 11px; color: #333; }
 .utility-bar .inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 4px 20px 2px;
   display: flex;
@@ -42,7 +42,7 @@ a:hover { text-decoration: underline; }
 /* Header */
 .header { background: #fff; border-bottom: 1px solid #e8eaed; }
 .header-inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 6px 20px 4px;
   display: flex;
@@ -102,7 +102,7 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid #00aac6;
 }
 .gnav-inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -122,7 +122,7 @@ a:hover { text-decoration: underline; }
 
 /* Last login row */
 .last-login-row {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 7px auto 5px;
   padding: 0 20px;
   text-align: right;
@@ -132,7 +132,7 @@ a:hover { text-decoration: underline; }
 
 /* Account banner */
 .account-banner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px 10px;
 }
@@ -207,7 +207,7 @@ a:hover { text-decoration: underline; }
 .account-row2 .tab .status { color: #00aac6; font-size: 11px; }
 
 /* Summary */
-.summary-row { max-width: 1050px; margin: 0 auto; padding: 4px 20px 10px; }
+.summary-row { max-width: 1150px; margin: 0 auto; padding: 4px 20px 10px; }
 .summary-table {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
@@ -235,7 +235,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* CTA */
-.cta-row { max-width: 1050px; margin: 0 auto; padding: 4px 20px 8px; }
+.cta-row { max-width: 1150px; margin: 0 auto; padding: 4px 20px 8px; }
 .cta-box {
   background: #fff;
   border: 1.5px solid #00aac6;
@@ -250,7 +250,7 @@ a:hover { text-decoration: underline; }
 
 /* News */
 .news-row {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px 14px;
   display: grid;
@@ -289,7 +289,7 @@ a:hover { text-decoration: underline; }
 
 /* Carousel */
 .carousel-section {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px 14px;
   position: relative;
@@ -301,7 +301,7 @@ a:hover { text-decoration: underline; }
 }
 .carousel-item {
   border-radius: 3px;
-  padding: 10px 14px;
+  padding: 0;
   text-align: center;
   min-height: 76px;
   display: flex;
@@ -310,6 +310,7 @@ a:hover { text-decoration: underline; }
   font-weight: 500;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 .carousel-item.c1 {
   background: linear-gradient(180deg, #fff5e0 0%, #ffe2b3 100%);
@@ -380,7 +381,7 @@ a:hover { text-decoration: underline; }
   padding: 14px 0 32px;
 }
 .feature-grid {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
@@ -415,20 +416,20 @@ a:hover { text-decoration: underline; }
 }
 .feature-card h3 {
   text-align: center;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   color: #1a1a1a;
   margin-bottom: 14px;
 }
 .feature-card ul { list-style: none; }
-.feature-card ul li { margin-bottom: 5px; font-size: 14px; }
+.feature-card ul li { margin-bottom: 6px; font-size: 15px; }
 .feature-card ul li a { color: #00aac6; }
 .feature-card ul li.sub {
-  font-size: 11.5px;
+  font-size: 12.5px;
   color: #555;
   margin-top: -1px;
-  margin-bottom: 7px;
-  line-height: 1.5;
+  margin-bottom: 8px;
+  line-height: 1.55;
 }
 .feature-card .new-tag {
   display: inline-block;
@@ -443,7 +444,7 @@ a:hover { text-decoration: underline; }
 
 /* Footer */
 .footer { background: #4a4a4a; color: #d0d0d0; padding: 20px 0 18px; }
-.footer-inner { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+.footer-inner { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
 .footer h4 { color: #fff; font-size: 12px; margin-bottom: 10px; font-weight: 500; }
 .footer .links1 {
   display: flex;
@@ -834,20 +835,13 @@ a:hover { text-decoration: underline; }
   <div class="carousel-arrow right">›</div>
   <div class="carousel-row">
     <div class="carousel-item c1">
-      <div class="badge">初回限定特典</div>
-      <div class="sub">外貨定期預金（1ヵ月もの）</div>
-      <div class="big">最大5,000円プレゼント</div>
-      <div class="sub">対象期間中の預入金額に応じて</div>
+      <img src="banner_gaika.png" alt="外貨定期預金 最大5,000円プレゼント" style="width:100%;height:100%;object-fit:cover;display:block;">
     </div>
     <div class="carousel-item c2">
-      <div class="sub">個人向けサービス・個人口座のATM手数料<br>他行宛て振込手数料</div>
-      <div class="big">毎月20回無料</div>
-      <div class="sub">プラチナデビットカード</div>
+      <img src="banner_20free.png" alt="毎月20回無料" style="width:100%;height:100%;object-fit:cover;display:block;">
     </div>
     <div class="carousel-item c3">
-      <div class="sub">まずは1枚発行してみませんか？</div>
-      <div class="big">サブカード</div>
-      <div class="sub">発行・管理サービス</div>
+      <img src="banner_subcard.png" alt="サブカード発行・管理サービス" style="width:100%;height:100%;object-fit:cover;display:block;">
     </div>
   </div>
   <div class="carousel-dots">

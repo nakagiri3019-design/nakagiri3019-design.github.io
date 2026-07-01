@@ -32,7 +32,7 @@ a:hover { text-decoration: underline; }
 /* Utility bar */
 .utility-bar { background: #fff; font-size: 11px; color: #333; }
 .utility-bar .inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 4px 20px 2px;
   display: flex;
@@ -44,7 +44,7 @@ a:hover { text-decoration: underline; }
 /* Header */
 .header { background: #fff; border-bottom: 1px solid #e8eaed; }
 .header-inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 6px 20px 4px;
   display: flex;
@@ -101,7 +101,7 @@ a:hover { text-decoration: underline; }
 /* Global Nav */
 .gnav { background: #fff; border-bottom: 1px solid #00aac6; }
 .gnav-inner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -122,79 +122,25 @@ a:hover { text-decoration: underline; }
 
 /* Banner */
 .top-banner {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 10px auto 4px;
   padding: 0 20px;
 }
 .top-banner-inner {
-  background: linear-gradient(90deg, #cfe5ef 0%, #e4f1f6 35%, #f7eedb 70%, #f3dde2 100%);
   border-radius: 2px;
-  padding: 16px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
-  min-height: 78px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  display: block;
 }
-/* 左側に淡い円の装飾 */
-.top-banner-inner::before {
-  content: '';
-  position: absolute;
-  left: -20px;
-  top: -20px;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%;
-}
-/* 右側に淡い円の装飾 */
-.top-banner-inner::after {
-  content: '';
-  position: absolute;
-  right: -30px;
-  bottom: -30px;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%;
-}
-.top-banner-inner .copy {
-  text-align: center;
-  color: #003a70;
-  position: relative;
-  z-index: 1;
-}
-.top-banner-inner .copy .lead {
-  font-size: 12.5px;
-  margin-bottom: 3px;
-  color: #1a4575;
-}
-.top-banner-inner .copy .main {
-  font-size: 20px;
-  font-weight: 700;
-  color: #d6395a;
-  line-height: 1.15;
-  letter-spacing: 0.5px;
-}
-.top-banner-inner .copy .main .pct {
-  font-size: 28px;
-  font-weight: 800;
-  vertical-align: -2px;
-  margin: 0 2px;
-}
-.top-banner-inner .copy .sub {
-  font-size: 9.5px;
-  color: #666;
-  margin-top: 3px;
+.top-banner-inner img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Inquiry timestamp */
 .inquiry-time {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 4px auto 2px;
   padding: 0 20px;
   text-align: right;
@@ -204,7 +150,7 @@ a:hover { text-decoration: underline; }
 
 /* Page title */
 .page-title-row {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 4px auto 8px;
   padding: 0 20px;
 }
@@ -219,7 +165,7 @@ a:hover { text-decoration: underline; }
 
 /* Tabs */
 .tabs-row {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -265,7 +211,7 @@ a:hover { text-decoration: underline; }
 
 /* Content area */
 .content {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 10px 20px 18px;
 }
@@ -536,7 +482,7 @@ a:hover { text-decoration: underline; }
 
 /* Footer */
 .footer { background: #4a4a4a; color: #d0d0d0; padding: 20px 0 18px; margin-top: 24px; }
-.footer-inner { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+.footer-inner { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
 .footer .links2 {
   display: flex;
   gap: 16px;
@@ -702,11 +648,7 @@ a:hover { text-decoration: underline; }
 <!-- Banner -->
 <div class="top-banner">
   <div class="top-banner-inner">
-    <div class="copy">
-      <div class="lead">ビジネスデビットカードなら利用代金の</div>
-      <div class="main">最大<span class="pct">1<small style="font-size:11px;">※</small>%</span>キャッシュバック！</div>
-      <div class="sub">※一部キャッシュバック率が異なる利用先がございます。</div>
-    </div>
+    <img src="banner_debit_cashback.png" alt="ビジネスデビットカード 最大1%キャッシュバック">
   </div>
 </div>
 
