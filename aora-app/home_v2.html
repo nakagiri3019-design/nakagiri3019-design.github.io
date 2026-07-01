@@ -295,22 +295,26 @@ a:hover { text-decoration: underline; }
   position: relative;
 }
 .carousel-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: center;
   gap: 12px;
 }
 .carousel-item {
   border-radius: 3px;
   padding: 0;
-  text-align: center;
-  min-height: 76px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-weight: 500;
-  position: relative;
+  width: 280px;
+  height: 80px;
+  display: block;
   cursor: pointer;
   overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .carousel-item.c1 {
   background: linear-gradient(180deg, #fff5e0 0%, #ffe2b3 100%);
