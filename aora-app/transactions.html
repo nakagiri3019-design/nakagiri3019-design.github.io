@@ -1677,6 +1677,16 @@ const txCosmo = [
   var calNext = document.getElementById('cal-next');
   var fromInput = document.getElementById('date-from');
   var toInput = document.getElementById('date-to');
+
+  // date-to の初期値を今日の日付(YYYYMMDD)に設定
+  (function() {
+    var today = new Date();
+    var y = today.getFullYear();
+    var m = String(today.getMonth() + 1).padStart(2, '0');
+    var d = String(today.getDate()).padStart(2, '0');
+    if (toInput) toInput.value = y + m + d;
+  })();
+
   var activeInput = null;   // 今カレンダーが対象にしている入力欄
   var calYear, calMonth;    // 表示中の年月
 
