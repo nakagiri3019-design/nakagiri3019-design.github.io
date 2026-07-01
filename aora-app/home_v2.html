@@ -303,14 +303,18 @@ a:hover { text-decoration: underline; }
   display: flex;
   gap: 12px;
   width: max-content;
-  animation: carousel-scroll 12s linear infinite;
+  animation: carousel-slide 12s infinite;
 }
 .carousel-row:hover {
   animation-play-state: paused;
 }
-@keyframes carousel-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-50% - 6px)); }
+@keyframes carousel-slide {
+  0%, 16.67%    { transform: translateX(0); }
+  20%, 36.67%   { transform: translateX(-292px); }
+  40%, 56.67%   { transform: translateX(-584px); }
+  60%, 76.67%   { transform: translateX(-876px); }
+  80%, 96.67%   { transform: translateX(-1168px); }
+  100%          { transform: translateX(-1460px); }
 }
 .carousel-item {
   border-radius: 3px;
@@ -860,6 +864,12 @@ a:hover { text-decoration: underline; }
       <div class="carousel-item">
         <img src="banner_subcard.png" alt="サブカード発行・管理サービス">
       </div>
+      <div class="carousel-item">
+        <img src="banner_04.png" alt="キャンペーンバナー4">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_05.png" alt="キャンペーンバナー5">
+      </div>
       <!-- 2セット目（無限スクロール用の複製） -->
       <div class="carousel-item">
         <img src="banner_gaika.png" alt="外貨定期預金 最大5,000円プレゼント">
@@ -869,6 +879,12 @@ a:hover { text-decoration: underline; }
       </div>
       <div class="carousel-item">
         <img src="banner_subcard.png" alt="サブカード発行・管理サービス">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_04.png" alt="キャンペーンバナー4">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_05.png" alt="キャンペーンバナー5">
       </div>
     </div>
   </div>
