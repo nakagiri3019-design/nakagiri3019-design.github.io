@@ -1850,16 +1850,26 @@ const txCosmo = [
     }
   });
 
-  // 各項目クリック（今は動作未実装：デモ表示）
+  // 各項目クリック
   menu.querySelectorAll('a[data-out]').forEach(function(item) {
     item.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
       var type = item.getAttribute('data-out');
       menu.classList.remove('open');
-      // TODO: 各出力処理をここに実装
-      // 現時点はデモのため、選択された種別を通知
-      console.log('output selected:', type);
+
+      if (type === 'zengin-fixed') {
+        // 入出金取引明細（全銀固定長）を出力 → PDFダウンロード
+        var pdfName = '入出金明細照会結果書.pdf';
+        var link = document.createElement('a');
+        link.href = encodeURIComponent(pdfName);
+        link.download = pdfName;
+        link.rel = 'noopener';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      // 他の項目は今後実装
     });
   });
 })();
