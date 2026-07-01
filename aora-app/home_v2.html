@@ -294,12 +294,23 @@ a:hover { text-decoration: underline; }
   padding: 0 20px 14px;
   position: relative;
 }
-.carousel-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+.carousel-viewport {
   max-width: 940px;
   margin: 0 auto;
+  overflow: hidden;
+}
+.carousel-row {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: carousel-scroll 12s linear infinite;
+}
+.carousel-row:hover {
+  animation-play-state: paused;
+}
+@keyframes carousel-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 6px)); }
 }
 .carousel-item {
   border-radius: 3px;
@@ -837,25 +848,29 @@ a:hover { text-decoration: underline; }
 
 <!-- Carousel -->
 <div class="carousel-section">
-  <div class="carousel-arrow left">‹</div>
-  <div class="carousel-arrow right">›</div>
-  <div class="carousel-row">
-    <div class="carousel-item c1">
-      <img src="banner_gaika.png" alt="外貨定期預金 最大5,000円プレゼント" style="width:100%;height:100%;object-fit:cover;display:block;">
+  <div class="carousel-viewport">
+    <div class="carousel-row">
+      <!-- 1セット目 -->
+      <div class="carousel-item">
+        <img src="banner_gaika.png" alt="外貨定期預金 最大5,000円プレゼント">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_20free.png" alt="毎月20回無料">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_subcard.png" alt="サブカード発行・管理サービス">
+      </div>
+      <!-- 2セット目（無限スクロール用の複製） -->
+      <div class="carousel-item">
+        <img src="banner_gaika.png" alt="外貨定期預金 最大5,000円プレゼント">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_20free.png" alt="毎月20回無料">
+      </div>
+      <div class="carousel-item">
+        <img src="banner_subcard.png" alt="サブカード発行・管理サービス">
+      </div>
     </div>
-    <div class="carousel-item c2">
-      <img src="banner_20free.png" alt="毎月20回無料" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-    <div class="carousel-item c3">
-      <img src="banner_subcard.png" alt="サブカード発行・管理サービス" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-  </div>
-  <div class="carousel-dots">
-    <span class="dot"></span>
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
   </div>
 </div>
 
