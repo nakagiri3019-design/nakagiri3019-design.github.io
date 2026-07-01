@@ -127,10 +127,17 @@ a:hover { text-decoration: underline; }
   padding: 0 20px;
 }
 .top-banner-inner {
+  background: linear-gradient(90deg, #cfe5ef 0%, #e4f1f6 35%, #f7eedb 70%, #f3dde2 100%);
   border-radius: 2px;
-  padding: 0;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   cursor: pointer;
+  position: relative;
   overflow: hidden;
+  min-height: 78px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 /* 左側に淡い円の装飾 */
@@ -695,7 +702,11 @@ a:hover { text-decoration: underline; }
 <!-- Banner -->
 <div class="top-banner">
   <div class="top-banner-inner">
-    <img src="banner_debit_cashback.png" alt="デビットカード最大1%キャッシュバック" style="width:100%;height:auto;display:block;">
+    <div class="copy">
+      <div class="lead">ビジネスデビットカードなら利用代金の</div>
+      <div class="main">最大<span class="pct">1<small style="font-size:11px;">※</small>%</span>キャッシュバック！</div>
+      <div class="sub">※一部キャッシュバック率が異なる利用先がございます。</div>
+    </div>
   </div>
 </div>
 
