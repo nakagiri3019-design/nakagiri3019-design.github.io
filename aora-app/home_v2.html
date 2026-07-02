@@ -1416,6 +1416,46 @@ a:hover { text-decoration: underline; }
 <div class="top-btn">▲</div>
 
 <script>
+function aoraUpdateDynamicDates() {
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function fmtDateTime(y, mo, d, h, mi) {
+    return y + '/' + pad2(mo) + '/' + pad2(d) + ' ' + pad2(h) + ':' + pad2(mi);
+  }
+
+  var now = new Date();
+
+  // 対象1: 最終ログイン日時＝今日の日付＋現在時刻
+  var lastLoginEl = document.querySelector('.last-login-time');
+  if (lastLoginEl) {
+    lastLoginEl.textContent = fmtDateTime(
+      now.getFullYear(), now.getMonth() + 1, now.getDate(),
+      now.getHours(), now.getMinutes()
+    );
+  }
+
+  // 対象2: 前回ログイン日時＝前日09:42（最終ログインより必ず前になる）
+  var prevLoginDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  var prevLoginRow = document.querySelector('.last-login-row');
+  if (prevLoginRow) {
+    prevLoginRow.textContent = '前回ログイン：' + fmtDateTime(
+      prevLoginDate.getFullYear(), prevLoginDate.getMonth() + 1, prevLoginDate.getDate(),
+      9, 42
+    );
+  }
+
+  // 対象3・4: 当月合算／前月（年またぎはDateの月ロールオーバーで自動対応）
+  var prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  var colSubs = document.querySelectorAll('.col-sub');
+  if (colSubs[0]) colSubs[0].textContent = now.getFullYear() + '年' + pad2(now.getMonth() + 1) + '月合算';
+  if (colSubs[1]) colSubs[1].textContent = prevMonthDate.getFullYear() + '年' + pad2(prevMonthDate.getMonth() + 1) + '月';
+
+  // 対象5・6: 年間累計
+  if (colSubs[2]) colSubs[2].textContent = now.getFullYear() + '年合算累計';
+  if (colSubs[3]) colSubs[3].textContent = now.getFullYear() + '年累計';
+}
+document.addEventListener('DOMContentLoaded', aoraUpdateDynamicDates);
+</script>
+<script>
 (function() {
   var overlay = document.getElementById('page-transition');
   document.addEventListener('click', function(e) {
