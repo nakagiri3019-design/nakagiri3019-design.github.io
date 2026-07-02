@@ -1415,8 +1415,15 @@ a:hover { text-decoration: underline; }
 
 <div class="top-btn">▲</div>
 
+<script src="./transactions_cosmo.js"></script>
 <script>
 function aoraUpdateDynamicDates() {
+  // 対象0: 口座残高＝取引データ(txCosmo)の最新(先頭)行のbalance
+  if (typeof txCosmo !== 'undefined' && txCosmo.length) {
+    var yenEl = document.querySelector('.balance .yen');
+    if (yenEl) yenEl.textContent = txCosmo[0].balance.toLocaleString('ja-JP');
+  }
+
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
   function fmtDateTime(y, mo, d, h, mi) {
     return y + '/' + pad2(mo) + '/' + pad2(d) + ' ' + pad2(h) + ':' + pad2(mi);
