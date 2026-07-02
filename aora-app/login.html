@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ログイン｜アオソラ銀行</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { width: 100%; overflow-x: hidden; }
+body {
+  font-family: "Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+  background: #eaf4f8;
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Header / Logo ===== */
+.login-header {
+  width: 100%;
+  padding: 40px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-mark {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00aac6, #003a70);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; font-weight: 700;
+  flex-shrink: 0;
+}
+.brand-word {
+  font-size: 22px;
+  font-weight: 700;
+  color: #003a70;
+  letter-spacing: 0.5px;
+}
+.brand-sub {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: #667;
+  letter-spacing: 1.5px;
+}
+
+/* ===== Card ===== */
+.login-card {
+  width: calc(100% - 32px);
+  max-width: 380px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(0,58,112,0.10);
+  padding: 28px 24px 26px;
+  margin: 8px 16px 24px;
+}
+.login-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.field { margin-bottom: 16px; }
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #445;
+  margin-bottom: 6px;
+}
+.field-input {
+  width: 100%;
+  font-size: 15px;
+  padding: 11px 13px;
+  border: 1px solid #d0d8de;
+  border-radius: 8px;
+  background: #fafcfd;
+  color: #1a1a1a;
+  outline: none;
+  font-family: inherit;
+  transition: border-color .15s;
+}
+.field-input:focus {
+  border-color: #00aac6;
+  background: #fff;
+}
+
+.login-error {
+  display: none;
+  font-size: 12.5px;
+  color: #d64545;
+  background: #fdeceb;
+  border: 1px solid #f6c8c4;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 24px;
+  background: #003a70;
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.btn-login:active { background: #002855; }
+
+.login-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.login-links a {
+  font-size: 12.5px;
+  color: #00aac6;
+  text-decoration: none;
+}
+.login-links a:active { text-decoration: underline; }
+
+.login-footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 18px 20px 26px;
+  font-size: 10.5px;
+  color: #99a3ab;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="login-header">
+  <div class="brand-logo">
+    <div class="brand-mark">A</div>
+    <div class="brand-word">アオソラ銀行</div>
+  </div>
+  <div class="brand-sub">BUSINESS BANKING</div>
+</div>
+
+<div class="login-card">
+  <div class="login-title">ログイン</div>
+
+  <div class="login-error" id="login-error"></div>
+
+  <form id="login-form" novalidate>
+    <div class="field">
+      <label class="field-label" for="login-id">ログインID</label>
+      <input class="field-input" type="text" id="login-id" autocomplete="username" inputmode="text">
+    </div>
+    <div class="field">
+      <label class="field-label" for="login-pw">ログインパスワード</label>
+      <input class="field-input" type="password" id="login-pw" autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn-login">ログイン</button>
+  </form>
+
+  <div class="login-links">
+    <a href="#">ログインID・パスワードをお忘れの方</a>
+    <a href="#">はじめてご利用の方</a>
+  </div>
+</div>
+
+<div class="login-footer">
+  &copy; アオソラ銀行 デモ環境（本サービスは実在の金融取引を行うものではありません）
+</div>
+
+<script>
+(function() {
+  var form = document.getElementById('login-form');
+  var idInput = document.getElementById('login-id');
+  var pwInput = document.getElementById('login-pw');
+  var errorEl = document.getElementById('login-error');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var id = idInput.value.trim();
+    var pw = pwInput.value.trim();
+
+    if (!id || !pw) {
+      errorEl.textContent = 'ログインIDとパスワードを入力してください。';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    errorEl.style.display = 'none';
+    try { sessionStorage.setItem('aoraLoggedIn', '1'); } catch (err) {}
+    location.href = 'home_v2.html';
+  });
+})();
+</script>
+</body>
+</html>

@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>アオソラ銀行</title>
+<script>
+// 未ログインの場合はログイン画面へ（このページは旧版のため入口のみ整理）
+(function() {
+  try {
+    if (!sessionStorage.getItem('aoraLoggedIn')) {
+      location.replace('login.html');
+    }
+  } catch (e) {}
+})();
+</script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body {
