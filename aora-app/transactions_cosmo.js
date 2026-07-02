@@ -8,10 +8,10 @@
 
 const txCosmo = [
   // ===== 2026/06/30 =====
-  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:110183,   memo:"振込手数料" },
-  { date:"2026/06/30", deposit:null,      withdraw:9956861,    balance:110313,   memo:"振込 キタキユウシユウ ダイシンケンセツ（カ" },
-  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:10067174, memo:"振込手数料" },
-  { date:"2026/06/30", deposit:null,      withdraw:9996800,    balance:10067304, memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
+  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:106983,   memo:"振込手数料" },
+  { date:"2026/06/30", deposit:null,      withdraw:9956861,    balance:107113,   memo:"振込 キタキユウシユウ ダイシンケンセツ（カ" },
+  { date:"2026/06/30", deposit:null,      withdraw:130,        balance:10063974, memo:"振込手数料" },
+  { date:"2026/06/30", deposit:null,      withdraw:10000000,   balance:10064104, memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
   { date:"2026/06/30", deposit:20000000,  withdraw:null,       balance:20064104, memo:"振込 カ）コスモエンジニアリング" },
   // ===== 2026/06/29 =====
   { date:"2026/06/29", deposit:null,      withdraw:131000,     balance:64104,    memo:"APアプラス" },
