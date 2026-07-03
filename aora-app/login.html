@@ -2,209 +2,299 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ログイン｜アオソラ銀行</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アオソラ銀行 ビジネスバンキング｜ログイン</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { width: 100%; overflow-x: hidden; }
-body {
-  font-family: "Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
-  background: #eaf4f8;
-  color: #1a1a1a;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  :root{
+    --navy:#00368c;
+    --navy-dark:#002a6e;
+    --cyan:#0a8fd6;
+    --pink:#e4007f;
+    --pink-dark:#c60070;
+    --khaki:#b0a17e;
+    --khaki-dark:#9c8d68;
+    --text:#333;
+    --line:#d8dde3;
+    --bg:#eef1f4;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo","Noto Sans JP",sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan);text-decoration:none;}
+  a:hover{text-decoration:underline;}
 
-/* ===== Header / Logo ===== */
-.login-header {
-  width: 100%;
-  padding: 40px 20px 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.brand-mark {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00aac6, #003a70);
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 15px; font-weight: 700;
-  flex-shrink: 0;
-}
-.brand-word {
-  font-size: 22px;
-  font-weight: 700;
-  color: #003a70;
-  letter-spacing: 0.5px;
-}
-.brand-sub {
-  margin-top: 6px;
-  font-size: 11.5px;
-  color: #667;
-  letter-spacing: 1.5px;
-}
+  /* ===== Header ===== */
+  .site-header{
+    background:#fff;
+    border-bottom:1px solid #e3e7ec;
+  }
+  .site-header .inner{
+    max-width:880px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo .mark{
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,#0a8fd6,#00368c);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:18px;
+  }
+  .logo .name{font-size:20px;font-weight:700;color:var(--navy);letter-spacing:.02em;}
+  .logo .name small{display:block;font-size:10px;letter-spacing:.18em;color:#8a94a0;font-weight:600;}
 
-/* ===== Card ===== */
-.login-card {
-  width: calc(100% - 32px);
-  max-width: 380px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 14px rgba(0,58,112,0.10);
-  padding: 28px 24px 26px;
-  margin: 8px 16px 24px;
-}
-.login-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-  text-align: center;
-  margin-bottom: 22px;
-}
+  /* ===== Sub bar ===== */
+  .subbar{background:#e6ebf0;border-bottom:1px solid #dde3e9;}
+  .subbar .inner{
+    max-width:880px;margin:0 auto;padding:8px 24px;
+    text-align:right;font-size:13px;
+  }
 
-.field { margin-bottom: 16px; }
-.field-label {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #445;
-  margin-bottom: 6px;
-}
-.field-input {
-  width: 100%;
-  font-size: 15px;
-  padding: 11px 13px;
-  border: 1px solid #d0d8de;
-  border-radius: 8px;
-  background: #fafcfd;
-  color: #1a1a1a;
-  outline: none;
-  font-family: inherit;
-  transition: border-color .15s;
-}
-.field-input:focus {
-  border-color: #00aac6;
-  background: #fff;
-}
+  /* ===== Main ===== */
+  .main{max-width:880px;margin:0 auto;padding:28px 24px 48px;}
+  .page-title{font-size:26px;font-weight:700;color:#1a1a1a;margin-bottom:8px;}
+  .subnav{font-size:14px;margin-bottom:24px;color:#1a1a1a;}
+  .subnav .sep{color:#c3cad2;margin:0 8px;}
+  .subnav .current{font-weight:700;}
 
-.login-error {
-  display: none;
-  font-size: 12.5px;
-  color: #d64545;
-  background: #fdeceb;
-  border: 1px solid #f6c8c4;
-  border-radius: 8px;
-  padding: 9px 12px;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
+  .card{
+    background:var(--card);border-radius:8px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);
+    border:1px solid #eceff3;
+    padding:28px 32px;margin-bottom:22px;
+  }
+  .card-head{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    border-bottom:1px solid #eceff3;padding-bottom:14px;margin-bottom:22px;
+  }
+  .card-head h2{
+    font-size:18px;font-weight:700;color:#1a1a1a;
+    padding-left:12px;border-left:4px solid var(--navy);line-height:1.3;
+  }
+  .badge{
+    border:1px solid #dfe4ea;border-radius:4px;padding:6px 10px;
+    text-align:center;min-width:96px;
+  }
+  .badge .b1{font-size:9px;letter-spacing:.1em;color:#8a94a0;font-weight:700;}
+  .badge .b2{font-size:12px;font-weight:700;color:var(--navy);}
+  .badge .b3{font-size:9px;color:#9aa4b0;margin-top:2px;}
+  .badge-img{width:150px;height:auto;flex-shrink:0;}
 
-.btn-login {
-  width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 24px;
-  background: #003a70;
-  color: #fff;
-  font-size: 15.5px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background .15s;
-}
-.btn-login:active { background: #002855; }
+  /* ===== Fade overlay ===== */
+  #fadeOverlay{
+    position:fixed;inset:0;background:#ffffff;
+    opacity:0;visibility:hidden;z-index:9999;
+    transition:opacity .5s ease;
+  }
+  #fadeOverlay.show{opacity:1;visibility:visible;}
+  #fadeOverlay .spin{
+    position:absolute;top:50%;left:50%;
+    width:44px;height:44px;margin:-22px 0 0 -22px;
+    border:4px solid #dbe4ef;border-top-color:var(--navy);
+    border-radius:50%;animation:aoraSpin 1s linear infinite;
+    opacity:0;transition:opacity .4s ease .3s;
+  }
+  #fadeOverlay.show .spin{opacity:1;}
+  @keyframes aoraSpin{to{transform:rotate(360deg);}}
 
-.login-links {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.login-links a {
-  font-size: 12.5px;
-  color: #00aac6;
-  text-decoration: none;
-}
-.login-links a:active { text-decoration: underline; }
+  .field{margin-bottom:16px;}
+  .field label{
+    display:flex;align-items:center;gap:6px;
+    font-size:14px;font-weight:700;color:#555;margin-bottom:6px;
+  }
+  .field label .help{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:16px;height:16px;border-radius:50%;background:#9aa4b0;
+    color:#fff;font-size:11px;font-weight:700;cursor:default;
+  }
+  .field input{
+    width:100%;border:1px solid #c5cdd8;border-radius:2px;
+    background:#eef3fb;padding:11px 12px;font-size:16px;color:#222;
+    outline:none;transition:border-color .15s,background .15s;
+  }
+  .field input:focus{border-color:var(--cyan);background:#e6eefb;}
 
-.login-footer {
-  width: 100%;
-  margin-top: auto;
-  padding: 18px 20px 26px;
-  font-size: 10.5px;
-  color: #99a3ab;
-  text-align: center;
-}
+  .forgot{font-size:13px;margin:2px 0 24px;}
+
+  .btn-row{text-align:center;margin-top:8px;}
+  .btn-login{
+    background:var(--pink);color:#fff;border:none;cursor:pointer;
+    font-size:15px;font-weight:700;padding:13px 44px;border-radius:5px;
+    display:inline-flex;align-items:center;gap:14px;
+    transition:background .15s;
+  }
+  .btn-login:hover{background:var(--pink-dark);}
+  .btn-login .arrow{font-weight:400;}
+
+  .btn-cert{
+    background:var(--khaki);color:#fff;border:none;cursor:pointer;
+    font-size:15px;font-weight:700;padding:13px 54px;border-radius:6px;
+    display:inline-flex;align-items:center;gap:10px;transition:background .15s;
+  }
+  .btn-cert:hover{background:var(--khaki-dark);}
+
+  .cert-links{margin-top:20px;font-size:13px;line-height:2;}
+
+  .msg{
+    display:none;background:#fdecef;border:1px solid #f5b8c8;color:#c60039;
+    font-size:13px;font-weight:700;padding:10px 14px;border-radius:4px;
+    margin-bottom:20px;max-width:560px;
+  }
+  .msg.show{display:block;}
+
+  /* ===== Warning box ===== */
+  .warn{
+    background:#fdeef0;border:2px solid #e0392f;border-radius:4px;
+    padding:22px;text-align:center;margin:30px 0;
+  }
+  .warn h3{color:#d0021b;font-size:19px;font-weight:700;margin-bottom:10px;}
+  .warn p{font-size:14px;color:#333;}
+  .warn .demo-note{font-size:12px;color:#8a94a0;margin-top:10px;}
+
+  /* ===== Footer ===== */
+  .footer{background:#4a535d;color:#cfd5db;}
+  .footer .inner{max-width:880px;margin:0 auto;padding:22px 24px;}
+  .footer .links{
+    display:flex;flex-wrap:wrap;gap:10px 22px;
+    font-size:13px;font-weight:700;margin-bottom:14px;
+  }
+  .footer .links a{color:#e4e9ee;}
+  .footer .copy{font-size:12px;color:#9aa4ae;}
+
+  /* ===== Responsive ===== */
+  @media (max-width:640px){
+    .site-header .inner{padding:12px 16px;}
+    .logo .name{font-size:17px;}
+    .main{padding:20px 16px 36px;}
+    .page-title{font-size:22px;}
+    .card{padding:20px 18px;}
+    .card-head{flex-direction:column;gap:12px;}
+    .btn-login{padding:14px 40px;width:100%;justify-content:center;}
+    .btn-cert{width:100%;justify-content:center;padding:13px 30px;}
+  }
 </style>
 </head>
 <body>
 
-<div class="login-header">
-  <div class="brand-logo">
-    <div class="brand-mark">A</div>
-    <div class="brand-word">アオソラ銀行</div>
-  </div>
-  <div class="brand-sub">BUSINESS BANKING</div>
-</div>
+  <!-- Fade overlay -->
+  <div id="fadeOverlay"><div class="spin"></div></div>
 
-<div class="login-card">
-  <div class="login-title">ログイン</div>
-
-  <div class="login-error" id="login-error"></div>
-
-  <form id="login-form" novalidate>
-    <div class="field">
-      <label class="field-label" for="login-id">ログインID</label>
-      <input class="field-input" type="text" id="login-id" autocomplete="username" inputmode="text">
+  <!-- Header -->
+  <header class="site-header">
+    <div class="inner">
+      <div class="logo">
+        <img src="aora_logo.png" alt="アオソラ銀行 BUSINESS BANKING" height="40">
+      </div>
     </div>
-    <div class="field">
-      <label class="field-label" for="login-pw">ログインパスワード</label>
-      <input class="field-input" type="password" id="login-pw" autocomplete="current-password">
+  </header>
+
+  <!-- Sub bar -->
+  <div class="subbar">
+    <div class="inner">
+      <a href="#">個人・個人事業主口座のログイン ＞</a>
     </div>
-    <button type="submit" class="btn-login">ログイン</button>
-  </form>
-
-  <div class="login-links">
-    <a href="#">ログインID・パスワードをお忘れの方</a>
-    <a href="#">はじめてご利用の方</a>
   </div>
-</div>
 
-<div class="login-footer">
-  &copy; アオソラ銀行 デモ環境（本サービスは実在の金融取引を行うものではありません）
-</div>
+  <!-- Main -->
+  <main class="main">
+    <h1 class="page-title">法人口座</h1>
+    <nav class="subnav">
+      <span class="current">ログイン</span>
+      <span class="sep">｜</span>
+      <a href="#">カード盗難・紛失／不正利用申告</a>
+    </nav>
+
+    <!-- Login card -->
+    <section class="card">
+      <div class="card-head">
+        <h2>ログインID、ログインパスワード</h2>
+        <img src="secure_badge.png" alt="SECURE LOGIN verified デモ環境" class="badge-img">
+      </div>
+
+      <div id="msg" class="msg">ログインID・ログインパスワードを入力してください</div>
+
+      <div class="field">
+        <label for="loginId">ログインID <span class="help">?</span></label>
+        <input type="text" id="loginId" autocomplete="username" placeholder="">
+      </div>
+      <div class="field">
+        <label for="loginPw">ログインパスワード <span class="help">?</span></label>
+        <input type="password" id="loginPw" autocomplete="current-password" placeholder="">
+      </div>
+
+      <p class="forgot"><a href="#">ログインID、ログインパスワードが分からない方 ＞</a></p>
+
+      <div class="btn-row">
+        <button type="button" class="btn-login" onclick="doLogin()">ログイン <span class="arrow">＞</span></button>
+      </div>
+    </section>
+
+    <!-- Certificate card -->
+    <section class="card">
+      <div class="card-head">
+        <h2>電子証明書</h2>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn-cert" onclick="return false;">電子証明書認証 <span class="arrow">＞</span></button>
+      </div>
+      <div class="cert-links">
+        <a href="#">電子証明書でログインできない方（有効期限切れ等）＞</a><br>
+        <a href="#">ログイン方法の再設定（電子証明書からログインID）＞</a>
+      </div>
+    </section>
+
+    <!-- Warning -->
+    <div class="warn">
+      <h3>金融犯罪にご注意ください！</h3>
+      <p>口座の売買・譲渡・譲受・貸借はすべて犯罪です。<br>
+      口座の不正な開設・譲渡・利用が判明した場合、取引停止や口座解約等、厳格に対応します。<br>
+      第三者から振込を依頼された場合は、詐欺等の犯罪に巻き込まれる可能性が高いのでご注意ください。</p>
+      <p class="demo-note">※本サービスはデモ環境です。実在の金融取引を行うものではありません。</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="inner">
+      <div class="links">
+        <a href="#">金利</a>
+        <a href="#">手数料</a>
+        <a href="#">よくあるご質問</a>
+        <a href="#">会社情報</a>
+        <a href="#">各種方針</a>
+        <a href="#">苦情・紛争解決機関</a>
+        <a href="#">規定・約款一覧</a>
+        <a href="#">セキュリティ対策</a>
+      </div>
+      <div class="copy">Copyright © Aora Bank (Demo). All Rights Reserved.</div>
+    </div>
+  </footer>
 
 <script>
-(function() {
-  var form = document.getElementById('login-form');
-  var idInput = document.getElementById('login-id');
-  var pwInput = document.getElementById('login-pw');
-  var errorEl = document.getElementById('login-error');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var id = idInput.value.trim();
-    var pw = pwInput.value.trim();
-
-    if (!id || !pw) {
-      errorEl.textContent = 'ログインIDとパスワードを入力してください。';
-      errorEl.style.display = 'block';
+  function doLogin(){
+    var id = document.getElementById('loginId').value.trim();
+    var pw = document.getElementById('loginPw').value.trim();
+    var msg = document.getElementById('msg');
+    if(id === '' && pw === ''){
+      msg.classList.add('show');
       return;
     }
-
-    errorEl.style.display = 'none';
-    try { sessionStorage.setItem('aoraLoggedIn', '1'); } catch (err) {}
-    location.href = 'home_v2.html';
+    msg.classList.remove('show');
+    // デモ用：白フェード演出のあとホームへ遷移
+    document.getElementById('fadeOverlay').classList.add('show');
+    setTimeout(function(){
+      window.location.href = 'home_v2.html';
+    }, 2000);
+  }
+  // Enterキーでもログイン
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ doLogin(); }
   });
-})();
 </script>
 </body>
 </html>

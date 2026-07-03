@@ -1,9 +1,10 @@
 const CACHE_PREFIX = 'aora-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v77';
+const CACHE_NAME = CACHE_PREFIX + 'v78';
 const PRECACHE_URLS = [
   './',
   './index.html',
   './login.html',
+  './secure_badge.png',
   './manifest.json',
   './transactions_cosmo.js',
   './icon-192.png',

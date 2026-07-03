@@ -772,9 +772,39 @@ a:hover { text-decoration: underline; }
 @keyframes pt-spin {
   to { transform: rotate(360deg); }
 }
+
+/* Home fade-in overlay（ログインからの遷移時、白からふわっと表示） */
+#home-fade-in {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 100000;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+#home-fade-in.hide {
+  opacity: 0;
+}
 </style>
 </head>
 <body>
+
+<!-- Home fade-in overlay（ログイン画面の白フェードから続けて、白からふわっと表示） -->
+<div id="home-fade-in"></div>
+<script>
+(function() {
+  var el = document.getElementById('home-fade-in');
+  if (!el) return;
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      el.classList.add('hide');
+    });
+  });
+  el.addEventListener('transitionend', function() {
+    el.style.display = 'none';
+  });
+})();
+</script>
 
 <!-- Page transition overlay -->
 <div id="page-transition"><div class="spinner"></div></div>
