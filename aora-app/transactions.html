@@ -1120,6 +1120,22 @@ a:hover { text-decoration: underline; }
     overlay.classList.remove('active');
   });
 })();
+
+/* ===== 前回ログイン・照会日時を今日の日付に更新（home_v2.htmlの.last-login-timeと同じロジック） ===== */
+(function() {
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function fmtDateTime(y, mo, d, h, mi) {
+    return y + '/' + pad2(mo) + '/' + pad2(d) + ' ' + pad2(h) + ':' + pad2(mi);
+  }
+  var now = new Date();
+  var nowText = fmtDateTime(now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes());
+
+  var lastLoginEl = document.querySelector('.last-login-time');
+  if (lastLoginEl) lastLoginEl.textContent = nowText;
+
+  var inquiryEl = document.querySelector('.inquiry-time');
+  if (inquiryEl) inquiryEl.textContent = '照会日時：' + nowText;
+})();
 </script>
 
 <script>
