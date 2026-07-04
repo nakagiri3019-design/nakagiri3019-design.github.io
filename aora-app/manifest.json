@@ -1,7 +1,7 @@
 {
   "name": "アオソラ銀行",
   "short_name": "アオソラ銀行",
-  "start_url": "./index.html",
+  "start_url": "./app.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#eaf4f8",
