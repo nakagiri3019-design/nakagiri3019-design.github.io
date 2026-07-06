@@ -120,10 +120,14 @@ body {
 
 /* ===== LOGIN SCREEN ===== */
 #login-screen {
-  position: fixed; inset: 0; z-index: 100;
+  position: absolute; top: 0; left: 0; right: 0;
+  min-height: 100%; min-height: 100dvh; z-index: 100;
   display: flex; flex-direction: column;
-  overflow-y: auto; -webkit-overflow-scrolling: touch;
   background: #e8f6fb;
+}
+body.login-active {
+  height: auto; min-height: 100%;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 .login-top {
   padding: calc(env(safe-area-inset-top, 0px) + 56px) 24px 40px;
@@ -1010,6 +1014,7 @@ function doLogin() {
   showLoader(function() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('home-screen').style.display = 'flex';
+    document.body.classList.remove('login-active');
     setUpdateTime();
   });
 }
@@ -1020,6 +1025,8 @@ function doLogout() {
     document.getElementById('home-screen').style.display = 'none';
     document.getElementById('history-screen').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
+    document.body.classList.add('login-active');
+    window.scrollTo(0, 0);
   });
 }
 
@@ -1297,6 +1304,17 @@ function selectCurrency(name) {
   document.getElementById(currentFxTab + '-cur-label').textContent = name;
   closeCurrency();
 }
+
+</script>
+<script>
+// 初期表示はログイン画面 → bodyにlogin-activeを付けてスクロール可能にする
+// （他スクリプトのエラーに影響されないよう独立したscriptで実行）
+document.addEventListener('DOMContentLoaded', function() {
+  var loginEl = document.getElementById('login-screen');
+  if (loginEl && loginEl.style.display !== 'none') {
+    document.body.classList.add('login-active');
+  }
+});
 </script>
 </body>
 </html>
