@@ -46,20 +46,22 @@ body {
   display: flex; flex-direction: column;
   overflow: hidden;
 }
-/* メニュー上部（背景画像風） */
+/* メニュー上部（カフェ風写真背景＋暗いオーバーレイ） */
 .side-menu-top {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2f38 50%, #16386b 100%);
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    linear-gradient(135deg, #2a1f1a 0%, #1a1410 55%, #0d0d0d 100%);
+  background-size: cover;
   padding: calc(env(safe-area-inset-top,0px) + 44px) 20px 22px;
   flex-shrink: 0;
 }
 .side-menu-logout-row {
-  display: flex; justify-content: flex-end; margin-bottom: 18px;
+  display: flex; justify-content: flex-start; margin-bottom: 18px;
 }
 .side-menu-logout-btn {
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.5);
+  background: none; border: none;
   color: #fff; font-size: 12px; font-weight: 600;
-  padding: 5px 14px; border-radius: 14px; cursor: pointer;
+  text-decoration: underline;
+  padding: 6px 16px 6px 0; cursor: pointer;
 }
 .side-menu-company {
   font-size: 15px; font-weight: 700; color: #fff;
@@ -78,7 +80,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: 15px 18px;
   font-size: 15px; color: #333;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
 }
 .side-menu-item:active { background: #f5f8fb; }
@@ -87,13 +89,8 @@ body {
   background: #fff;
 }
 .side-menu-item-gt { display: none; }
-.side-menu-section {
-  padding: 10px 18px 6px;
-  font-size: 12px; color: #888; font-weight: 600; letter-spacing: 0.3px;
-  background: #eaecf0;
-  border-bottom: 1px solid #ddd;
-  border-top: 1px solid #ddd;
-}
+.side-menu-ext-icon { margin-left: 12px; flex-shrink: 0; }
+.side-menu-group-gap { height: 8px; background: #f0f0f0; }
 
 /* ===== SHARED HEADER ===== */
 .app-header {
@@ -593,10 +590,10 @@ body {
   <div class="side-menu-panel">
     <div class="side-menu-top">
       <div class="side-menu-logout-row">
-        <div class="side-menu-logout-btn" onclick="doLogout()">ログアウト</div>
+        <button type="button" class="side-menu-logout-btn" onclick="doLogout()">ログアウト</button>
       </div>
       <div class="side-menu-company">株式会社コスモエンジニアリング 様</div>
-      <div class="side-menu-last-login" id="side-last-login">前回ログイン：</div>
+      <div class="side-menu-last-login" id="side-last-login">前回ログイン日時：</div>
     </div>
     <div class="side-menu-scroll">
       <div class="side-menu-item home-item" onclick="closeSideMenu(); showScreen('home');">
@@ -607,32 +604,32 @@ body {
           ホーム
         </span>
       </div>
+      <div class="side-menu-group-gap"></div>
 
-      <div class="side-menu-section">入出金・振込</div>
       <div class="side-menu-item" onclick="closeSideMenu(); showScreen('history');">
         <span>入出金明細</span>      </div>
       <div class="side-menu-item"><span>振込状況・予約一覧</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>申請・承認一覧</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>申請・承認一覧</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+      <div class="side-menu-group-gap"></div>
 
-      <div class="side-menu-section">振込・お支払い</div>
       <div class="side-menu-item"><span>振込・振替</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>PayB払込票支払い</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>ペイジー税金等支払い</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>口座登録先一覧</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>海外送金</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>PayB払込票支払いサービス</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>ペイジー税金等支払い</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+      <div class="side-menu-item"><span>口座登録先一覧</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+      <div class="side-menu-item"><span>海外送金</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+      <div class="side-menu-group-gap"></div>
 
-      <div class="side-menu-section">サービス</div>
-      <div class="side-menu-item"><span>デビット基本設定</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>デビット基本設定</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
       <div class="side-menu-item"><span>デビット後払い</span><span class="side-menu-item-gt">›</span></div>
-      <div class="side-menu-item"><span>あんしんワイド</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-item"><span>あんしんワイド</span><svg class="side-menu-ext-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
       <div class="side-menu-item"><span>円定期</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>外貨普通</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>外貨定期</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>FX取引</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>ポイント・キャンペーン</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>スマホATM</span><span class="side-menu-item-gt">›</span></div>
+      <div class="side-menu-group-gap"></div>
 
-      <div class="side-menu-section">設定・サポート</div>
       <div class="side-menu-item"><span>各種手続き</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>カードロック設定</span><span class="side-menu-item-gt">›</span></div>
       <div class="side-menu-item"><span>アプリ設定</span><span class="side-menu-item-gt">›</span></div>
@@ -1025,7 +1022,7 @@ function doLogin() {
   var now = new Date();
   var pad = function(n) { return String(n).padStart(2, '0'); };
   lastLoginTime = now.getFullYear() + '/' + pad(now.getMonth()+1) + '/' + pad(now.getDate()) +
-    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
   showLoader(function() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('home-screen').style.display = 'flex';
@@ -1086,8 +1083,8 @@ function openSideMenu() {
   var now = new Date();
   var timeStr = lastLoginTime ||
     (now.getFullYear() + '/' + pad(now.getMonth()+1) + '/' + pad(now.getDate()) +
-    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()));
-  document.getElementById('side-last-login').textContent = '前回ログイン：' + timeStr;
+    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()));
+  document.getElementById('side-last-login').textContent = '前回ログイン日時：' + timeStr;
   document.getElementById('side-menu-overlay').classList.add('active');
 }
 
