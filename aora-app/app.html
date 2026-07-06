@@ -123,43 +123,26 @@ body {
   position: fixed; inset: 0; z-index: 100;
   display: flex; flex-direction: column;
   overflow-y: auto; -webkit-overflow-scrolling: touch;
-  background: #fff;
+  background: #e8f6fb;
 }
 .login-top {
-  background: #fff;
-  padding: calc(env(safe-area-inset-top, 0px) + 60px) 24px 32px;
+  padding: calc(env(safe-area-inset-top, 0px) + 56px) 24px 40px;
   text-align: center; flex-shrink: 0;
 }
-.login-logo-wrap {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  margin-bottom: 16px;
+.login-logo-img {
+  display: block; width: 200px; height: auto;
+  margin: 0 auto 10px;
 }
-.login-logo-icon {
-  width: 44px; height: 44px; border-radius: 10px;
-  background: #16386b;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+.login-badge-img {
+  display: block; width: 130px; height: auto;
+  margin: 0 auto;
 }
-.login-logo-icon span {
-  font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -1px;
-}
-.login-logo-text {
-  font-size: 22px; font-weight: 800; color: #16386b;
-  letter-spacing: 1px; line-height: 1.2; text-align: left;
-}
-.login-logo-en {
-  font-size: 10px; font-weight: 400;
-  color: #00a0c8; letter-spacing: 1.5px; margin-top: 2px;
-}
-.login-badge {
-  display: inline-block;
-  background: #1a6fc4; color: #fff;
-  font-size: 14px; font-weight: 700;
-  padding: 8px 36px; border-radius: 6px; margin-top: 8px;
-  letter-spacing: 2px;
+.login-logo-center {
+  display: block; width: 225px; height: auto;
+  margin: 0 auto 28px;
 }
 .login-body {
-  padding: 28px 28px calc(env(safe-area-inset-bottom, 0px) + 32px);
+  padding: 8px 28px calc(env(safe-area-inset-bottom, 0px) + 32px);
   flex: 1;
 }
 .form-group { margin-bottom: 20px; }
@@ -671,16 +654,12 @@ body {
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen">
   <div class="login-top">
-    <div class="login-logo-wrap">
-      <div>
-        <div class="login-logo-text">ＧＭＯあおぞらネット銀行</div>
-        <div class="login-logo-en">AOSORA NET BANK</div>
-      </div>
-    </div>
-    <div class="login-badge">法人口座</div>
+    <img class="login-logo-img" src="assets/cmm_logo@3x.png" alt="CMMアオソラ銀行">
+    <img class="login-badge-img" src="assets/cmm_badge@3x.png" alt="法人口座">
   </div>
 
   <div class="login-body">
+    <img class="login-logo-center" src="assets/cmm_logo@3x.png" alt="CMMアオソラ銀行">
     <div class="form-group">
       <div class="form-label">ログインIDまたはログイン名</div>
       <input id="login-id" class="form-input form-input-yellow" type="text"

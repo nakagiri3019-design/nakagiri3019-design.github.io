@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'aora-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v87';
+const CACHE_NAME = CACHE_PREFIX + 'v88';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -12,6 +12,8 @@ const PRECACHE_URLS = [
   './transactions_cosmo.js',
   './icon-192.png',
   './icon-512.png',
+  './assets/cmm_logo@3x.png',
+  './assets/cmm_badge@3x.png',
 ];
 
 self.addEventListener('install', (event) => {
