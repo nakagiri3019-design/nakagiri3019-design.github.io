@@ -1958,9 +1958,13 @@ const txCosmo = [
         var csvData = (typeof window.__txGetData === 'function')
           ? window.__txGetData()
           : (typeof txCosmo !== 'undefined' ? txCosmo : []);
+        // CSVは古い日付が上（昇順）で出力する。画面表示（新しい順）は変えない。
+        // 元データは完全な降順のため、コピーを reverse() して昇順にする
+        // （csvData は画面の data 参照そのものなので直接 reverse() しないこと）。
+        var outData = csvData.slice().reverse();
         var rows = [];
         rows.push('"日付","摘要","入金金額","出金金額","残高","メモ"');
-        csvData.forEach(function(t) {
+        outData.forEach(function(t) {
           var dateStr = String(t.date == null ? '' : t.date).replace(/\//g, ''); // 2026/07/03 -> 20260703
           var summary = (t.memo == null) ? '' : String(t.memo);                  // 摘要 = memo
           var depo    = (t.deposit  == null || t.deposit  === '') ? '' : String(t.deposit);
