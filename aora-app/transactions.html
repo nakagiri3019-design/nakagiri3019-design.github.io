@@ -1612,6 +1612,10 @@ const txCosmo = [
   var allData = txCosmo;      // 全データ
   var data = txCosmo;         // 表示中データ（絞り込み後）
   var total = data.length;
+  // 別IIFEのCSV出力ハンドラから現在の絞り込み後データ/全件を取得できるよう公開
+  // （data は絞り込みで再代入されるため、getter経由で常に最新を返す）
+  window.__txGetData = function() { return data; };
+  window.__txGetAllData = function() { return allData; };
   var totalPages = Math.ceil(total / PER_PAGE);
   var currentPage = 1;
 
@@ -1949,10 +1953,14 @@ const txCosmo = [
       if (type === 'own-csv') {
         // 入出金明細（当社CSV）を出力
         // GMOあおぞら「当社CSV」形式: Shift_JIS / CRLF / 全項目ダブルクォート囲み
+        // 出力対象は表示中の絞り込み後データ（別IIFEの data を getter で取得。
+        // 取れない場合は内蔵の全件 txCosmo にフォールバック）。並び順は画面表示と同じ。
+        var csvData = (typeof window.__txGetData === 'function')
+          ? window.__txGetData()
+          : (typeof txCosmo !== 'undefined' ? txCosmo : []);
         var rows = [];
         rows.push('"日付","摘要","入金金額","出金金額","残高","メモ"');
-        // 出力対象は表示中の絞り込み後データ（data）。並び順は画面表示と同じ。
-        data.forEach(function(t) {
+        csvData.forEach(function(t) {
           var dateStr = String(t.date == null ? '' : t.date).replace(/\//g, ''); // 2026/07/03 -> 20260703
           var summary = (t.memo == null) ? '' : String(t.memo);                  // 摘要 = memo
           var depo    = (t.deposit  == null || t.deposit  === '') ? '' : String(t.deposit);
@@ -1971,7 +1979,7 @@ const txCosmo = [
         var blob = new Blob([new Uint8Array(sjis)], { type: 'text/csv' });
 
         // ファイル名 statement_YYYYMMDD.csv（先頭＝最新データの日付、無ければ本日）
-        var fdate = (data[0] && data[0].date) ? String(data[0].date).replace(/\//g, '') : '';
+        var fdate = (csvData[0] && csvData[0].date) ? String(csvData[0].date).replace(/\//g, '') : '';
         if (!fdate) {
           var d = new Date();
           fdate = '' + d.getFullYear()
