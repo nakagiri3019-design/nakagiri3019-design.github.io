@@ -1986,14 +1986,19 @@ const txCosmo = [
                      + ('0' + (d.getMonth() + 1)).slice(-2)
                      + ('0' + d.getDate()).slice(-2);
         }
+        // a要素 + download属性で確実にダウンロード保存させる
+        // （window.open / location.href は使わない＝新タブで開いてblobが無効化されるため）
+        var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
-        var objUrl = URL.createObjectURL(blob);
-        a.href = objUrl;
+        a.href = url;
         a.download = 'statement_' + fdate + '.csv';
+        a.rel = 'noopener';
+        a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(objUrl);
+        // 即時 revoke するとダウンロード開始前にblobが無効化されるため遅延して解放
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
       }
       // 他の項目は今後実装
     });
