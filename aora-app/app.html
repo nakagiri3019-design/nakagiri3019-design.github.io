@@ -1358,10 +1358,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // キーボード表示を visualViewport で検知し、body に .keyboard-open を付与
   // （キーボードが出たら余白・ロゴを縮めて画面内に収める）
+  // さらに、resizes-visual ではレイアウトビューポートが縮まないため、
+  // keyboard-open 中は #login-screen の高さを可視領域(visualViewport.height)に固定して
+  // 全要素を強制的に見える範囲へ収める。
   if (window.visualViewport) {
+    var vv = window.visualViewport;
     var onVvResize = function() {
-      var kbdOpen = window.visualViewport.height < window.innerHeight * 0.75;
+      var kbdOpen = vv.height < window.innerHeight * 0.75;
       document.body.classList.toggle('keyboard-open', kbdOpen);
+      if (loginEl) {
+        if (kbdOpen) {
+          loginEl.style.height = vv.height + 'px';
+          loginEl.style.minHeight = '0';
+        } else {
+          loginEl.style.height = '';
+          loginEl.style.minHeight = '';
+        }
+      }
     };
     window.visualViewport.addEventListener('resize', onVvResize);
   }
