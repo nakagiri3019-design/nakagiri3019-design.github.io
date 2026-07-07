@@ -140,6 +140,12 @@ body.login-active {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* キーボード表示時: 余白・ロゴを縮めてスクロールせず画面内に収める */
+body.keyboard-open .login-top { padding-top: 12px !important; }
+body.keyboard-open .login-gap-top { height: 0 !important; min-height: 0 !important; }
+body.keyboard-open .login-logo-center { margin-bottom: 8px !important; }
+body.keyboard-open .login-logo-img { width: 150px !important; margin-bottom: 6px !important; }
+body.keyboard-open .login-badge-img { width: 95px !important; }
 .login-top {
   padding: calc(env(safe-area-inset-top, 0px) + 20%) 24px 0;
   text-align: center; flex-shrink: 0;
@@ -1341,16 +1347,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('login-active');
   }
 
-  // 保険: 入力欄フォーカス時、キーボードが出きってから該当欄を中央へスクロール
-  ['login-id', 'login-pw'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('focus', function() {
-      setTimeout(function() {
-        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      }, 300);
-    });
-  });
+  // キーボード表示を visualViewport で検知し、body に .keyboard-open を付与
+  // （キーボードが出たら余白・ロゴを縮めて画面内に収める）
+  if (window.visualViewport) {
+    var onVvResize = function() {
+      var kbdOpen = window.visualViewport.height < window.innerHeight * 0.75;
+      document.body.classList.toggle('keyboard-open', kbdOpen);
+    };
+    window.visualViewport.addEventListener('resize', onVvResize);
+  }
 });
 </script>
 </body>
