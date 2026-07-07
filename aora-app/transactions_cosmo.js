@@ -1,6 +1,6 @@
 // アオソラ銀行デモ - コスモエンジニアリング 入出金明細データ
 // 口座: 法人第二営業部 普通 2145598 / 株式会社コスモエンジニアリング
-// 対象期間: 2026/03/01 ～ 2026/06/30
+// 対象期間: 2026/03/01 ～ 2026/07/03
 // 並び順: 最新が先頭（降順）
 // deposit: 入金額（出金時は null） / withdraw: 出金額（入金時は null） / balance: 残高 / memo: 摘要
 //
@@ -8,32 +8,31 @@
 
 const txCosmo = [
   // ===== 2026/07/03 =====
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:932636,   memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:1000000,    balance:932766,   memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:1932766,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:1000000,    balance:1932896,  memo:"振込 グンマ タカハシ　エイコ" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:2932896,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:1095000,    balance:2933026,  memo:"振込 ペイペイ スギウラ　ミノル" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:4028026,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:267270,     balance:4028156,  memo:"振込 ユウチヨ タカハシ　ツトム" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:4295426,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:565305,     balance:4295556,  memo:"振込 サイタマケンシンキン スギウラ　ミノル" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:4860861,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:290380,     balance:4860991,  memo:"振込 サイタマリソナ アサカ　ハルミ" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5151371,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:21868,      balance:5151501,  memo:"振込 イオン タイラ　ノリヒト" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5173369,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:168950,     balance:5173499,  memo:"振込 ミツイスミトモ ミズノ　リヨウジ" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5342449,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:85582,      balance:5342579,  memo:"振込 サイタマリソナ オオクラ　ソウロク" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5428161,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:376202,     balance:5428291,  memo:"振込 シチジユウシチ カツマタ　ジユン" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5804493,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:95763,      balance:5804623,  memo:"振込 ミズホ ナカムラ　ハルカ" },
-  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:5900386,  memo:"振込手数料" },
-  { date:"2026/07/03", deposit:null,      withdraw:206467,     balance:5900516,  memo:"振込 トウホウ ワタナベ　エリカ" },
-  { date:"2026/07/03", deposit:3000000,   withdraw:null,       balance:6106983,  memo:"振込 カ）日本プランナー" },
-  { date:"2026/07/03", deposit:3000000,   withdraw:null,       balance:3106983,  memo:"振込 カ）コスモエンジニアリング" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:172766,   memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:1000000,    balance:172896,   memo:"振込 グンマ タカハシ　エイコ" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:1172896,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:1095000,    balance:1173026,  memo:"振込 ペイペイ スギウラ　ミノル" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:2268026,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:267270,     balance:2268156,  memo:"振込 ユウチヨ タカハシ　ツトム" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:2535426,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:565305,     balance:2535556,  memo:"振込 サイタマケンシンキン スギウラ　ミノル" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:3100861,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:290380,     balance:3100991,  memo:"振込 サイタマリソナ アサカ　ハルミ" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:3391371,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:21868,      balance:3391501,  memo:"振込 イオン タイラ　ノリヒト" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:3413369,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:168950,     balance:3413499,  memo:"振込 ミツイスミトモ ミズノ　リヨウジ" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:3582449,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:85582,      balance:3582579,  memo:"振込 サイタマリソナ オオクラ　ソウロク" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:3668161,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:376202,     balance:3668291,  memo:"振込 シチジユウシチ カツマタ　ジユン" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:4044493,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:95763,      balance:4044623,  memo:"振込 ミズホ ナカムラ　ハルカ" },
+  { date:"2026/07/03", deposit:null,      withdraw:130,        balance:4140386,  memo:"振込手数料" },
+  { date:"2026/07/03", deposit:null,      withdraw:206467,     balance:4140516,  memo:"振込 トウホウ ワタナベ　エリカ" },
+  { date:"2026/07/03", deposit:3000000,   withdraw:null,       balance:4346983,  memo:"振込 カ）コスモエンジニアリング" },
+  // ===== 2026/07/01 =====
+  { date:"2026/07/01", deposit:1240000,   withdraw:null,       balance:1346983,  memo:"振込 カ）コスモプランニング" },
   // ===== 2026/06/30 =====
   { date:"2026/06/30", deposit:null,      withdraw:130,        balance:106983,   memo:"振込手数料" },
   { date:"2026/06/30", deposit:null,      withdraw:9956861,    balance:107113,   memo:"振込 キタキユウシユウ ダイシンケンセツ（カ" },
