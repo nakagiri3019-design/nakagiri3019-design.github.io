@@ -140,12 +140,21 @@ body.login-active {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-/* キーボード表示時: 余白・ロゴを縮めてスクロールせず画面内に収める */
-body.keyboard-open .login-top { padding-top: 12px !important; }
+/* キーボード表示時: 余白・ロゴ・ボタンを積極的に縮めてスクロールせず画面内に収める */
+body.keyboard-open .login-top {
+  padding-top: 8px !important;
+  padding-bottom: 0 !important;
+}
+body.keyboard-open .login-logo-img { width: 130px !important; margin-bottom: 2px !important; }
+body.keyboard-open .login-badge-img { width: 80px !important; }
 body.keyboard-open .login-gap-top { height: 0 !important; min-height: 0 !important; }
-body.keyboard-open .login-logo-center { margin-bottom: 8px !important; }
-body.keyboard-open .login-logo-img { width: 150px !important; margin-bottom: 6px !important; }
-body.keyboard-open .login-badge-img { width: 95px !important; }
+body.keyboard-open .login-logo-center { width: 150px !important; margin-bottom: 6px !important; }
+body.keyboard-open .login-spacer { display: none !important; }
+body.keyboard-open .form-group { margin-bottom: 6px !important; }
+body.keyboard-open .btn-login { margin-top: 8px !important; margin-bottom: 8px !important; padding: 13px !important; }
+body.keyboard-open .btn-secondary { padding: 8px !important; }
+body.keyboard-open .btn-open { margin-top: 8px !important; margin-bottom: 8px !important; padding: 12px !important; }
+body.keyboard-open .login-body { padding-bottom: 8px !important; }
 .login-top {
   padding: calc(env(safe-area-inset-top, 0px) + 20%) 24px 0;
   text-align: center; flex-shrink: 0;
