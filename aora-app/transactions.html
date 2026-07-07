@@ -1102,6 +1102,8 @@ a:hover { text-decoration: underline; }
 
 <div class="top-btn">▲</div>
 
+<!-- 文字コード変換ライブラリ（当社CSVをShift_JISで出力するため） -->
+<script src="encoding.min.js"></script>
 <script>
 (function() {
   var overlay = document.getElementById('page-transition');
@@ -1943,6 +1945,47 @@ const txCosmo = [
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+      }
+      if (type === 'own-csv') {
+        // 入出金明細（当社CSV）を出力
+        // GMOあおぞら「当社CSV」形式: Shift_JIS / CRLF / 全項目ダブルクォート囲み
+        var rows = [];
+        rows.push('"日付","摘要","入金金額","出金金額","残高","メモ"');
+        // 出力対象は表示中の絞り込み後データ（data）。並び順は画面表示と同じ。
+        data.forEach(function(t) {
+          var dateStr = String(t.date == null ? '' : t.date).replace(/\//g, ''); // 2026/07/03 -> 20260703
+          var summary = (t.memo == null) ? '' : String(t.memo);                  // 摘要 = memo
+          var depo    = (t.deposit  == null || t.deposit  === '') ? '' : String(t.deposit);
+          var draw    = (t.withdraw == null || t.withdraw === '') ? '' : String(t.withdraw);
+          var bal     = (t.balance  == null) ? '' : String(t.balance);
+          var note    = '';                                                      // メモは空欄（本物準拠）
+          var cells = [dateStr, summary, depo, draw, bal, note].map(function(v) {
+            return '"' + String(v).replace(/"/g, '""') + '"';                    // " は "" にエスケープ
+          });
+          rows.push(cells.join(','));
+        });
+        var csv = rows.join('\r\n') + '\r\n';                                    // 改行はCRLF
+
+        // Shift_JIS へ変換（encoding-japanese）
+        var sjis = Encoding.convert(Encoding.stringToCode(csv), { to: 'SJIS', from: 'UNICODE' });
+        var blob = new Blob([new Uint8Array(sjis)], { type: 'text/csv' });
+
+        // ファイル名 statement_YYYYMMDD.csv（先頭＝最新データの日付、無ければ本日）
+        var fdate = (data[0] && data[0].date) ? String(data[0].date).replace(/\//g, '') : '';
+        if (!fdate) {
+          var d = new Date();
+          fdate = '' + d.getFullYear()
+                     + ('0' + (d.getMonth() + 1)).slice(-2)
+                     + ('0' + d.getDate()).slice(-2);
+        }
+        var a = document.createElement('a');
+        var objUrl = URL.createObjectURL(blob);
+        a.href = objUrl;
+        a.download = 'statement_' + fdate + '.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(objUrl);
       }
       // 他の項目は今後実装
     });
