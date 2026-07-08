@@ -434,17 +434,24 @@ body.keyboard-open .login-body { padding-bottom: 6px !important; }
 .hist-scroll::-webkit-scrollbar { display: none; }
 
 /* Transaction list */
+/* 列ヘッダー（本物準拠：グレー背景の見出し行） */
+.tx-col-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  background: #e0e4ea; color: #555;
+  padding: 8px 14px; font-size: 11px; line-height: 1.45;
+  flex-shrink: 0;
+}
+.tx-col-header .tx-colh-right { text-align: right; }
+
+/* カード（角丸・影）をやめてフラットなリストに */
 #tx-list {
-  margin: 4px 12px 8px;
   background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .tx-row {
   display: flex; align-items: flex-start; justify-content: space-between;
-  padding: 14px 14px 12px;
-  border-bottom: 1.5px solid #d0dce8;
+  padding: 11px 14px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
 }
 .tx-row:last-child { border-bottom: none; }
 .tx-left { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
@@ -453,11 +460,11 @@ body.keyboard-open .login-body { padding-bottom: 6px !important; }
 .tx-right { text-align: right; flex-shrink: 0; margin-left: 14px; }
 .tx-amt-in  { font-size: 17px; font-weight: 600; color: #1a1a1a; }
 .tx-amt-out { font-size: 17px; font-weight: 600; color: #c8282a; }
-.tx-bal { font-size: 15px; color: #888; margin-top: 3px; }
+.tx-bal { font-size: 13px; color: #888; margin-top: 3px; }
 .tx-year-header {
   padding: 8px 14px 4px;
-  font-size: 15px; font-weight: 700; color: #222;
-  background: #f5f7fa;
+  font-size: 14px; font-weight: 700; color: #555;
+  background: #eef1f4;
 }
 
 /* ===== DATE PICKER ===== */
@@ -906,6 +913,12 @@ body.keyboard-open .login-body { padding-bottom: 6px !important; }
     <div class="hist-date-btn" id="hist-date-to" onclick="openCal('to')"></div>
   </div>
 
+  <!-- 列ヘッダー（固定・本物準拠） -->
+  <div class="tx-col-header">
+    <div class="tx-colh-left">日付<br>摘要<br>メモ</div>
+    <div class="tx-colh-right">入出金金額<br><br>残高</div>
+  </div>
+
   <!-- Transaction list -->
   <div class="hist-scroll">
     <div id="tx-list"></div>
@@ -1154,7 +1167,7 @@ function buildTransactions() {
     var isIn = t.deposit !== null;
     var amount = isIn ? t.deposit : t.withdraw;
     var amtClass = isIn ? 'tx-amt-in' : 'tx-amt-out';
-    var amtText = isIn ? fmt(amount) + '円' : '-' + fmt(amount) + '円';
+    var amtText = isIn ? fmt(amount) + ' 円' : '-' + fmt(amount) + ' 円';
     var dateStr = t.date.slice(5);
     row.style.cursor = 'pointer';
     (function(tx) {
@@ -1167,7 +1180,7 @@ function buildTransactions() {
       '</div>' +
       '<div class="tx-right">' +
         '<div class="' + amtClass + '">' + amtText + '</div>' +
-        '<div class="tx-bal">' + fmt(t.balance) + '円</div>' +
+        '<div class="tx-bal">' + fmt(t.balance) + ' 円</div>' +
       '</div>';
     el.appendChild(row);
   });
