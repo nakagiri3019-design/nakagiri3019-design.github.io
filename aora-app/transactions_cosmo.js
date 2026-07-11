@@ -7,6 +7,9 @@
 // ※ このファイルはPDF原本(GMO3_1_6_24)から全件転記。残高はPDFの値をそのまま使用。
 
 const txCosmo = [
+  // ===== 2026/07/08 =====
+  { date:"2026/07/08", deposit:null, withdraw:130, balance:152006, memo:"振込手数料" },
+  { date:"2026/07/08", deposit:null, withdraw:160000, balance:152136, memo:"振込 サイタマリソナ カ）コスモエンジニアリング" },
   // ===== 2026/07/06 =====
   { date:"2026/07/06", deposit:null, withdraw:130, balance:312136, memo:"振込手数料" },
   { date:"2026/07/06", deposit:null, withdraw:60500, balance:312266, memo:"振込 ラクテン カ）アール・テクニカ" },
