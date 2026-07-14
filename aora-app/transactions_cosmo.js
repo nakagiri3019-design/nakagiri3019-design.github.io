@@ -38,7 +38,7 @@ const txCosmo = [
   { date:"2026/07/03", deposit:null, withdraw:206467, balance:4340516, memo:"振込 トウホウ ワタナベ　エリカ" },
   { date:"2026/07/03", deposit:3000000, withdraw:null, balance:4546983, memo:"振込 カ）コスモエンジニアリング" },
   // ===== 2026/07/01 =====
-  { date:"2026/07/01", deposit:1240000, withdraw:null, balance:1546983, memo:"振込 カ）コスモプランニング" },
+  { date:"2026/07/01", deposit:1240000, withdraw:null, balance:1546983, memo:"振込 カ）コスモエンジニアリング" },
   // ===== 2026/06/30 =====
   { date:"2026/06/30", deposit:null, withdraw:9800000, balance:306983, memo:"振込 トウホウ ユ）マルシンケンセツ" },
   { date:"2026/06/30", deposit:10000000, withdraw:null, balance:10106983, memo:"振込 グロ－リ－．パ－トナ－ズ（カ" },
