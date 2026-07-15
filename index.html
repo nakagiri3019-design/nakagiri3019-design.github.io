@@ -34,6 +34,15 @@
   .card a.entry:hover{background:var(--pages-soft);border-color:var(--pages);}
   .card.render a.entry:hover{background:var(--render-soft);border-color:var(--render);}
   .card a.entry .who{color:var(--muted);font-weight:500;font-size:12px;}
+  /* ===== 口座切替（セグメントボタン）。.acct-switch + .acct-link で再利用可能 ===== */
+  .acct-switch{margin:0 0 10px;}
+  .acct-switch .lbl{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:5px;letter-spacing:.02em;}
+  .acct-switch .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fafbfc;}
+  .acct-switch .seg button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 15px;cursor:pointer;transition:.12s;}
+  .acct-switch .seg button + button{border-left:1px solid var(--line);}
+  .acct-switch .seg button:hover{background:var(--pages-soft);color:var(--pages);}
+  .acct-switch .seg button.on{background:var(--pages);color:#fff;}
+  .acct-switch .seg button.on:hover{background:var(--pages);color:#fff;}
   .card .note{margin-top:12px;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;}
   .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-bottom:10px;}
   .pill.pages{background:var(--pages-soft);color:var(--pages);}
@@ -115,13 +124,17 @@
         <span class="pill pages">アオソラ銀行（架空）</span>
         <div class="name">アオソラ銀行 Business</div><div class="repo">aora-app</div>
         <div class="desc">架空ビジネスバンキングデモ。PCログイン後マイページ（ホーム）と入出金明細の2ページ構成。</div>
-        <div class="entries">
-          <a class="entry" href="https://nakagiri3019-design.github.io/aora-app/login.html" target="_blank">ログイン（PC） <span class="who">/aora-app/login.html</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/aora-app/" target="_blank">ホーム <span class="who">/aora-app/</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/aora-app/transactions.html" target="_blank">入出金明細 <span class="who">/aora-app/transactions.html</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/aora-app/app.html" target="_blank">スマホ独立アプリ <span class="who">/aora-app/app.html</span></a>
+        <div class="acct-switch" data-accounts="https://nakagiri3019-design.github.io/aora-app/accounts.json">
+          <div class="lbl">ログインID切替</div>
+          <div class="seg" role="group" aria-label="ログインID切替"></div>
         </div>
-        <div class="note">ホームのグローバルナビ「残高・明細・振込状況」から明細ページへ遷移。独立したスマホアプリ版は /aora-app/app.html。</div>
+        <div class="entries">
+          <a class="entry acct-link" href="https://nakagiri3019-design.github.io/aora-app/login.html" target="_blank">ログイン（PC） <span class="who">/aora-app/login.html</span></a>
+          <a class="entry acct-link" href="https://nakagiri3019-design.github.io/aora-app/" target="_blank">ホーム <span class="who">/aora-app/</span></a>
+          <a class="entry acct-link" href="https://nakagiri3019-design.github.io/aora-app/transactions.html" target="_blank">入出金明細 <span class="who">/aora-app/transactions.html</span></a>
+          <a class="entry acct-link" href="https://nakagiri3019-design.github.io/aora-app/app.html" target="_blank">スマホ独立アプリ <span class="who">/aora-app/app.html</span></a>
+        </div>
+        <div class="note">上の「ログインID切替」で選んだ口座（?user=）が下の4リンクに自動付与されます。口座が増えてもリンクは4つのまま。ホームのグローバルナビ「残高・明細・振込状況」から明細ページへ遷移。</div>
       </div>
       <div class="card pages">
         <span class="pill warn">基盤</span>
@@ -179,6 +192,53 @@
       }).join('');
     })
     .catch(function(){});
+})();
+</script>
+<script>
+// ===== 口座切替（セグメントボタン）共通コンポーネント =====
+// .acct-switch[data-accounts] を持つカード内の .acct-link に、選択中の ?user= を自動付与する。
+// リンク本数は固定。口座（accounts.json のエントリ）が増えてもボタンが増えるだけでリンクは増えない。
+// 将来 SBI 等にも同じマークアップで流用可能。
+(function(){
+  function withUser(base, id){
+    try { var u = new URL(base); u.searchParams.set('user', id); return u.href; }
+    catch(e){ return base + (base.indexOf('?') < 0 ? '?' : '&') + 'user=' + encodeURIComponent(id); }
+  }
+  document.querySelectorAll('.acct-switch').forEach(function(sw){
+    var url = sw.getAttribute('data-accounts');
+    var seg = sw.querySelector('.seg');
+    var scope = sw.closest('.card') || document;
+    var links = scope.querySelectorAll('.acct-link');
+    if (!url || !seg || !links.length) return;
+    // 各リンクの元URL・元pathラベルを保存（初期hrefは ?user= 無し＝既定口座で動作）
+    links.forEach(function(a){
+      if (!a.hasAttribute('data-base')) a.setAttribute('data-base', a.getAttribute('href') || '');
+      var who = a.querySelector('.who');
+      if (who && !who.hasAttribute('data-base')) who.setAttribute('data-base', who.textContent.trim());
+    });
+    function apply(id){
+      links.forEach(function(a){
+        a.href = withUser(a.getAttribute('data-base'), id);
+        var who = a.querySelector('.who');
+        if (who) who.textContent = (who.getAttribute('data-base') || '') + '?user=' + id;
+      });
+      seg.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-id') === id); });
+    }
+    fetch(url).then(function(r){ return r.json(); }).then(function(list){
+      if (!Array.isArray(list) || !list.length) { sw.style.display = 'none'; return; }
+      seg.innerHTML = list.map(function(a){
+        var lab = a.label || a.displayName || a.id;
+        return '<button type="button" data-id="' + a.id + '">' + lab + '</button>';
+      }).join('');
+      seg.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){ apply(b.getAttribute('data-id')); });
+      });
+      apply(list[0].id); // 既定＝先頭（cosmo）
+    }).catch(function(){
+      // 取得失敗時はUIを隠す。リンクは初期href（?user=無し＝既定口座）のまま機能する。
+      sw.style.display = 'none';
+    });
+  });
 })();
 </script>
 </body>

@@ -2,6 +2,7 @@
   {
     "id": "cosmo",
     "loginId": "cosmo",
+    "label": "コスモ",
     "displayName": "株式会社コスモエンジニアリング",
     "info": {
       "name": "株式会社コスモエンジニアリング",
@@ -14,6 +15,7 @@
   {
     "id": "unet",
     "loginId": "ユーネット",
+    "label": "ユーネット",
     "displayName": "株式会社コスモエンジニアリング",
     "info": {
       "name": "株式会社コスモエンジニアリング",
