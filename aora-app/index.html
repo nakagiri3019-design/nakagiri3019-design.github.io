@@ -1447,12 +1447,20 @@ a:hover { text-decoration: underline; }
 <div class="top-btn">▲</div>
 
 <script src="./transactions_cosmo.js"></script>
+<script src="./transactions_unet.js"></script>
 <script>
+// ?user=unet のとき txUnet、それ以外(cosmo/なし/不正)は txCosmo を返す（cosmo挙動は不変）
+function aoraActiveTx() {
+  var u = new URLSearchParams(location.search).get('user');
+  if (u === 'unet' && typeof txUnet !== 'undefined' && txUnet && txUnet.length) return txUnet;
+  return (typeof txCosmo !== 'undefined') ? txCosmo : [];
+}
 function aoraUpdateDynamicDates() {
-  // 対象0: 口座残高＝取引データ(txCosmo)の最新(先頭)行のbalance
-  if (typeof txCosmo !== 'undefined' && txCosmo.length) {
+  // 対象0: 口座残高＝取引データの最新(先頭)行のbalance
+  var _tx = aoraActiveTx();
+  if (_tx && _tx.length) {
     var yenEl = document.querySelector('.balance .yen');
-    if (yenEl) yenEl.textContent = txCosmo[0].balance.toLocaleString('ja-JP');
+    if (yenEl) yenEl.textContent = _tx[0].balance.toLocaleString('ja-JP');
   }
 
   function pad2(n) { return (n < 10 ? '0' : '') + n; }

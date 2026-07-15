@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'aora-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v122';
+const CACHE_NAME = CACHE_PREFIX + 'v123';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const PRECACHE_URLS = [
   './favicon.png',
   './manifest.json',
   './transactions_cosmo.js',
+  './transactions_unet.js',
   './transactions.html',
   './encoding.min.js',
   './icon-192.png',

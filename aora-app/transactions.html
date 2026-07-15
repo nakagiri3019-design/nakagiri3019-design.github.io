@@ -1104,6 +1104,15 @@ a:hover { text-decoration: underline; }
 
 <!-- 文字コード変換ライブラリ（当社CSVをShift_JISで出力するため） -->
 <script src="encoding.min.js"></script>
+<script src="./transactions_unet.js"></script>
+<script>
+// ?user=unet のとき txUnet、それ以外(cosmo/なし/不正)は txCosmo を返す（cosmo挙動は不変）
+function aoraActiveTx() {
+  var u = new URLSearchParams(location.search).get('user');
+  if (u === 'unet' && typeof txUnet !== 'undefined' && txUnet && txUnet.length) return txUnet;
+  return (typeof txCosmo !== 'undefined') ? txCosmo : [];
+}
+</script>
 <script>
 (function() {
   var overlay = document.getElementById('page-transition');
@@ -1617,8 +1626,8 @@ const txCosmo = [
 /* ===== ページング表示ロジック ===== */
 (function() {
   var PER_PAGE = 20;
-  var allData = txCosmo;      // 全データ
-  var data = txCosmo;         // 表示中データ（絞り込み後）
+  var allData = aoraActiveTx();      // 全データ（?user=unet のとき txUnet）
+  var data = aoraActiveTx();         // 表示中データ（絞り込み後）
   var total = data.length;
   // 別IIFEのCSV出力ハンドラから現在の絞り込み後データ/全件を取得できるよう公開
   // （data は絞り込みで再代入されるため、getter経由で常に最新を返す）
@@ -1945,6 +1954,8 @@ const txCosmo = [
         var params = new URLSearchParams();
         if (dateFrom && dateFrom.value) params.set('from', dateFrom.value);
         if (dateTo && dateTo.value) params.set('to', dateTo.value);
+        var _u = new URLSearchParams(location.search).get('user');
+        if (_u) params.set('user', _u);
         window.open(PDF_SERVER + '/pdf?' + params.toString(), '_blank', 'noopener');
       }
       if (type === 'zengin-fixed') {
@@ -1965,7 +1976,7 @@ const txCosmo = [
         // 取れない場合は内蔵の全件 txCosmo にフォールバック）。並び順は画面表示と同じ。
         var csvData = (typeof window.__txGetData === 'function')
           ? window.__txGetData()
-          : (typeof txCosmo !== 'undefined' ? txCosmo : []);
+          : aoraActiveTx();
         // CSVは古い日付が上（昇順）で出力する。画面表示（新しい順）は変えない。
         // 元データは完全な降順のため、コピーを reverse() して昇順にする
         // （csvData は画面の data 参照そのものなので直接 reverse() しないこと）。
