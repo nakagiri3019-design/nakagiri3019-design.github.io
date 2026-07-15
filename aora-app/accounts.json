@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cosmo",
+    "loginId": "cosmo",
+    "displayName": "株式会社コスモエンジニアリング",
+    "info": {
+      "name": "株式会社コスモエンジニアリング",
+      "branch": "法人第二営業部(102)",
+      "accountNo": "2145598",
+      "lastLogin": "2026/06/30 17:18"
+    },
+    "dataSource": "transactions_cosmo.js"
+  },
+  {
+    "id": "unet",
+    "loginId": "ユーネット",
+    "displayName": "株式会社コスモエンジニアリング",
+    "info": {
+      "name": "株式会社コスモエンジニアリング",
+      "branch": "法人第二営業部(102)",
+      "accountNo": "2145598",
+      "lastLogin": "2026/06/30 17:18"
+    },
+    "dataSource": "transactions_cosmo.js"
+  }
+]

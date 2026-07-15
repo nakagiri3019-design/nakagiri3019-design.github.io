@@ -289,8 +289,15 @@
     // デモ用：白フェード演出のあとホームへ遷移
     document.getElementById('fadeOverlay').classList.add('show');
     try { sessionStorage.setItem('aoraLoggedIn', 'true'); } catch (e) {}
+    // アカウント切替：URLの ?user= を維持しつつ、入力IDからも判定（accounts.json の loginId に準拠）
+    var params = new URLSearchParams(location.search);
+    if(!params.get('user')){
+      var ID_TO_USER = { 'ユーネット':'unet', 'yunet':'unet', 'コスモエンジニアリング':'cosmo', 'cosmo':'cosmo' };
+      if(ID_TO_USER[id]) params.set('user', ID_TO_USER[id]);
+    }
+    var qs = params.toString();
     setTimeout(function(){
-      window.location.href = './';
+      window.location.href = './' + (qs ? '?' + qs : '');
     }, 2000);
   }
   // Enterキーでもログイン

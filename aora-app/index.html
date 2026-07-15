@@ -1515,5 +1515,34 @@ document.addEventListener('DOMContentLoaded', aoraUpdateDynamicDates);
   });
 })();
 </script>
+<script>
+// ===== 複数ログインID対応（sbi-app の accounts.json + ?user= 方式に準拠） =====
+// ?user= でアカウントを選択。既定は cosmo（従来のコスモエンジニアリング）。
+// accounts.json 取得失敗時は HTML のハードコード値（コスモ）を維持し、既存動作に影響を与えない。
+(function() {
+  var user = new URLSearchParams(location.search).get('user') || 'cosmo';
+  fetch('./accounts.json', { cache: 'no-store' })
+    .then(function(r) { return r.json(); })
+    .then(function(accts) {
+      var acct = null;
+      for (var i = 0; i < accts.length; i++) { if (accts[i].id === user) { acct = accts[i]; break; } }
+      if (!acct) acct = accts[0];
+      var info = acct.info || {};
+      var nm = document.querySelector('.company-name');
+      if (nm && info.name) nm.textContent = info.name + ' さま';
+      var ll = document.querySelector('.last-login-time');
+      if (ll && info.lastLogin) ll.textContent = info.lastLogin;
+      var items = document.querySelectorAll('.account-box .item');
+      for (var j = 0; j < items.length; j++) {
+        var lab = items[j].querySelector('.label');
+        var val = items[j].querySelector('.value');
+        if (!lab || !val) continue;
+        if (lab.textContent.indexOf('支店名') >= 0 && info.branch) val.textContent = info.branch;
+        if (lab.textContent.indexOf('口座番号') >= 0 && info.accountNo) val.textContent = info.accountNo;
+      }
+    })
+    .catch(function() { /* 取得失敗時はハードコード値（コスモ）を維持 */ });
+})();
+</script>
 </body>
 </html>
