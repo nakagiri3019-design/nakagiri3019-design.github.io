@@ -2,6 +2,8 @@
 // 自動生成: 410件 / 2026-03-01〜2026-07-08 / 降順（新しい日付が上）
 // フォーマットは transactions_cosmo.js の txCosmo と同一
 const txUnet = [
+  { date:"2026/07/17", deposit:null, withdraw:130, balance:2792606, memo:"振込手数料" },
+  { date:"2026/07/17", deposit:null, withdraw:719400, balance:2792736, memo:"振込 クリアアドバンス（カ" },
   { date:"2026/07/08", deposit:null, withdraw:130, balance:3512136, memo:"振込手数料" },
   { date:"2026/07/08", deposit:null, withdraw:160000, balance:3512266, memo:"振込 サイタマリソナ カ）コスモエンジニアリング" },
   { date:"2026/07/06", deposit:null, withdraw:130, balance:3672266, memo:"振込手数料" },
