@@ -2,11 +2,12 @@
 // 自動生成: 410件 / 2026-03-01〜2026-07-08 / 降順（新しい日付が上）
 // フォーマットは transactions_cosmo.js の txCosmo と同一
 const txUnet = [
-  { date:"2026/07/17", deposit:null, withdraw:130, balance:2682476, memo:"振込手数料" },
-  { date:"2026/07/17", deposit:null, withdraw:3520000, balance:2682606, memo:"振込 ペイペイ クリアアドバンス（カ" },
-  { date:"2026/07/17", deposit:null, withdraw:130, balance:6202606, memo:"振込手数料" },
-  { date:"2026/07/17", deposit:null, withdraw:24134000, balance:6202736, memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
-  { date:"2026/07/17", deposit:26824600, withdraw:null, balance:30336736, memo:"振込 マルショウ（カ" },
+  { date:"2026/07/17", deposit:null, withdraw:130, balance:3612476, memo:"振込手数料" },
+  { date:"2026/07/17", deposit:null, withdraw:3520000, balance:3612606, memo:"振込 ペイペイ クリアアドバンス（カ" },
+  { date:"2026/07/17", deposit:null, withdraw:130, balance:7132606, memo:"振込手数料" },
+  { date:"2026/07/17", deposit:null, withdraw:24134000, balance:7132736, memo:"振込 ペイペイ カ）ソウゴウケンセツタカ" },
+  { date:"2026/07/17", deposit:26824600, withdraw:null, balance:31266736, memo:"振込 マルショウ（カ" },
+  { date:"2026/07/14", deposit:930000, withdraw:null, balance:4442136, memo:"振込 カ）コスモエンジニアリング" },
   { date:"2026/07/08", deposit:null, withdraw:130, balance:3512136, memo:"振込手数料" },
   { date:"2026/07/08", deposit:null, withdraw:160000, balance:3512266, memo:"振込 サイタマリソナ カ）コスモエンジニアリング" },
   { date:"2026/07/06", deposit:null, withdraw:130, balance:3672266, memo:"振込手数料" },
