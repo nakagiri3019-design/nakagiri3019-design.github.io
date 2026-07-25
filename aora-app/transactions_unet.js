@@ -2,6 +2,14 @@
 // 自動生成: 410件 / 2026-03-01〜2026-07-08 / 降順（新しい日付が上）
 // フォーマットは transactions_cosmo.js の txCosmo と同一
 const txUnet = [
+  { date:"2026/07/24", deposit:null, withdraw:130, balance:1115734, memo:"振込手数料" },
+  { date:"2026/07/24", deposit:null, withdraw:103043, balance:1115864, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/24", deposit:null, withdraw:130, balance:1218907, memo:"振込手数料" },
+  { date:"2026/07/24", deposit:null, withdraw:83408, balance:1219037, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/24", deposit:null, withdraw:130, balance:1302445, memo:"振込手数料" },
+  { date:"2026/07/24", deposit:null, withdraw:77197, balance:1302575, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/21", deposit:null, withdraw:130, balance:1379772, memo:"振込手数料" },
+  { date:"2026/07/21", deposit:null, withdraw:2232574, balance:1379902, memo:"振込 ミツイスミトモ ミツイスミトモカード（カ" },
   { date:"2026/07/17", deposit:null, withdraw:130, balance:3612476, memo:"振込手数料" },
   { date:"2026/07/17", deposit:null, withdraw:3520000, balance:3612606, memo:"振込 ペイペイ クリアアドバンス（カ" },
   { date:"2026/07/17", deposit:null, withdraw:130, balance:7132606, memo:"振込手数料" },
