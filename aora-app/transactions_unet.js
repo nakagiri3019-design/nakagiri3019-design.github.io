@@ -167,7 +167,7 @@ const txUnet = [
   { date:"2026/05/15", deposit:null, withdraw:1000000, balance:3005854, memo:"振込 ツクバ トビササキソウケン．カ" },
   { date:"2026/05/15", deposit:null, withdraw:130, balance:4005854, memo:"振込手数料" },
   { date:"2026/05/15", deposit:null, withdraw:6000000, balance:4005984, memo:"振込 キタキユウシユウ ダイシンケンセツ（カ" },
-  { date:"2026/05/15", deposit:9996140, withdraw:null, balance:10005984, memo:"振込 エムシ－デイ－スリ－（カ" },
+  { date:"2026/05/15", deposit:9996140, withdraw:null, balance:10005984, memo:"振込 ペイペイ クリアアドバンス（カ" },
   { date:"2026/05/13", deposit:null, withdraw:130, balance:9844, memo:"振込手数料" },
   { date:"2026/05/13", deposit:null, withdraw:348000, balance:9974, memo:"振込 スミシンエスビ－アイネツト カ）エイテイ－ン" },
   { date:"2026/05/07", deposit:60000, withdraw:null, balance:357974, memo:"振込 カ）コスモエンジニアリング" },
