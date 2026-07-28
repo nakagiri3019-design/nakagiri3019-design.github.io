@@ -9,11 +9,11 @@
 const txCosmo = [
   // ===== 2026/07/24 =====
   { date:"2026/07/24", deposit:null, withdraw:130, balance:2751611, memo:"振込手数料" },
-  { date:"2026/07/24", deposit:null, withdraw:103043, balance:2751741, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/24", deposit:null, withdraw:103043, balance:2751741, memo:"振込 ミズホ カ）ニツサンフイナンシヤルサービス" },
   { date:"2026/07/24", deposit:null, withdraw:130, balance:2854784, memo:"振込手数料" },
-  { date:"2026/07/24", deposit:null, withdraw:83408, balance:2854914, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/24", deposit:null, withdraw:83408, balance:2854914, memo:"振込 ミズホ カ）ニツサンフイナンシヤルサービス" },
   { date:"2026/07/24", deposit:null, withdraw:130, balance:2938322, memo:"振込手数料" },
-  { date:"2026/07/24", deposit:null, withdraw:77197, balance:2938452, memo:"振込 ミズホ カ）ニッサンフィナンシャルサービス" },
+  { date:"2026/07/24", deposit:null, withdraw:77197, balance:2938452, memo:"振込 ミズホ カ）ニツサンフイナンシヤルサービス" },
   // ===== 2026/07/21 =====
   { date:"2026/07/21", deposit:null, withdraw:130, balance:3015649, memo:"振込手数料" },
   { date:"2026/07/21", deposit:null, withdraw:2232574, balance:3015779, memo:"振込 ミツイスミトモ ミツイスミトモカード（カ" },
@@ -24,12 +24,12 @@ const txCosmo = [
   { date:"2026/07/14", deposit:null, withdraw:280000, balance:2248483, memo:"振込 チバ （カ）マルエイホテルズ　シイナ　タカキ" },
   // ===== 2026/07/13 =====
   { date:"2026/07/13", deposit:null, withdraw:130, balance:2528483, memo:"振込手数料" },
-  { date:"2026/07/13", deposit:null, withdraw:100000, balance:2528613, memo:"振込 ミツビシユーエフジェイ ヒラノセキユ（カ" },
+  { date:"2026/07/13", deposit:null, withdraw:100000, balance:2528613, memo:"振込 ミツビシユーエフジエイ ヒラノセキユ（カ" },
   { date:"2026/07/13", deposit:null, withdraw:130, balance:2628613, memo:"振込手数料" },
-  { date:"2026/07/13", deposit:null, withdraw:100000, balance:2628743, memo:"振込 ユウチョ アークシステムテクノロジーズ　カ）" },
+  { date:"2026/07/13", deposit:null, withdraw:100000, balance:2628743, memo:"振込 ユウチヨ アークシステムテクノロジーズ　カ）" },
   { date:"2026/07/13", deposit:null, withdraw:130, balance:2728743, memo:"振込手数料" },
-  { date:"2026/07/13", deposit:null, withdraw:423133, balance:2728873, memo:"振込 トウワ カ）ニッパンレンタル" },
-  { date:"2026/07/13", deposit:3000000, withdraw:null, balance:3152006, memo:"振込 カ）レグルスフィンテック" },
+  { date:"2026/07/13", deposit:null, withdraw:423133, balance:2728873, memo:"振込 トウワ カ）ニツパンレンタル" },
+  { date:"2026/07/13", deposit:3000000, withdraw:null, balance:3152006, memo:"振込 カ）レグルスフインテツク" },
   // ===== 2026/07/08 =====
   { date:"2026/07/08", deposit:null, withdraw:130, balance:152006, memo:"振込手数料" },
   { date:"2026/07/08", deposit:null, withdraw:160000, balance:152136, memo:"振込 サイタマリソナ カ）コスモエンジニアリング" },
