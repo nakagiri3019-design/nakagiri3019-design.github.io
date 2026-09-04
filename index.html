@@ -190,15 +190,15 @@
     <div class="grid">
       <div class="card dev">
         <span class="pill dev">ローカル起動</span>
-        <div class="name">ローカル起動手順</div><div class="repo">meisai_server</div>
-        <div class="desc">8400（PDFサーバー）と 8080（sbi-app）をまとめて立ち上げる手順。</div>
+        <div class="name">ローカル起動手順</div><div class="repo">デスクトップから1クリック</div>
+        <div class="desc">8400（PDFサーバー）と 8080（sbi-app）をまとめて立ち上げる。</div>
         <ol class="steps">
-          <li><code>C:\Users\yumiy\Downloads\meisai_server\</code> フォルダを開く</li>
-          <li><code>start_local.bat</code> をダブルクリック</li>
+          <li>デスクトップの <code>start_meisai_full.bat</code> をダブルクリック</li>
           <li>8400（PDFサーバー）と 8080（sbi-app）が両方起動</li>
-          <li>下の「ローカル動作確認URL」で動作確認</li>
+          <li>ブラウザで <code>?user=mentor</code> の画面が自動で開く</li>
+          <li>別の口座を見たいときは URL の <code>?user=</code> を付け替える</li>
         </ol>
-        <div class="note">PDFはローカルだと MS明朝、Render だと Noto Serif CJK JP で出力される。切り替え方は <code>meisai_server\README_local.md</code>。</div>
+        <div class="note">フォルダから起動する場合は <code>C:\Users\yumiy\Downloads\meisai_server\start_local.bat</code>（第1引数で口座を指定できる）。PDFはローカルだと MS明朝、Render だと Noto Serif CJK JP。切り替え方は <code>meisai_server\README_local.md</code>。</div>
       </div>
       <div class="card dev">
         <span class="pill dev">動作確認URL</span>
@@ -227,13 +227,14 @@
       </div>
       <div class="card dev">
         <span class="pill dev">デスクトップ</span>
-        <div class="name">デスクトップのバッチ</div><div class="repo">PDFサーバーのみ起動／停止</div>
-        <div class="desc">sbi-app は起動せず、PDFサーバー（8400）だけを扱いたい時に使う。</div>
+        <div class="name">デスクトップのバッチ</div><div class="repo">3本の使い分け</div>
+        <div class="desc">用途で3本を使い分ける。普段の作業は <code>start_meisai_full.bat</code>。</div>
         <ul class="steps">
+          <li><code>start_meisai_full.bat</code> … PDFサーバー＋sbi-app（8400＋8080）を起動してブラウザを開く</li>
           <li><code>start_meisai_local.bat</code> … PDFサーバーだけ起動（MS明朝・/health を自動で開く）</li>
           <li><code>stop_meisai_local.bat</code> … 停止（8400 / 8080 のみ）</li>
         </ul>
-        <div class="note">両方（PDFサーバー＋sbi-app）を起動したい時は <code>meisai_server\start_local.bat</code> を使う。バッチの実体は <code>C:\Users\yumiy\Desktop\</code> と <code>C:\Users\yumiy\OneDrive\デスクトップ\</code> の両方にある。</div>
+        <div class="note">最初に開く口座は <code>start_meisai_full.bat</code> の <code>set "OPEN_USER=mentor"</code> の行で変えられる。バッチの実体は <code>C:\Users\yumiy\Desktop\</code> と <code>C:\Users\yumiy\OneDrive\デスクトップ\</code> の両方にある。</div>
       </div>
     </div>
   </section>
