@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>プロジェクト一覧 | nakagiri3019-design</title>
 <style>
-  :root{--ink:#1f2329;--muted:#6b7280;--line:#e3e6ea;--bg:#f6f7f9;--card:#fff;--pages:#2f9e54;--pages-soft:#e8f5ed;--render:#5b6cff;--render-soft:#eaecff;--accent:#11181f;}
+  :root{--ink:#1f2329;--muted:#6b7280;--line:#e3e6ea;--bg:#f6f7f9;--card:#fff;--pages:#2f9e54;--pages-soft:#e8f5ed;--render:#5b6cff;--render-soft:#eaecff;--accent:#11181f;--dev:#c47d1a;--dev-soft:#fdeede;}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;line-height:1.6;}
   .wrap{max-width:980px;margin:0 auto;padding:48px 20px 80px;}
@@ -48,6 +48,13 @@
   .pill.pages{background:var(--pages-soft);color:var(--pages);}
   .pill.render{background:var(--render-soft);color:var(--render);}
   .pill.warn{background:#fdeede;color:#c47d1a;}
+  /* ===== 開発ツール（自分用メモ）。色は .pill.warn と同系でまとめる ===== */
+  .card.dev::before{background:var(--dev);}
+  .card.dev a.entry:hover{background:var(--dev-soft);border-color:var(--dev);}
+  .pill.dev{background:var(--dev-soft);color:var(--dev);}
+  .card .steps{margin:0 0 12px;padding-left:20px;font-size:13px;color:#3c424b;}
+  .card .steps li{margin-bottom:5px;}
+  .card code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef0f3;padding:2px 6px;border-radius:4px;font-size:12px;word-break:break-all;}
   footer{margin-top:48px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;}
   footer code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef0f3;padding:1px 5px;border-radius:4px;}
 </style>
@@ -58,7 +65,7 @@
     <div class="kicker">Project Index</div>
     <h1>プロジェクト一覧</h1>
     <p class="lead">作成したデモアプリ・システムの入口をまとめたページです。緑が GitHub Pages（静的サイト）、青が Render（サーバー型）。</p>
-    <div class="updated">最終更新: 2026/08/27</div>
+    <div class="updated">最終更新: 2026/09/04</div>
     <div class="legend">
       <span><i class="dot pages"></i>GitHub Pages</span>
       <span><i class="dot render"></i>Render</span>
@@ -174,6 +181,59 @@
         <div class="desc">決算書シミュレーション。AI診断・PDF照合の自動化を開発中。</div>
         <div class="entries"><a class="entry" href="https://kessan-simulator-mvp.onrender.com" target="_blank">アプリを開く <span class="who">onrender.com</span></a></div>
         <div class="note">ローカル版は http://127.0.0.1:8300。GitHub集約は今後検討。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-h"><h2>🛠️ 開発ツール（自分用メモ）</h2><span class="count">※このセクションはローカル開発用の情報です</span></div>
+    <div class="grid">
+      <div class="card dev">
+        <span class="pill dev">ローカル起動</span>
+        <div class="name">ローカル起動手順</div><div class="repo">meisai_server</div>
+        <div class="desc">8400（PDFサーバー）と 8080（sbi-app）をまとめて立ち上げる手順。</div>
+        <ol class="steps">
+          <li><code>C:\Users\yumiy\Downloads\meisai_server\</code> フォルダを開く</li>
+          <li><code>start_local.bat</code> をダブルクリック</li>
+          <li>8400（PDFサーバー）と 8080（sbi-app）が両方起動</li>
+          <li>下の「ローカル動作確認URL」で動作確認</li>
+        </ol>
+        <div class="note">PDFはローカルだと MS明朝、Render だと Noto Serif CJK JP で出力される。切り替え方は <code>meisai_server\README_local.md</code>。</div>
+      </div>
+      <div class="card dev">
+        <span class="pill dev">動作確認URL</span>
+        <div class="name">ローカル動作確認URL（sbi-app）</div><div class="repo">localhost:8080</div>
+        <div class="desc">口座ごとの明細画面。<code>start_local.bat</code> を起動してから開く。</div>
+        <div class="entries">
+          <a class="entry" href="http://localhost:8080/?user=mentor" target="_blank">メンター <span class="who">?user=mentor</span></a>
+          <a class="entry" href="http://localhost:8080/?user=nakagiri" target="_blank">中桐由美子 <span class="who">?user=nakagiri</span></a>
+          <a class="entry" href="http://localhost:8080/?user=avantia" target="_blank">アバンティア <span class="who">?user=avantia</span></a>
+          <a class="entry" href="http://localhost:8080/?user=efstyle" target="_blank">エフスタイル <span class="who">?user=efstyle</span></a>
+          <a class="entry" href="http://localhost:8080/?user=levanta" target="_blank">レバンタ <span class="who">?user=levanta</span></a>
+          <a class="entry" href="http://localhost:8080/?user=mediafounder" target="_blank">メディアファウンダー <span class="who">?user=mediafounder</span></a>
+          <a class="entry" href="http://localhost:8080/?user=vaion" target="_blank">バイオン <span class="who">?user=vaion</span></a>
+          <a class="entry" href="http://localhost:8080/?user=sys" target="_blank">エスワイエス <span class="who">?user=sys</span></a>
+        </div>
+        <div class="note">サーバーを起動していないと「接続できません」になる。その時は先に <code>start_local.bat</code>。</div>
+      </div>
+      <div class="card dev">
+        <span class="pill dev">ヘルスチェック</span>
+        <div class="name">PDFサーバー動作確認</div><div class="repo">localhost:8400</div>
+        <div class="desc">明細PDFを生成する Flask サーバーの死活確認。</div>
+        <div class="entries">
+          <a class="entry" href="http://localhost:8400/health" target="_blank">/health を開く <span class="who">localhost:8400</span></a>
+        </div>
+        <div class="note"><code>{"status":"ok"}</code> が返れば正常。本番は <code>meisai-pdf-server.onrender.com</code>。</div>
+      </div>
+      <div class="card dev">
+        <span class="pill dev">デスクトップ</span>
+        <div class="name">デスクトップのバッチ</div><div class="repo">PDFサーバーのみ起動／停止</div>
+        <div class="desc">sbi-app は起動せず、PDFサーバー（8400）だけを扱いたい時に使う。</div>
+        <ul class="steps">
+          <li><code>start_meisai_local.bat</code> … PDFサーバーだけ起動（MS明朝・/health を自動で開く）</li>
+          <li><code>stop_meisai_local.bat</code> … 停止（8400 / 8080 のみ）</li>
+        </ul>
+        <div class="note">両方（PDFサーバー＋sbi-app）を起動したい時は <code>meisai_server\start_local.bat</code> を使う。バッチの実体は <code>C:\Users\yumiy\Desktop\</code> と <code>C:\Users\yumiy\OneDrive\デスクトップ\</code> の両方にある。</div>
       </div>
     </div>
   </section>
