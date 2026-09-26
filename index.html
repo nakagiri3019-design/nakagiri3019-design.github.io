@@ -221,7 +221,6 @@
           <a class="entry" href="http://localhost:8080/?user=avantia" target="_blank">アレシア <span class="who">?user=avantia</span></a>
           <a class="entry" href="http://localhost:8080/?user=efstyle" target="_blank">エフスタイル <span class="who">?user=efstyle</span></a>
           <a class="entry" href="http://localhost:8080/?user=levanta" target="_blank">レバンタ <span class="who">?user=levanta</span></a>
-          <a class="entry" href="http://localhost:8080/?user=mediafounder" target="_blank">メディアファウンダー <span class="who">?user=mediafounder</span></a>
           <a class="entry" href="http://localhost:8080/?user=vaion" target="_blank">バイオン <span class="who">?user=vaion</span></a>
           <a class="entry" href="http://localhost:8080/?user=sys" target="_blank">エスワイエス <span class="who">?user=sys</span></a>
         </div>
@@ -255,12 +254,16 @@
 <script>
 (function(){
   var BASE = 'https://nakagiri3019-design.github.io/mail-app/sbi-app/?user=';
+  // ランチャーに出さない口座（accounts.json のデータは残し、?user= 直接指定なら表示できる）
+  var HIDDEN = ['mediafounder'];
   fetch('https://nakagiri3019-design.github.io/mail-app/sbi-app/accounts.json')
     .then(function(r){ return r.json(); })
     .then(function(list){
       var el = document.getElementById('sbi-accounts-list');
       if (!el) return;
-      el.innerHTML = list.map(function(a){
+      el.innerHTML = list.filter(function(a){
+        return HIDDEN.indexOf(a.id) < 0;
+      }).map(function(a){
         return '<a class="entry" href="' + BASE + a.id + '" target="_blank">'
           + a.displayName
           + ' <span class="who">?user=' + a.id + '</span></a>';
