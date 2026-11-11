@@ -1,0 +1,6 @@
+# ローカル HTTPS 用の証明書（GitHubには絶対に上げない）
+aora-app/_certs/
+*.pem
+
+# 取引明細のエクスポート（個人データのためコミットしない）
+soni-app/transactions_export.csv

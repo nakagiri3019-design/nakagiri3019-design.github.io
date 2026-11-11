@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>リニー銀行 円普通預金</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-top: #EEF1F5;
+    --bg-bottom: #D5DBE3;
+    --text: #1F2328;
+    --sub: #6B7280;
+    --date: #4B5563;
+    --minus: #A63A22;
+    --plus: #2B5FA8;
+    --sheet: #F6F8FB;
+    --rule: #E3E6EB;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: 'Noto Sans JP', -apple-system, 'Hiragino Sans', sans-serif;
+    color: var(--text);
+    background: var(--bg-bottom);
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .num { font-feature-settings: "tnum" 1; }
+
+  .app {
+    position: relative; max-width: 430px; min-height: 100vh; min-height: 100dvh; margin: 0 auto;
+    display: flex; flex-direction: column;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  }
+
+  /* 6. デモ表示（実データではないことを常に示す） */
+  .demo-badge {
+    position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 14px; z-index: 5;
+    height: 20px; padding: 0 8px; border-radius: 999px;
+    display: inline-flex; align-items: center;
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; line-height: 1;
+    color: var(--minus); background: rgba(255,255,255,.75); border: 1px solid var(--minus);
+    pointer-events: none;
+  }
+
+  /* 1. ヘッダー */
+  .header {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    height: calc(104px + env(safe-area-inset-top)); padding-top: calc(48px + env(safe-area-inset-top));
+  }
+  .header h1 { font-size: 17px; font-weight: 700; letter-spacing: .02em; }
+  .back {
+    position: absolute; left: 4px; bottom: 4px;
+    width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%;
+  }
+  .back:active { background: rgba(0,0,0,.06); }
+  .back svg { width: 26px; height: 26px; }
+
+  /* 2. 更新日時 */
+  .updated { display: flex; justify-content: flex-end; padding: 0 23px; margin-top: 6px; }
+  .updated button { display: flex; align-items: center; gap: 6px; color: var(--sub); font-size: 14px; min-height: 44px; }
+  .updated svg { width: 18px; height: 18px; transition: transform .6s ease; }
+  .updated button.spin svg { transform: rotate(360deg); }
+
+  /* 3. 残高 */
+  .balance-box { padding: 0 24px; margin-top: -6px; }
+  .balance-box .lbl { font-size: 18px; font-weight: 700; line-height: 1.4; }
+  .balance-box .amt { font-weight: 700; line-height: 1.2; }
+  .balance-box .amt .v { font-size: 29px; letter-spacing: .01em; }
+  .balance-box .amt .u { font-size: 17px; margin-left: 2px; }
+
+  /* 4. 入出金履歴の見出し */
+  .hist-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; margin-top: 62px; height: 32px;
+  }
+  .hist-head h2 { font-size: 21px; font-weight: 700; letter-spacing: .02em; }
+  .filter {
+    height: 32px; padding: 0 14px 0 16px; border-radius: 999px; background: #fff;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700;
+    margin-right: -1px;
+  }
+  .filter svg { width: 18px; height: 18px; }
+  .filter.on { box-shadow: 0 0 0 1.5px var(--plus) inset; }
+
+  /* 5. 履歴リスト */
+  .sheet {
+    flex: 1; margin: 22px 4.5px 0; background: var(--sheet);
+    border-radius: 18px 18px 0 0; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.6) inset;
+  }
+  .day { border-top: 1px solid var(--rule); }
+  .day:first-child { border-top: 0; }
+  .day-h {
+    padding: 8px 20px 0; height: 36px;
+    font-size: 14px; font-weight: 700; color: var(--date);
+    border-bottom: 1px solid var(--rule);
+  }
+  .row { position: relative; padding: 17px 20px 12px; }
+  .row + .row::before { content: ''; position: absolute; left: 20px; right: 20px; top: 0; border-top: 1px solid var(--rule); }
+  .row .desc { font-size: 16px; line-height: 1.45; white-space: pre-wrap; word-break: break-all; }
+  .row .amt { margin-top: 6px; text-align: right; font-size: 18px; font-weight: 700; line-height: 1.35; }
+  .row .amt.out { color: var(--minus); }
+  .row .amt.in  { color: var(--plus); }
+  .row .bal { text-align: right; font-size: 15px; color: var(--sub); line-height: 1.5; }
+  .row .bal .k { margin-right: 12px; }
+  .status { padding: 22px 20px 40px; text-align: center; color: var(--sub); font-size: 14px; }
+  .sentinel { height: 1px; }
+
+  /* 絞り込みシート */
+  .overlay { position: fixed; inset: 0; background: rgba(17,24,39,.35); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .fsheet {
+    position: fixed; left: 50%; bottom: 0; width: 100%; max-width: 430px; z-index: 21;
+    transform: translate(-50%, 100%); transition: transform .25s ease;
+    background: #fff; border-radius: 24px 24px 0 0; padding: 10px 20px calc(20px + env(safe-area-inset-bottom));
+  }
+  .fsheet.open { transform: translate(-50%, 0); }
+  .grip { width: 40px; height: 4px; border-radius: 2px; background: #D1D5DB; margin: 0 auto 14px; }
+  .fsheet h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .fsheet .grp { margin-bottom: 18px; }
+  .fsheet .grp-t { font-size: 14px; color: var(--sub); margin-bottom: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { height: 36px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #D1D5DB; font-size: 14px; font-weight: 500; }
+  .chip[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: #fff; }
+  .fsheet .btns { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 6px; }
+  .fsheet .btns button { height: 48px; border-radius: 14px; font-size: 16px; font-weight: 700; }
+  .fsheet .reset { background: #EEF1F5; }
+  .fsheet .apply { background: var(--text); color: #fff; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 40px; transform: translate(-50%, 12px);
+    background: rgba(31,35,40,.9); color: #fff; font-size: 13px; padding: 10px 16px; border-radius: 999px;
+    opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 30; white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+<div class="app">
+  <span class="demo-badge" aria-label="デモ画面">デモ</span>
+
+  <!-- 1. ヘッダー -->
+  <header class="header">
+    <button class="back" id="backBtn" aria-label="戻る">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5 7.5 12l7.5 7.5"/></svg>
+    </button>
+    <h1>円普通預金</h1>
+  </header>
+
+  <!-- 2. 更新日時 -->
+  <div class="updated">
+    <button id="refreshBtn" aria-label="更新">
+      <span id="updatedAt" class="num"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"><path d="M19.5 9A8 8 0 0 0 5 7.5"/><path d="M5 3.5v4h4"/><path d="M4.5 15A8 8 0 0 0 19 16.5"/><path d="M19 20.5v-4h-4"/></svg>
+    </button>
+  </div>
+
+  <!-- 3. 残高 -->
+  <section class="balance-box">
+    <div class="lbl">残高</div>
+    <div class="amt num"><span class="v" id="balance"></span><span class="u">円</span></div>
+  </section>
+
+  <!-- 4. 見出し -->
+  <div class="hist-head">
+    <h2>入出金履歴</h2>
+    <button class="filter" id="filterBtn" aria-haspopup="dialog">
+      絞り込み
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1F2328" stroke-width="1.6" stroke-linecap="round"><path d="M4 8.5h9M17 8.5h3M4 15.5h3M11 15.5h9"/><circle cx="15" cy="8.5" r="2"/><circle cx="9" cy="15.5" r="2"/></svg>
+    </button>
+  </div>
+
+  <!-- 5. 履歴 -->
+  <section class="sheet" aria-label="入出金履歴">
+    <div id="list"></div>
+    <div class="status" id="status"></div>
+    <div class="sentinel" id="sentinel"></div>
+  </section>
+</div>
+
+<!-- 絞り込み（期間・入金/出金） -->
+<div class="overlay" id="overlay"></div>
+<div class="fsheet" id="fsheet" role="dialog" aria-modal="true" aria-label="絞り込み">
+  <div class="grip"></div>
+  <h3>絞り込み</h3>
+  <div class="grp">
+    <div class="grp-t">期間</div>
+    <div class="chips" data-group="period">
+      <button class="chip" data-v="all">すべて</button>
+      <button class="chip" data-v="7">1週間</button>
+      <button class="chip" data-v="30">1か月</button>
+      <button class="chip" data-v="90">3か月</button>
+    </div>
+  </div>
+  <div class="grp">
+    <div class="grp-t">入金・出金</div>
+    <div class="chips" data-group="type">
+      <button class="chip" data-v="all">すべて</button>
+      <button class="chip" data-v="in">入金</button>
+      <button class="chip" data-v="out">出金</button>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="reset" id="resetBtn">リセット</button>
+    <button class="apply" id="applyBtn">この条件で表示</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="./rinii_api.js"></script>
+<script>
+/* 円普通預金：残高＋入出金履歴。データは rinii_api.js の RiniiApi.fetchTransactions から受け取る（ホームと共通） */
+const PAGE_SIZE = 5;
+const st = {
+  filter: { period: 'all', type: 'all' },
+  draft: null,
+  items: [],
+  nextCursor: null,
+  loading: false,
+  done: false,
+  seq: 0,          // 絞り込み・更新で読み直したとき、古い応答を捨てるための番号
+};
+
+const yen = (n) => Math.abs(n).toLocaleString('ja-JP');
+const $ = (id) => document.getElementById(id);
+
+function fmtUpdated(iso) {
+  const d = new Date(iso);
+  const j = new Date(d.getTime() + (9 * 60 + d.getTimezoneOffset()) * 60000);   // 日本時間
+  const p = (x) => String(x).padStart(2, '0');
+  return `${j.getFullYear()}年${j.getMonth() + 1}月${j.getDate()}日 ${p(j.getHours())}:${p(j.getMinutes())} 更新`;
+}
+function fmtDay(ymd) {
+  const [y, m, d] = ymd.split('-').map(Number);
+  return `${y}年${m}月${d}日`;
+}
+function fromDate(period) {
+  if (period === 'all') return null;
+  const d = new Date(Date.now() - Number(period) * 86400000);
+  const p = (x) => String(x).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* ---- 描画 ---- */
+function renderHeader(balance, updatedAt) {
+  $('balance').textContent = yen(balance);
+  $('updatedAt').textContent = fmtUpdated(updatedAt);
+}
+
+function rowHTML(t) {
+  const sign = t.type === 'in' ? '+' : '-';
+  return `<div class="row">
+      <div class="desc">${esc(t.description)}</div>
+      <div class="amt num ${t.type}">${sign}${yen(t.amount)}円</div>
+      <div class="bal num"><span class="k">残高</span>${yen(t.balanceAfter)}円</div>
+    </div>`;
+}
+
+function renderList() {
+  const groups = [];
+  st.items.forEach((t) => {
+    const g = groups[groups.length - 1];
+    if (g && g.date === t.date) g.items.push(t); else groups.push({ date: t.date, items: [t] });
+  });
+  $('list').innerHTML = groups.map((g) =>
+    `<div class="day"><div class="day-h">${fmtDay(g.date)}</div>${g.items.map(rowHTML).join('')}</div>`).join('');
+  $('status').textContent = st.loading ? '読み込み中…'
+    : (st.items.length === 0 ? '該当する取引はありません' : '');
+}
+
+/* ---- 取得 ---- */
+async function loadMore() {
+  if (st.loading || st.done) return;
+  st.loading = true; renderList();
+  const seq = st.seq;
+  try {
+    const res = await RiniiApi.fetchTransactions({
+      cursor: st.nextCursor, limit: PAGE_SIZE, type: st.filter.type, from: fromDate(st.filter.period),
+    });
+    if (seq !== st.seq) return;
+    if (st.items.length === 0) renderHeader(res.balance, res.updatedAt);
+    st.items = st.items.concat(res.items);
+    st.nextCursor = res.nextCursor;
+    st.done = res.nextCursor == null;
+  } catch (e) {
+    if (seq === st.seq) toast('読み込めませんでした');
+  } finally {
+    if (seq === st.seq) { st.loading = false; renderList(); checkSentinel(); }
+  }
+}
+
+function reload() {
+  st.seq++; st.items = []; st.nextCursor = null; st.done = false; st.loading = false;
+  return loadMore();
+}
+
+// 下端まで来たら次のページ
+const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) loadMore(); }, { rootMargin: '200px' });
+io.observe($('sentinel'));
+function checkSentinel() {   // 1ページ目が短くて最初から下端が見えているとき
+  const r = $('sentinel').getBoundingClientRect();
+  if (r.top < innerHeight + 200) loadMore();
+}
+
+/* ---- 操作 ---- */
+let toastTimer;
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
+}
+
+$('backBtn').addEventListener('click', () => {
+  if (document.referrer && new URL(document.referrer).pathname.endsWith('/assets.html') && history.length > 1) history.back();
+  else location.href = './assets.html';
+});
+
+$('refreshBtn').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  btn.classList.remove('spin'); void btn.offsetWidth; btn.classList.add('spin');
+  await reload();
+  $('updatedAt').textContent = fmtUpdated(new Date().toISOString());   // 再取得した時刻
+  setTimeout(() => btn.classList.remove('spin'), 650);
+  toast('最新の情報に更新しました');
+});
+
+function paintChips() {
+  document.querySelectorAll('.chips').forEach((c) => {
+    const g = c.dataset.group;
+    c.querySelectorAll('.chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === st.draft[g])));
+  });
+}
+function openSheet() { st.draft = { ...st.filter }; paintChips(); $('overlay').classList.add('open'); $('fsheet').classList.add('open'); }
+function closeSheet() { $('overlay').classList.remove('open'); $('fsheet').classList.remove('open'); }
+
+$('filterBtn').addEventListener('click', openSheet);
+$('overlay').addEventListener('click', closeSheet);
+document.querySelectorAll('.chips').forEach((c) => c.addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  st.draft[c.dataset.group] = b.dataset.v; paintChips();
+}));
+$('resetBtn').addEventListener('click', () => { st.draft = { period: 'all', type: 'all' }; paintChips(); });
+$('applyBtn').addEventListener('click', () => {
+  st.filter = { ...st.draft };
+  $('filterBtn').classList.toggle('on', st.filter.period !== 'all' || st.filter.type !== 'all');
+  closeSheet(); reload();
+});
+
+/* 初期表示 */
+renderHeader(window.RINII_MOCK.transactions[0].balanceAfter, '2026-11-11T23:39:00+09:00');
+loadMore();
+</script>
+</body>
+</html>

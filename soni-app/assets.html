@@ -260,35 +260,11 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="./rinii_api.js"></script>
 <script>
 /* ===== データ層 =====
-   画面は renderHome(props) だけで描く。値は API（RiniiApi.fetchHome）から受け取る。
-   本番 API ができたら RiniiApi.endpoint に URL を入れれば、同じ形の JSON を fetch して使う。 */
-const MOCK_HOME = {
-  stage: 'ステージなし',
-  branchName: '本店営業部',
-  branchCode: '001',
-  accountNumber: '1234567',           // ダミー
-  balance: 12480,
-  prevMonthDiff: -667,
-  freeTransferLeft: 1,
-  freeAtmLeft: 1,
-  updatedAt: '2026-11-11T23:33:00+09:00',
-  noticeUrl: 'https://example.com/rinii/notice',
-};
-
-const RiniiApi = {
-  endpoint: null,   // 例: 'https://api.example.com/home'
-  async fetchHome() {
-    if (this.endpoint) {
-      const r = await fetch(this.endpoint, { cache: 'no-store' });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    }
-    await new Promise((res) => setTimeout(res, 500));   // 通信のふり
-    return { ...MOCK_HOME };
-  },
-};
+   画面は renderHome(props) だけで描く。値は rinii_api.js の RiniiApi.fetchHome から受け取る（円普通預金画面と共通）。 */
+const MOCK_HOME = window.RINII_MOCK.home;
 
 /* ===== 表示 ===== */
 const state = { props: MOCK_HOME, showAmount: true };
@@ -337,13 +313,13 @@ function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
 }
 
-// 遷移先は仮。画面ができたら location.href を差し替える
+// 遷移先。文字列は仮（トーストだけ）、{ href } はその画面へ移動
 const ROUTES = {
   account: 'アカウント（仮）',
   'notice-bell': 'お知らせ（仮）',
-  history: '入出金履歴（仮）',
+  history: { href: './deposit.html' },   // 円普通預金（残高＋入出金履歴）
   atm: 'スマホATM（仮）',
-  deposit: '円預金の明細（仮）',
+  deposit: { href: './deposit.html' },
 };
 
 document.getElementById('toggleAmount').addEventListener('click', () => {
@@ -375,7 +351,9 @@ document.addEventListener('click', (e) => {
   if (a) {
     const k = a.dataset.action;
     if (k === 'notice') { window.open(state.props.noticeUrl, '_blank', 'noopener'); return; }
-    toast(ROUTES[k] + 'へ移動します');
+    const r = ROUTES[k];
+    if (r && r.href) { location.href = r.href; return; }
+    toast(r + 'へ移動します');
     return;
   }
   const tab = e.target.closest('[data-tab]');
