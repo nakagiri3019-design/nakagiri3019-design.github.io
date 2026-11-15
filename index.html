@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>プロジェクト一覧 | nakagiri3019-design</title>
 <style>
-  :root{--ink:#1f2329;--muted:#6b7280;--line:#e3e6ea;--bg:#f6f7f9;--card:#fff;--pages:#2f9e54;--pages-soft:#e8f5ed;--render:#5b6cff;--render-soft:#eaecff;--accent:#11181f;--dev:#c47d1a;--dev-soft:#fdeede;}
+  :root{--ink:#1f2329;--muted:#6b7280;--line:#e3e6ea;--bg:#f6f7f9;--card:#fff;--pages:#2f9e54;--pages-soft:#e8f5ed;--render:#5b6cff;--render-soft:#eaecff;--accent:#11181f;--dev:#c47d1a;--dev-soft:#fdeede;--claude:#8b5cf6;--claude-soft:#f1ecff;}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;line-height:1.6;}
   .wrap{max-width:980px;margin:0 auto;padding:48px 20px 80px;}
@@ -52,6 +52,11 @@
   .card.dev::before{background:var(--dev);}
   .card.dev a.entry:hover{background:var(--dev-soft);border-color:var(--dev);}
   .pill.dev{background:var(--dev-soft);color:var(--dev);}
+  /* ===== Claude 系（claude.ai 上で動くアプリ） ===== */
+  .dot.claude{background:var(--claude);}
+  .card.claude::before{background:var(--claude);}
+  .card.claude a.entry:hover{background:var(--claude-soft);border-color:var(--claude);}
+  .pill.claude{background:var(--claude-soft);color:var(--claude);}
   .card .steps{margin:0 0 12px;padding-left:20px;font-size:13px;color:#3c424b;}
   .card .steps li{margin-bottom:5px;}
   .card code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#eef0f3;padding:2px 6px;border-radius:4px;font-size:12px;word-break:break-all;}
@@ -65,10 +70,11 @@
     <div class="kicker">Project Index</div>
     <h1>プロジェクト一覧</h1>
     <p class="lead">作成したデモアプリ・システムの入口をまとめたページです。緑が GitHub Pages（静的サイト）、青が Render（サーバー型）。</p>
-    <div class="updated">最終更新: 2026/09/14</div>
+    <div class="updated">最終更新: 2026/11/15</div>
     <div class="legend">
       <span><i class="dot pages"></i>GitHub Pages</span>
       <span><i class="dot render"></i>Render</span>
+      <span><i class="dot claude"></i>Claude</span>
     </div>
   </header>
 
@@ -205,6 +211,21 @@
         <div class="desc">決算書シミュレーション。AI診断・PDF照合の自動化を開発中。</div>
         <div class="entries"><a class="entry" href="https://kessan-simulator-mvp.onrender.com" target="_blank">アプリを開く <span class="who">onrender.com</span></a></div>
         <div class="note">ローカル版は http://127.0.0.1:8300。GitHub集約は今後検討。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-h"><h2>Claude 系</h2><span class="count">claude.ai 上で動くアプリ</span></div>
+    <div class="grid">
+      <div class="card claude">
+        <span class="pill claude">Claude</span>
+        <div class="name">案内テンプレート帳</div><div class="repo">claude.ai artifact</div>
+        <div class="desc">お客さん対応の案内文テンプレート集。お客さんごとの進捗管理・連絡先・ファイル保存もできる。</div>
+        <div class="entries">
+          <a class="entry" href="https://claude.ai/artifact/VCCU8A4XkDGbeRBVnuo98D" target="_blank" rel="noopener">開く <span class="who">claude.ai/artifact</span></a>
+        </div>
+        <div class="note">このアプリはログインしている本人のみ開ける。URLを知っていても他の人は開けない。</div>
       </div>
     </div>
   </section>
