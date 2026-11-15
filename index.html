@@ -130,25 +130,15 @@
       </div>
       <div class="card pages">
         <span class="pill pages">ヴェルディア銀行（架空）</span>
-        <div class="name">Verdia 法人バンキング</div><div class="repo">verdia-app</div>
-        <div class="desc">架空の法人ネットバンキングデモ（スマホ向け）。ホーム・取引口座照会・入出金明細の3画面。</div>
+        <div class="name">Verdia 法人バンキング</div><div class="repo">corp-bank-demo</div>
+        <div class="desc">架空の法人銀行デモアプリ。会社ごとに独立した口座情報・入出金履歴・デザインを管理できます。</div>
         <div class="entries">
-          <a class="entry" href="https://nakagiri3019-design.github.io/verdia-app/" target="_blank">ホーム <span class="who">/verdia-app/</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/verdia-app/#inquiry" target="_blank">取引口座照会 <span class="who">#inquiry</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/verdia-app/#statement" target="_blank">入出金明細 <span class="who">#statement</span></a>
+          <!-- verdia-launcher:begin（自動生成：corp-bank-demo の npm run launcher。手で編集しない） -->
+          <a class="entry" href="https://nakagiri3019-design.github.io/verdia-app/" target="_blank">株式会社アークラボ <span class="who">/verdia-app/</span></a>
+          <a class="entry" href="https://nakagiri3019-design.github.io/demo-a-app/" target="_blank">テスト会社A <span class="who">/demo-a-app/</span></a>
+          <!-- verdia-launcher:end -->
         </div>
-        <div class="note">ソースは <code>C:\Users\yumiy\corp-bank-demo</code>（React+TS+Vite）。<code>npx vite build</code> の dist を verdia-app/ にコピーして更新。データはブラウザの localStorage に保存（マイページで初期化）。Android（Chrome）では「ホーム画面に追加／アプリをインストール」で独立アプリ（PWA）として起動できる。</div>
-      </div>
-      <div class="card pages">
-        <span class="pill pages">ヴェルディア銀行（架空）・テスト会社A</span>
-        <div class="name">Verdia Test</div><div class="repo">demo-a-app</div>
-        <div class="desc">Verdia を元にした会社別デモ（テスト会社A用）。口座・取引・デザインは Verdia とは別に保存される。</div>
-        <div class="entries">
-          <a class="entry" href="https://nakagiri3019-design.github.io/demo-a-app/" target="_blank">ホーム <span class="who">/demo-a-app/</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/demo-a-app/#inquiry" target="_blank">取引口座照会 <span class="who">#inquiry</span></a>
-          <a class="entry" href="https://nakagiri3019-design.github.io/demo-a-app/#statement" target="_blank">入出金明細 <span class="who">#statement</span></a>
-        </div>
-        <div class="note">ソースは Verdia と共通（<code>C:\Users\yumiy\corp-bank-demo</code>、設定は <code>src/tenant/demo-a.ts</code>）。更新は <code>npm run build:tenant -- demo-a</code> → <code>npm run publish:tenant -- demo-a</code> → push。Verdia とは別のPWAとしてインストールできる（アイコンは紺色に「TEST」）。</div>
+        <div class="note">会社ごとに別URL・別の保存データ・別のPWA（スマホに別々にインストールできる）。ソースは共通で <code>C:\Users\yumiy\corp-bank-demo</code>（会社の設定は <code>src/tenant/&lt;会社&gt;.ts</code>）。会社の追加は <code>npm run new-tenant</code> → <code>npm run build:tenant</code> → <code>npm run publish:tenant</code> → push で、このカードにリンクが自動で追加される（表示名は <code>tenants.local.json</code> の <code>launcher.label</code>）。</div>
       </div>
       <div class="card pages">
         <span class="pill warn">住信SBI（TWA本番）</span>
