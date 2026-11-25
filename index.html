@@ -296,7 +296,7 @@
 (function(){
   var BASE = 'https://nakagiri3019-design.github.io/mail-app/sbi-app/?user=';
   // ランチャーに出さない口座（accounts.json のデータは残し、?user= 直接指定なら表示できる）
-  var HIDDEN = ['mediafounder'];
+  var HIDDEN = [];
   fetch('https://nakagiri3019-design.github.io/mail-app/sbi-app/accounts.json')
     .then(function(r){ return r.json(); })
     .then(function(list){
